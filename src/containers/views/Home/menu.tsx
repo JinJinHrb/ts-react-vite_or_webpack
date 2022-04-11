@@ -1,6 +1,6 @@
 import React from 'react'
 import loadable from '@loadable/component'
-import { CoffeeOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons'
+import { CoffeeOutlined, UserOutlined, VideoCameraOutlined, CodeSandboxOutlined } from '@ant-design/icons'
 
 import PageLoading from '@components/PageLoading'
 
@@ -8,7 +8,8 @@ const loadableOptions = { fallback: <PageLoading /> }
 export const asynchronousComponents = {
     SocketDebugger: loadable(() => import('@views/SocketDebugger'), loadableOptions),
     Users: loadable(() => import('@views/Users'), loadableOptions),
-    DouyinVideo: loadable(() => import('@views/DouyinVideo'), loadableOptions)
+    DouyinVideo: loadable(() => import('@views/DouyinVideo'), loadableOptions),
+    ReactLab: loadable(() => import('@views/ReactLab'), loadableOptions)
 }
 
 // all routers key
@@ -43,6 +44,14 @@ export const menu: IMenu[] = [
         title: 'dy',
         icon: <VideoCameraOutlined />,
         component: 'DouyinVideo',
+        exact: true
+    },
+    {
+        id: 4,
+        path: '/react-lab',
+        title: 'React Lab',
+        icon: <CodeSandboxOutlined />,
+        component: 'ReactLab',
         exact: true
     },
     {
