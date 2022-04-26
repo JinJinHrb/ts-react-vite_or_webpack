@@ -25,6 +25,9 @@
     "author": "jackple",
     "license": "MIT",
     "dependencies": {
+        "@formily/core": "^2.0.19",
+        "@formily/json-schema": "^2.0.19",
+        "@formily/reactive": "^2.0.19",
         "@loadable/component": "5.15.2",
         "antd": "4.18.4",
         "axios": "0.25.0",

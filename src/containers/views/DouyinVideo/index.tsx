@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
-import { Input, Button, message } from 'antd'
+import { /* Input, */ Button, message } from 'antd'
 import axios from 'axios'
 
 import styles from './index.module.scss'
 import data from 'mock/data'
 import _ from 'lodash'
+import { testDemoFoo } from './interview'
 import { DataResponse, IEspEntity, IParams } from './types.d'
+import { doBatch, doAction } from './reactive'
+import { parseData } from './schema'
 
 // mock data start
 
@@ -439,28 +442,46 @@ function DouyinVideo() {
 
     // 正则转义 End
 
+    function testAlgorithm() {
+        testDemoFoo()
+    }
+
     return (
         <div className={styles.douyinVideo}>
             <div className={styles.container}>
-                <h3 style={{ textAlign: 'center', marginBottom: 20 }}>获取抖音无水印视频</h3>
-                <Input
-                    placeholder="input dy shared url"
-                    value={url}
-                    onChange={e => setUrl(e.target.value)}
-                    onPressEnter={submit}
-                />
-                <div className={styles.tips}>
-                    仅限以下域名的链接: <br />
-                    iesdouyin.com <br />
-                    douyin.com
-                </div>
-                <Button style={{ marginTop: 30 }} type="primary" block loading={loading} onClick={submit}>
-                    Get
-                </Button>
                 <a className={styles.link} href={targetUrl} rel="noreferrer" target="_blank">
                     {targetUrl}
                 </a>
-                <h3 style={{ textAlign: 'center', marginTop: 30 }}>
+                <h3 style={{ textAlign: 'center', marginTop: 30 }}>测试 @formily/json-schema</h3>
+                <Button type="primary" block loading={loading} onClick={parseData}>
+                    Test
+                </Button>
+                <h3 style={{ textAlign: 'center', marginTop: 30 }}>测试 @formily/reactive</h3>
+                <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                    <Button
+                        style={{ width: 100, textAlign: 'center' }}
+                        type="primary"
+                        block
+                        loading={loading}
+                        onClick={doAction}
+                    >
+                        Test Action
+                    </Button>
+                    <Button
+                        style={{ width: 100, textAlign: 'center' }}
+                        type="primary"
+                        block
+                        loading={loading}
+                        onClick={doBatch}
+                    >
+                        Test Batch
+                    </Button>
+                </div>
+                <h3 style={{ textAlign: 'center', marginTop: 30 }}>测试算法</h3>
+                <Button type="primary" block loading={loading} onClick={testAlgorithm}>
+                    Test
+                </Button>
+                {/* <h3 style={{ textAlign: 'center', marginTop: 30 }}>
                     测试正则{' '}
                     <input
                         onChange={s => {
@@ -486,8 +507,22 @@ function DouyinVideo() {
                 <h3 style={{ textAlign: 'center', marginTop: 30 }}>测试 reduce</h3>
                 <Button type="primary" block loading={loading} onClick={test}>
                     Test
-                </Button>
+                </Button> */}
             </div>
+            {/* <div className={styles.container}>
+                <h3 style={{ textAlign: 'center', marginBottom: 20 }}>获取抖音无水印视频</h3>
+                <Input
+                    placeholder="input dy shared url"
+                    value={url}
+                    onChange={e => setUrl(e.target.value)}
+                    onPressEnter={submit}
+                />
+                <div className={styles.tips}>
+                    仅限以下域名的链接: <br />
+                    iesdouyin.com <br />
+                    douyin.com
+                </div>
+            </div> */}
             {displayTransparencyLayer ? transparencyLayer : undefined}
         </div>
     )

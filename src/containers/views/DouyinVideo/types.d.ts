@@ -47,3 +47,13 @@ interface DataResponse {
         entityGroups?: IEspEntity[][]
     }
 }
+
+type TraverseSchema = {
+    name?: string
+    type?: string
+    address: string
+    path: string
+    visible: boolean
+    hidden: boolean
+    fieldJson: Stringify<any>
+}
