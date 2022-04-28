@@ -3,6 +3,8 @@ import { createForm, Form } from '@formily/core'
 import _ from 'lodash'
 import mock from './mock'
 import { TraverseSchema } from './types'
+import schemaDemo from './schemaDemo'
+import classnames from 'classnames'
 const template = mock.data.template
 
 export const recursiveField = (form: Form, schema: ISchema, basePath?: string, name?: SchemaKey) => {
@@ -472,4 +474,148 @@ export const parseData = () => {
     console.log('schema.ts #179', 'contactModels:', contactModels)
     console.log('schema.ts #180', 'schemas:', schemas)
     alert('OK')
+}
+
+const setXtAtCls = (template, address) => {
+    const alteredAddress = _.trim(address).replace(/\./g, '-')
+    const cls = classnames(_.trim(template['x-component']?.className), `xt$at-${alteredAddress}`)
+    const xComponent = _.trim(template['x-component'])
+    if (xComponent.indexOf('FormGrid') > -1 || xComponent.indexOf('FormLayout') > -1) {
+        return
+    }
+    if (!template['x-component-props']) {
+        template['x-component-props'] = {}
+    }
+    template['x-component-props'].className = cls
+}
+
+export const recurFieldId = () => {
+    const form = createForm()
+    const copyTemplate = _.clone(schemaDemo)
+    const schema = new Schema(schemaDemo as any)
+
+    // const result: TraverseSchema[] = []
+    const traverse = (form: Form, template, schema: ISchema, basePath?: string, name?: SchemaKey) => {
+        const fieldSchema = new Schema(schema)
+        /* const fieldProps = fieldSchema.toFieldProps()
+        const fieldJson = fieldSchema.toJSON() */
+
+        function recursiveProperties(propBasePath?: string) {
+            fieldSchema.mapProperties((propSchema, propName) => {
+                const subTemplate = template?.properties?.[propName]
+                // console.log('#489', 'propBasePath:', propBasePath, 'propName:', propName, 'subTemplate:', subTemplate)
+                traverse(form, subTemplate, propSchema, propBasePath, propName)
+            })
+        }
+
+        if (name === undefined || name === null) {
+            recursiveProperties(basePath)
+            return
+        }
+
+        if (schema.type === 'object') {
+            const field = form.createObjectField({
+                // ...fieldProps,
+                name,
+                basePath
+            })
+
+            /* console.log(
+                '#508',
+                'address:',
+                field.address.toString(),
+                'template["x-component"]:',
+                template['x-component'],
+                'fieldSchema["x-component"]:',
+                fieldSchema['x-component']
+            ) */
+            setXtAtCls(template, field.path.toString())
+
+            /* if (fieldProps.name) {
+                result.push({
+                    name: String(fieldProps.name),
+                    type: schema.type,
+                    address: field.address.toString(),
+                    path: field.path.toString(),
+                    visible: field.visible,
+                    hidden: field.hidden,
+                    fieldJson
+                })
+            } */
+            recursiveProperties(field.address.toString())
+        } else if (schema.type === 'array') {
+            const field = form.createArrayField({
+                // ...fieldProps,
+                name,
+                basePath
+            })
+
+            /* console.log(
+                '#537',
+                'address:',
+                field.address.toString(),
+                'template["x-component"]:',
+                template['x-component'],
+                'fieldSchema["x-component"]:',
+                fieldSchema['x-component']
+            ) */
+            setXtAtCls(template, field.path.toString())
+
+            /* result.push({
+                name: String(fieldProps.name),
+                type: schema.type,
+                address: field.address.toString(),
+                path: field.path.toString(),
+                visible: field.visible,
+                hidden: field.hidden,
+                fieldJson
+            }) */
+            const fieldAddress = field.address.toString()
+            if (schema.items) {
+                const itemsSchema = Array.isArray(schema.items) ? schema.items[0] : schema.items
+                const subTemplate = Array.isArray(schema.items) ? template.items[0] : template.items
+                // console.log('#536', 'fieldAddress:', fieldAddress, 'subTemplate:', subTemplate)
+                traverse(form, subTemplate, itemsSchema as ISchema, fieldAddress, 0)
+            }
+            recursiveProperties(field.address.toString())
+        } else if (schema.type === 'void') {
+            const field = form.createVoidField({
+                // ...fieldProps,
+                name,
+                basePath
+            })
+
+            /* console.log(
+                '#570',
+                'address:',
+                field.address.toString(),
+                'template["x-component"]:',
+                template['x-component'],
+                'fieldSchema["x-component"]:',
+                fieldSchema['x-component']
+            ) */
+            setXtAtCls(template, field.path.toString())
+
+            recursiveProperties(field.address.toString())
+        } /*  else {
+            const field = form.createField({
+                // ...fieldProps,
+                name,
+                basePath
+            })
+            result.push({
+                name: String(fieldProps.name),
+                type: schema.type,
+                address: field.address.toString(),
+                path: field.path.toString(),
+                visible: field.visible,
+                hidden: field.hidden,
+                fieldJson
+            })
+        } */
+    }
+    traverse(form, copyTemplate, schema)
+    console.log('#610 copyTemplate:', copyTemplate)
+    alert('OK')
+    // return result
 }

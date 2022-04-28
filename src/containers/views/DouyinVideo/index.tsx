@@ -8,7 +8,7 @@ import _ from 'lodash'
 import { testDemoFoo } from './interview'
 import { DataResponse, IEspEntity, IParams } from './types.d'
 import { doBatch, doAction } from './reactive'
-import { parseData } from './schema'
+import { parseData, recurFieldId } from './schema'
 
 // mock data start
 
@@ -453,9 +453,26 @@ function DouyinVideo() {
                     {targetUrl}
                 </a>
                 <h3 style={{ textAlign: 'center', marginTop: 30 }}>测试 @formily/json-schema</h3>
-                <Button type="primary" block loading={loading} onClick={parseData}>
-                    Test
-                </Button>
+                <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                    <Button
+                        style={{ width: 100, textAlign: 'center' }}
+                        type="primary"
+                        block
+                        loading={loading}
+                        onClick={recurFieldId}
+                    >
+                        recurFieldId
+                    </Button>
+                    <Button
+                        style={{ width: 100, textAlign: 'center' }}
+                        type="primary"
+                        block
+                        loading={loading}
+                        onClick={parseData}
+                    >
+                        parseData
+                    </Button>
+                </div>
                 <h3 style={{ textAlign: 'center', marginTop: 30 }}>测试 @formily/reactive</h3>
                 <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                     <Button
