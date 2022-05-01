@@ -150,13 +150,14 @@ export const traverseSchema = (template: any) => {
     traverse(form, schema)
     return result
 }
+
 /*
 'x-component-props': {},
 	'x-decorator-props': {
 		style: FormItemStyle,
 	},
 */
-const map4SubSchema = (path, fieldJson: Stringify<any>) => {
+const map4SubSchema = (fieldJson: Stringify<any>) => {
     const fields = Object.keys(fieldJson).filter(
         k =>
             ![
@@ -172,7 +173,7 @@ const map4SubSchema = (path, fieldJson: Stringify<any>) => {
     fields.forEach(k => {
         rtn[k] = fieldJson[k]
     })
-    return { [path]: rtn }
+    return rtn
 }
 
 const FormItemStyle = {}
@@ -190,6 +191,7 @@ const convertArrayItemsXtSelectInput = ({
     inputKey
 }) => {
     return {
+        name: arrayName,
         title,
         type: 'array',
         'x-validator': {
@@ -271,6 +273,7 @@ const convertArrayItemsXtSelectInput = ({
 
 const convertArrayItemsInput = ({ arrayName, title, addTitle, xValidator }) => {
     return {
+        name: arrayName,
         title,
         type: 'array',
         default: [' '],
@@ -353,6 +356,9 @@ const convertArrayItemsInput = ({ arrayName, title, addTitle, xValidator }) => {
     }
 }
 
+/**
+ * 自动映射未隐藏字段
+ */
 export const parseData = () => {
     const result = traverseSchema(template).filter(({ path, visible, hidden }) => {
         const pathSplit = _.trim(path).split('0.')
@@ -464,15 +470,14 @@ export const parseData = () => {
             /* if (!type || type === 'string') {
                 return map4String(path, fieldJson)
             } */
-            return map4SubSchema(path, fieldJson)
+            return map4SubSchema(fieldJson)
         })
         .filter(a => a)
-    const schemas = _.merge.apply(null, contactModels)
+        .concat(...typeArraySchemas)
 
     // 假设，不会出现嵌套表格
     // SelectInput 自动映射
     console.log('schema.ts #179', 'contactModels:', contactModels)
-    console.log('schema.ts #180', 'schemas:', schemas)
     alert('OK')
 }
 

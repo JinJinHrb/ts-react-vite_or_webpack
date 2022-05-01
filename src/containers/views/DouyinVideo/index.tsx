@@ -9,6 +9,7 @@ import { testDemoFoo } from './interview'
 import { DataResponse, IEspEntity, IParams } from './types.d'
 import { doBatch, doAction } from './reactive'
 import { parseData, recurFieldId } from './schema'
+import { convNewToOld, convOldToNew } from './converts'
 
 // mock data start
 
@@ -452,6 +453,27 @@ function DouyinVideo() {
                 <a className={styles.link} href={targetUrl} rel="noreferrer" target="_blank">
                     {targetUrl}
                 </a>
+                <h3 style={{ textAlign: 'center', marginTop: 30 }}>新老接口转换</h3>
+                <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                    <Button
+                        style={{ width: 100, textAlign: 'center' }}
+                        type="primary"
+                        block
+                        loading={loading}
+                        onClick={convNewToOld}
+                    >
+                        {`new -> old`}
+                    </Button>
+                    <Button
+                        style={{ width: 100, textAlign: 'center' }}
+                        type="primary"
+                        block
+                        loading={loading}
+                        onClick={convOldToNew}
+                    >
+                        {`old -> new`}
+                    </Button>
+                </div>
                 <h3 style={{ textAlign: 'center', marginTop: 30 }}>测试 @formily/json-schema</h3>
                 <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                     <Button
@@ -473,7 +495,7 @@ function DouyinVideo() {
                         parseData
                     </Button>
                 </div>
-                <h3 style={{ textAlign: 'center', marginTop: 30 }}>测试 @formily/reactive</h3>
+                {/* <h3 style={{ textAlign: 'center', marginTop: 30 }}>测试 @formily/reactive</h3>
                 <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                     <Button
                         style={{ width: 100, textAlign: 'center' }}
@@ -493,7 +515,7 @@ function DouyinVideo() {
                     >
                         Test Batch
                     </Button>
-                </div>
+                </div> */}
                 <h3 style={{ textAlign: 'center', marginTop: 30 }}>测试算法</h3>
                 <Button type="primary" block loading={loading} onClick={testAlgorithm}>
                     Test
