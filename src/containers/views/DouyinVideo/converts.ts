@@ -181,7 +181,6 @@ const iterateObject2ReplaceKey = props => {
             return 'contactModels'
         }
         if (/contactProfileVOS\.\d+\.socialMediaProfileVOList/.test(path)) {
-            debugger
             return 'socialMediaModels'
         }
         if (path === 'customerLockingStatus') {
