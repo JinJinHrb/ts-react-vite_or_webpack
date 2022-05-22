@@ -1,15 +1,157 @@
 import _ from 'lodash'
+import { traverseSchema } from './schema'
+import schema2 from './mock2'
+
+export const getBasicInfo = () => {
+    const result = traverseSchema(schema2)
+        .filter(props => {
+            const { path, visible, hidden } = props || {}
+            const pathSplit = _.trim(path).split('0.')
+            if (pathSplit.length > 3) {
+                // 数组里不能套数组
+                console.log('pathSplit.length > 3', pathSplit)
+                return false
+            } else if (pathSplit.length === 3 && _.endsWith(pathSplit[pathSplit.length - 1], '0')) {
+                // 数组里不能套数组
+                console.log('pathSplit.length === 3', _.endsWith(pathSplit[pathSplit.length - 1], '0'))
+                return false
+            }
+            return visible && !hidden && path?.indexOf('.') < 0
+        })
+        .map(props => {
+            const { address } = props
+            const addresses = address.split('.')
+            const titles = []
+            let subSchema = schema2
+            addresses.forEach(el => {
+                subSchema = subSchema.properties[el]
+                titles.push(subSchema.title)
+            })
+            props.titles = titles.filter(a => a)
+            return props
+        })
+    const rawBasicInfo = result.filter(a => '基本信息' === a.titles?.[0])
+    const rawFeatInfo = result.filter(a => '特征信息' === a.titles?.[0])
+    console.log('getBasicInfo #35', 'rawBasicInfo:', rawBasicInfo)
+    console.log('getBasicInfo #36', 'rawFeatInfo:', rawFeatInfo)
+    console.log('getBasicInfo #37', 'result:', result)
+    const detail = {} // 模拟数据
+    const basicInfo = rawBasicInfo.map(el => {
+        const name = el.name
+        const rtn = {
+            name,
+            title: el.fieldJson?.title,
+            component: el.fieldJson['x-component'],
+            dataSource: [],
+            value: detail[name],
+            label: ''
+        }
+        if (_.isArray(el.fieldJson.enum)) {
+            rtn.dataSource = el.fieldJson.enum
+            const label = (rtn.dataSource || []).find(el => el.value === rtn.value)
+            if (label) {
+                rtn.label = label
+            }
+        }
+        return rtn
+    })
+    // .filter(a => _.isString(a.value))
+    const featInfo = rawFeatInfo.map(el => {
+        const name = el.name
+        const rtn = {
+            name,
+            title: el.fieldJson?.title,
+            component: el.fieldJson['x-component'],
+            dataSource: [],
+            value: detail[name],
+            label: ''
+        }
+        if (_.isArray(el.fieldJson.enum)) {
+            rtn.dataSource = el.fieldJson.enum
+            const label = (rtn.dataSource || []).find(el => el.value === rtn.value)
+            if (label) {
+                rtn.label = label
+            }
+        }
+        return rtn
+    })
+    const basicEditList = ['客户名称', '客户简称'].map(k => {
+        const elem = featInfo.find(el => k === el.title) as any
+        if (!elem || !_.isArray(elem.dataSource)) {
+            return k
+        }
+        return {
+            title: k,
+            type: 'Select',
+            enum: elem.dataSource,
+            style: { width: 150 }
+        }
+    })
+    // const featEditList = [
+    //     {
+    //         title: '客户状态',
+    //         type: 'Select',
+    //         /* enum: [
+    // 			{ label: '潜在客户', value: '潜在客户' },
+    // 			{ label: '成交客户', value: '成交客户' },
+    // 			{ label: '无效客户', value: '无效客户' },
+    // 			{ label: '持续跟进', value: '持续跟进' },
+    // 			{ label: '忠诚客户', value: '忠诚客户' },
+    // 			{ label: '初步接触', value: '初步接触' },
+    // 		], */
+    //         enum: [],
+    //         style: { width: 150 }
+    //     }
+    // ]
+    // .filter(a => _.isString(a.value))
+    const featEditList = ['客户状态'].map(k => {
+        const elem = featInfo.find(el => k === el.title) as any
+        if (!elem || !_.isArray(elem.dataSource)) {
+            return k
+        }
+        return {
+            title: k,
+            type: 'Select',
+            enum: elem.dataSource,
+            style: { width: 150 }
+        }
+    })
+    console.log('getBasicInfo #47 basicInfo:', basicInfo)
+    console.log('getBasicInfo #48 featInfo:', featInfo)
+    console.log('getBasicInfo #121 basicEditList:', basicEditList)
+    console.log('getBasicInfo #122 featEditList:', featEditList)
+    alert('ok')
+}
+/*
+ * replaceKeyHandler(path, val)
+ */
+const iterateObject2 = props => {
+    const newObj = {}
+    const recur = (obj, nextObj, parents) => {
+        if (!_.isObject(obj)) {
+            return
+        }
+        Object.keys(obj).forEach(function (key) {
+            const elem = obj[key]
+            const copyParent = _.clone(parents)
+            copyParent.push(key)
+            nextObj[key] = elem
+            recur(elem, nextObj[key], copyParent)
+        })
+    }
+    recur(props, newObj, [])
+    return newObj
+}
 
 export const convOldToNew = () => {
-    const oldData = {
+    // GeneralInfo #1184 detail
+    const detail = {
         customerId: '19990100323000022041900013061',
         customerName: 'bbbbdww',
-        customerType: '- -',
-        customerRegion: '- -',
+        customerNo: 'C000000008',
+        customerType: 'BUYERS',
         customerGeoCode: 'ALB',
-        address: '- -',
-        addressGeoCode: '- -',
-        addressGeoAddress: '- -',
+        customizeAddress: 'wwwefwef',
         webAddress: 'www.baidu.com',
         memo: 'dwdwfe',
         contactModels: [
@@ -28,61 +170,199 @@ export const convOldToNew = () => {
                     }
                 ],
                 position: 'jinli',
-                birthday: '2022-04-06',
-                gender: '男',
+                birthday: 1649203200000,
+                gender: true,
                 remark: 'dwdwdww'
-            },
-            {
-                customerId: null,
-                contactName: 'test',
-                contactEmail: 'test@test.com',
-                contactPhone: ['111'],
-                contactFax: '111',
-                contactId: '19990100324000022042800010889',
-                socialMediaModels: [
-                    {
-                        socialMediaType: 'FACEBOOK',
-                        accountNumber: '111',
-                        socialMediaId: '19990100325000022042800010435'
-                    }
-                ],
-                position: 'test',
-                birthday: '2022-04-30',
-                gender: '男',
-                remark: '111'
             }
         ],
-        status: '- -',
-        createdTime: '2022-04-19 16:00:40',
-        createdUserName: '- -',
-        customerNo: 'C000000008',
+        status: 'TRANSACTION_CUSTOMERS',
         customerAbbreviation: 'bbbbdww',
         customerFax: '22222',
         customerPhone: '11111111111',
-        customerSource: '- -',
-        customerLevel: '- -',
+        customerSource: 'OTHER',
+        customerLevel: null,
         responsibleUserId: '00990100001000018030101000073',
-        responsibleUserName: '113',
+        responsibleUserName: '主账号',
         responsibleStatus: 'FOLLOWING',
-        attachmentVOS: '- -',
-        customerLabel: '- -',
-        tags: [
+        attachmentVOS: [],
+        customerLabel: null,
+        tags: null,
+        lockingStatus: 'LOCKING'
+    }
+
+    const detail2 = {}
+
+    const detailKeys = Object.keys(detail).sort()
+    detailKeys.forEach(k => {
+        detail2[k] = detail[k]
+    })
+
+    // #1330 formValues
+    const formValues = {
+        contactModels: [
             {
-                name: 'pp',
-                color: '#52c41a',
-                code: '2104'
-            },
-            {
-                name: 'xx',
-                color: '#fa541c',
-                code: '2103'
+                customerId: null,
+                contactName: 'shuaife',
+                contactEmail: 'w@qq.com',
+                contactPhone: ['22333333333'],
+                contactFax: '22222',
+                contactId: '19990100324000022041900010735',
+                socialMediaModels: [
+                    {
+                        socialMediaType: 'FACEBOOK',
+                        accountNumber: 'wdhudw',
+                        socialMediaId: '19990100325000022041900010336'
+                    }
+                ],
+                position: 'jinli',
+                birthday: 1649203200000,
+                gender: true,
+                remark: 'dwdwdww'
             }
         ],
-        lockingStatus: 'LOCKING',
-        ocrId: '- -',
-        userId: '- -',
-        customizeAddress: 'wwwefwef'
+        basicInfo: [
+            {
+                key: 1,
+                leftLabel: '客户编号',
+                leftValue: 'C000000008',
+                rightLabel: '客户名称',
+                rightValue: 'bbbbdww'
+            },
+            {
+                key: 2,
+                leftLabel: '客户简称',
+                leftValue: 'bbbbdww',
+                rightLabel: '客户网址',
+                rightValue: 'www.baidu.com'
+            },
+            {
+                key: 3,
+                leftLabel: '贸易国家/地区',
+                leftValue: 'ALB',
+                rightLabel: '联系地址',
+                rightValue: 'wwwefwef'
+            },
+            {
+                key: 4,
+                leftLabel: '固定电话',
+                leftValue: '11111111111',
+                rightLabel: '传真',
+                rightValue: '22222'
+            },
+            {
+                key: 5,
+                leftLabel: '备注',
+                leftValue: 'dwdwfe',
+                rightLabel: '',
+                rightValue: ''
+            }
+        ],
+        featInfo: [
+            {
+                key: 1,
+                leftLabel: '客户来源 ',
+                leftValue: 'OTHER',
+                rightLabel: '客户状态',
+                rightValue: 'TRANSACTION_CUSTOMERS'
+            },
+            {
+                key: 2,
+                leftLabel: '客户类型',
+                leftValue: 'BUYERS',
+                rightLabel: '',
+                rightValue: ''
+            }
+        ]
     }
+    // #1333 basicInfo
+    const basicInfo = [
+        {
+            name: 'customerNo',
+            label: '客户编号',
+            value: 'C000000008'
+        },
+        {
+            name: 'customerName',
+            label: '客户名称',
+            value: 'bbbbdww'
+        },
+        {
+            name: 'customerAbbreviation',
+            label: '客户简称',
+            value: 'bbbbdww'
+        },
+        {
+            name: 'webAddress',
+            label: '客户网址',
+            value: 'www.baidu.com'
+        },
+        {
+            name: 'customerGeoCode',
+            label: '贸易国家/地区',
+            value: 'ALB'
+        },
+        {
+            name: 'customizeAddress',
+            label: '联系地址',
+            value: 'wwwefwef'
+        },
+        {
+            name: 'customerPhone',
+            label: '固定电话',
+            value: '11111111111'
+        },
+        {
+            name: 'customerFax',
+            label: '传真',
+            value: '22222'
+        },
+        {
+            name: 'memo',
+            label: '备注',
+            value: 'dwdwfe'
+        }
+    ]
+
+    // #1336 featInfo
+    const featInfo = [
+        {
+            name: 'source',
+            label: '客户来源 ',
+            value: 'OTHER'
+        },
+        {
+            name: 'status',
+            label: '客户状态',
+            value: 'TRANSACTION_CUSTOMERS'
+        },
+        {
+            name: 'type',
+            label: '客户类型',
+            value: 'BUYERS'
+        }
+    ]
+
+    const submitValues = {
+        contactModels: formValues.contactModels
+    }
+
+    basicInfo.forEach(({ name, value }) => {
+        submitValues[name] = value
+    })
+
+    featInfo.forEach(({ name, value }) => {
+        submitValues[name] = value
+    })
+
+    const submitValues2 = {}
+    const keys = Object.keys(submitValues).sort()
+    keys.forEach(k => {
+        submitValues2[k] = submitValues[k]
+    })
+    _.merge(detail2, submitValues2)
+    console.log('convOldToNew #219', 'submitValues2:', submitValues2)
+    console.log('convOldToNew #220', 'detail2:', detail2)
+
     alert('OK')
 }
 
@@ -171,45 +451,6 @@ export const convNewToOld = () => {
     alert('OK')
 }
 
-/*
- * replaceKeyHandler(path, val)
- */
-const iterateObject2ReplaceKey = props => {
-    function getNewKey(paths) {
-        const path = paths.join('.')
-        if (path === 'contactProfileVOS') {
-            return 'contactModels'
-        }
-        if (/contactProfileVOS\.\d+\.socialMediaProfileVOList/.test(path)) {
-            return 'socialMediaModels'
-        }
-        if (path === 'customerLockingStatus') {
-            return 'lockingStatus'
-        }
-        if (path === 'customizedAddress') {
-            return 'customizeAddress'
-        }
-        return paths.slice(-1)[0]
-    }
-
-    const newObj = {}
-    const recur = (obj, nextObj, parents) => {
-        if (!_.isObject(obj)) {
-            return
-        }
-        Object.keys(obj).forEach(function (key) {
-            const elem = obj[key]
-            const copyParent = _.clone(parents)
-            copyParent.push(key)
-            const newKey = getNewKey(copyParent)
-            nextObj[newKey] = elem
-            recur(elem, nextObj[newKey], copyParent)
-        })
-    }
-    recur(props, newObj, [])
-    return newObj
-}
-
 const iterateObject = function (props) {
     const newObj = {}
     const recur = (obj, nextObj, parents) => {
@@ -237,6 +478,74 @@ const iterateObject = function (props) {
                 nextObj[key] = elem
                 recur(elem, nextObj[key], copyParent)
             }
+        })
+    }
+    recur(props, newObj, [])
+    return newObj
+}
+
+/**
+ * 修改映射的 key 值
+ * @param props
+ * @returns
+ */
+export const iterateObject2ReplaceKey = (props: any) => {
+    function getNewKey(paths: string[]) {
+        const path = paths.join('.')
+        if (path === 'contactProfileVOS') {
+            return 'contactModels'
+        }
+        if (/contactProfileVOS\.\d+\.socialMediaProfileVOList/.test(path)) {
+            return 'socialMediaModels'
+        }
+        if (path === 'customerLockingStatus') {
+            return 'lockingStatus'
+        }
+        if (path === 'customizedAddress') {
+            return 'customizeAddress'
+        }
+        return paths.slice(-1)[0]
+    }
+
+    const newObj = {}
+    const recur = (obj: any, nextObj: any, parents: string[]) => {
+        if (!_.isObject(obj)) {
+            return
+        }
+        Object.keys(obj).forEach(function (key) {
+            const elem = obj[key]
+            const copyParent = _.clone(parents)
+            copyParent.push(key)
+            const newKey = getNewKey(copyParent)
+            nextObj[newKey] = elem
+            recur(elem, nextObj[newKey], copyParent)
+        })
+    }
+    recur(props, newObj, [])
+    return newObj
+}
+
+/**
+ * 过滤 enum 中的空值
+ * @param props
+ * @returns
+ */
+export const iterateObject2FilterEnum = (props: JSON) => {
+    const newObj = {} as JSON
+    const recur = (obj: any, nextObj: any, parents: string[]) => {
+        if (!_.isObject(obj)) {
+            return
+        }
+        Object.keys(obj).forEach(function (key) {
+            const elem = obj[key]
+            const copyParent = _.clone(parents)
+            copyParent.push(key)
+            if (_.isArray(elem)) {
+                nextObj[key] = elem.filter(a => a)
+            } else {
+                nextObj[key] = elem
+            }
+            recur(elem, nextObj[key], copyParent)
         })
     }
     recur(props, newObj, [])

@@ -7,9 +7,10 @@ import data from 'mock/data'
 import _ from 'lodash'
 import { testDemoFoo } from './interview'
 import { DataResponse, IEspEntity, IParams } from './types.d'
-import { doBatch, doAction } from './reactive'
+// import { doBatch, doAction } from './reactive'
 import { parseData, recurFieldId } from './schema'
-import { convNewToOld, convOldToNew } from './converts'
+import { convNewToOld, convOldToNew, getBasicInfo } from './converts'
+import { demoData, getIdMapping, getTree } from './menuTree'
 
 // mock data start
 
@@ -443,8 +444,18 @@ function DouyinVideo() {
 
     // 正则转义 End
 
+    function testDemoTree() {
+        console.log('demoData:', demoData)
+        const idMapping = getIdMapping(demoData)
+        console.log('idMapping:', idMapping)
+        const tree = getTree(demoData, idMapping)
+        console.log('tree:', tree)
+        alert('OK')
+    }
+
     function testAlgorithm() {
-        testDemoFoo()
+        // testDemoFoo()
+        testDemoTree()
     }
 
     return (
@@ -454,9 +465,9 @@ function DouyinVideo() {
                     {targetUrl}
                 </a>
                 <h3 style={{ textAlign: 'center', marginTop: 30 }}>新老接口转换</h3>
-                <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Button
-                        style={{ width: 100, textAlign: 'center' }}
+                        style={{ width: 120, textAlign: 'center' }}
                         type="primary"
                         block
                         loading={loading}
@@ -465,7 +476,7 @@ function DouyinVideo() {
                         {`new -> old`}
                     </Button>
                     <Button
-                        style={{ width: 100, textAlign: 'center' }}
+                        style={{ width: 120, textAlign: 'center' }}
                         type="primary"
                         block
                         loading={loading}
@@ -474,10 +485,21 @@ function DouyinVideo() {
                         {`old -> new`}
                     </Button>
                 </div>
-                <h3 style={{ textAlign: 'center', marginTop: 30 }}>测试 @formily/json-schema</h3>
-                <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                <div style={{ marginTop: '15px', display: 'flex', justifyContent: 'space-between' }}>
                     <Button
-                        style={{ width: 100, textAlign: 'center' }}
+                        style={{ textAlign: 'center' }}
+                        type="primary"
+                        block
+                        loading={loading}
+                        onClick={getBasicInfo}
+                    >
+                        get basicInfo &amp; featInfo
+                    </Button>
+                </div>
+                <h3 style={{ textAlign: 'center', marginTop: 30 }}>测试 @formily/json-schema</h3>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Button
+                        style={{ width: 120, textAlign: 'center' }}
                         type="primary"
                         block
                         loading={loading}
@@ -486,7 +508,7 @@ function DouyinVideo() {
                         recurFieldId
                     </Button>
                     <Button
-                        style={{ width: 100, textAlign: 'center' }}
+                        style={{ width: 120, textAlign: 'center' }}
                         type="primary"
                         block
                         loading={loading}
@@ -496,7 +518,7 @@ function DouyinVideo() {
                     </Button>
                 </div>
                 {/* <h3 style={{ textAlign: 'center', marginTop: 30 }}>测试 @formily/reactive</h3>
-                <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Button
                         style={{ width: 100, textAlign: 'center' }}
                         type="primary"

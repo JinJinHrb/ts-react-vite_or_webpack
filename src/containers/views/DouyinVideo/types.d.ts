@@ -56,4 +56,5 @@ type TraverseSchema = {
     visible: boolean
     hidden: boolean
     fieldJson: Stringify<any>
+    titles?: string[]
 }
