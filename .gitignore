@@ -6,3 +6,4 @@ npm-debug*
 /.awcache
 /deploy
 /stats.html
+src/containers/views/DouyinVideo/compare

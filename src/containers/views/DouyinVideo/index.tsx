@@ -5,12 +5,12 @@ import axios from 'axios'
 import styles from './index.module.scss'
 import data from 'mock/data'
 import _ from 'lodash'
-import { testDemoFoo } from './interview'
+// import { testDemoFoo } from './interview'
 import { DataResponse, IEspEntity, IParams } from './types.d'
 // import { doBatch, doAction } from './reactive'
 import { parseData, recurFieldId } from './schema'
 import { convNewToOld, convOldToNew, getBasicInfo } from './converts'
-import { demoData, getIdMapping, getTree } from './menuTree'
+import { demoData, demoAuthList, getIdMapping, getTree, tailorTree } from './menuTree'
 
 // mock data start
 
@@ -445,11 +445,13 @@ function DouyinVideo() {
     // 正则转义 End
 
     function testDemoTree() {
-        console.log('demoData:', demoData)
+        // console.log('demoData:', demoData)
+        // console.log('demoAuthList:', demoAuthList)
         const idMapping = getIdMapping(demoData)
-        console.log('idMapping:', idMapping)
-        const tree = getTree(demoData, idMapping)
-        console.log('tree:', tree)
+        // console.log('idMapping:', idMapping)
+        const [tree, data] = getTree(demoData, idMapping)
+        // console.log('tree:', tree)
+        tailorTree(tree, data, demoAuthList)
         alert('OK')
     }
 
