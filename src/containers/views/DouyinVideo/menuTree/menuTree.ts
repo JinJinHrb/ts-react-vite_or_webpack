@@ -28,7 +28,6 @@ export const rawCrmMenu = [
             _owner: null,
             _store: {}
         },
-        comply: true,
         path: '/trade/home',
         pathRegex: {}
     },
@@ -66,16 +65,14 @@ export const rawCrmMenu = [
         id: '3-2',
         content: '客户列表',
         path: '/trade/customer/home/all',
-        pathRegex: {},
-        comply: true
+        pathRegex: {}
     },
     {
         parentId: '3',
         id: '3-1',
         content: '公海客户',
         path: '/trade/customer/home/public',
-        pathRegex: {},
-        comply: true
+        pathRegex: {}
     },
     {
         parentId: '3',
@@ -265,7 +262,6 @@ export const rawCrmMenu = [
         content: '账号与安全',
         path: '/account/security',
         pathRegex: {},
-        comply: true,
         rightExtraIcon: {
             key: null,
             ref: null,
@@ -278,8 +274,7 @@ export const rawCrmMenu = [
     {
         parentId: '9',
         id: '9-3',
-        content: '企业设置',
-        comply: true
+        content: '企业设置'
     },
     {
         parentId: '9-3',
