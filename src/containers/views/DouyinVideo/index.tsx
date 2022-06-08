@@ -10,7 +10,7 @@ import { DataResponse, IEspEntity, IParams } from './types.d'
 // import { doBatch, doAction } from './reactive'
 import { parseData, recurFieldId } from './schema'
 import { convNewToOld, convOldToNew, getBasicInfo } from './converts'
-import { demoData, demoAuthList, getIdMapping, getTree, tailorTree } from './menuTree'
+import { /* demoData, */ rawCrmMenu, /* demoAuthList */ authCodes, getAuthMenu } from './menuTree/menuTree'
 
 // mock data start
 
@@ -444,7 +444,7 @@ function DouyinVideo() {
 
     // 正则转义 End
 
-    function testDemoTree() {
+    /* function testDemoTree() {
         // console.log('demoData:', demoData)
         // console.log('demoAuthList:', demoAuthList)
         const idMapping = getIdMapping(demoData)
@@ -452,6 +452,12 @@ function DouyinVideo() {
         const [tree, data] = getTree(demoData, idMapping)
         // console.log('tree:', tree)
         tailorTree(tree, data, demoAuthList)
+        alert('OK')
+    } */
+
+    function testDemoTree() {
+        const tailoredTree = getAuthMenu(rawCrmMenu, authCodes)
+        console.log('testDemoTree #469 tailoredTree:', tailoredTree)
         alert('OK')
     }
 
