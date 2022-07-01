@@ -1,7 +1,7 @@
 import { ISchema, Schema, SchemaKey, Stringify } from '@formily/json-schema'
 import { createForm, Form } from '@formily/core'
 import _ from 'lodash'
-import mock from './mock'
+import mock from './mock/mock'
 import { TraverseSchema } from './types'
 import schemaDemo from './schemaDemo'
 import classnames from 'classnames'

@@ -1,6 +1,12 @@
 import _ from 'lodash'
 import { traverseSchema } from './schema'
-import schema2 from './mock2'
+import schema2 from './mock/mock2'
+
+// craft.js -> formily Start
+// export const convertCraftjs2Formily = () => {
+
+// }
+// craft.js -> formily End
 
 export const getBasicInfo = () => {
     const result = traverseSchema(schema2)

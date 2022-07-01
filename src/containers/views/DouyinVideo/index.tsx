@@ -10,10 +10,11 @@ import { DataResponse, IEspEntity, IParams } from './types.d'
 // import { doBatch, doAction } from './reactive'
 import { parseData, recurFieldId } from './schema'
 import { convNewToOld, convOldToNew, getBasicInfo } from './converts'
-import { /* demoData, */ rawCrmMenu, /* demoAuthList */ authCodes, getAuthMenu } from './menuTree/menuTree'
+// import { /* demoData, */ rawCrmMenu, /* demoAuthList */ authCodes, getAuthMenu } from './menuTree/menuTree'
+import demoData4Craftjs from './mock/mock4craftjs'
+import demoData4Formily from './mock/mock4formily'
 
 // mock data start
-
 const imapParams = {
     authenticateEntry: {
         username: 'xtUsername',
@@ -455,15 +456,22 @@ function DouyinVideo() {
         alert('OK')
     } */
 
-    function testDemoTree() {
+    /* function testDemoTree() {
         const tailoredTree = getAuthMenu(rawCrmMenu, authCodes)
         console.log('testDemoTree #469 tailoredTree:', tailoredTree)
         alert('OK')
+    } */
+
+    function testConvertCraftJs2Formily() {
+        console.log('demoData4Craftjs:', demoData4Craftjs)
+        console.log('demoData4Formily:', demoData4Formily)
+        return []
     }
 
     function testAlgorithm() {
         // testDemoFoo()
-        testDemoTree()
+        // testDemoTree()
+        testConvertCraftJs2Formily()
     }
 
     return (
