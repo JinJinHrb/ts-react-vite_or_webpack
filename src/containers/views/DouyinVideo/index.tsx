@@ -11,8 +11,10 @@ import { DataResponse, IEspEntity, IParams } from './types.d'
 import { parseData, recurFieldId } from './schema'
 import { convNewToOld, convOldToNew, getBasicInfo } from './converts'
 // import { /* demoData, */ rawCrmMenu, /* demoAuthList */ authCodes, getAuthMenu } from './menuTree/menuTree'
-import demoData4Craftjs from './mock/mock4craftjs'
-import demoData4Formily from './mock/mock4formily'
+// import demoData4Craftjs from './mock/mock4craftjs'
+// import demoData4Formily from './mock/mock4formily'
+import bTree from './mock/mock4tree'
+import { inorderTraversal, levelOrder, postorderTraversal, preorderTraversal } from './traverseTree'
 
 // mock data start
 const imapParams = {
@@ -445,6 +447,26 @@ function DouyinVideo() {
 
     // 正则转义 End
 
+    // 树形结构遍历 Start
+
+    function testTraverseTree() {
+        const preOrderArr = preorderTraversal(bTree)
+        console.log('前序遍历', preOrderArr)
+
+        const inOrderArr = inorderTraversal(bTree)
+        console.log('中序遍历', inOrderArr)
+
+        const postOrderArr = postorderTraversal(bTree)
+        console.log('后序遍历', postOrderArr)
+
+        const levels = levelOrder(bTree)
+        console.log('层序遍历', levels)
+
+        alert('OK')
+    }
+
+    // 树形结构遍历 End
+
     /* function testDemoTree() {
         // console.log('demoData:', demoData)
         // console.log('demoAuthList:', demoAuthList)
@@ -462,16 +484,17 @@ function DouyinVideo() {
         alert('OK')
     } */
 
-    function testConvertCraftJs2Formily() {
+    /* function testConvertCraftJs2Formily() {
         console.log('demoData4Craftjs:', demoData4Craftjs)
         console.log('demoData4Formily:', demoData4Formily)
         return []
-    }
+    } */
 
     function testAlgorithm() {
         // testDemoFoo()
+        testTraverseTree()
         // testDemoTree()
-        testConvertCraftJs2Formily()
+        // testConvertCraftJs2Formily()
     }
 
     return (

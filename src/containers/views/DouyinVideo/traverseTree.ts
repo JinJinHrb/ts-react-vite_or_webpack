@@ -1,11 +1,15 @@
 // https://blog.csdn.net/My_Jobs/article/details/43451187
+// https://www.cnblogs.com/echolun/p/13328927.html
+
+// 深度优先：前序、中序、后序遍历
+// 广度优先：层序遍历
 
 /**
  * 前序遍历
  * @param {TreeNode} root
  * @return {number[]}
  */
-const preorderTraversal = function (root) {
+export const preorderTraversal = function (root) {
     const res = []
     // 遍历函数
     function traversal(root) {
@@ -31,7 +35,7 @@ const preorderTraversal = function (root) {
  * @param {TreeNode} root
  * @return {number[]}
  */
-const inorderTraversal = function (root) {
+export const inorderTraversal = function (root) {
     const res = []
     // 遍历函数
     function traversal(root) {
@@ -57,7 +61,7 @@ const inorderTraversal = function (root) {
  * @param {TreeNode} root
  * @return {number[]}
  */
-const postorderTraversal = function (root) {
+export const postorderTraversal = function (root) {
     const res = []
     // 遍历函数
     function traversal(root) {
@@ -82,7 +86,7 @@ const postorderTraversal = function (root) {
  * @param {TreeNode} root
  * @return {number[][]}
  */
-const levelOrder = function (root) {
+export const levelOrder = function (root) {
     const res = []
 
     function traversal(root, depth) {
