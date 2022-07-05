@@ -3,9 +3,89 @@ import { traverseSchema } from './schema'
 import schema2 from './mock/mock2'
 
 // craft.js -> formily Start
-// export const convertCraftjs2Formily = () => {
+export const convertCraftjs2Formily = (data4Craftjs: any) => {
+    const root = data4Craftjs.ROOT
+    const data4Formily = {
+        type: 'object',
+        properties: {}
+    }
+    const pointer4Formily = data4Formily.properties
 
-// }
+    /** pointer: local pointer4Formily */
+    const buildCraftjs = (key: string, refer4Formily: any) => {
+        const node = data4Craftjs[key]
+        const fieldProps = node.props?.field || {}
+        const leftModuleKey = node.linkedNodes?.module_left
+        const rightModuleKey = node.linkedNodes?.module_right
+        const isArrayLike = node.custom?.isArrayLike ?? false
+        const leftNode = leftModuleKey ? data4Craftjs[leftModuleKey] : undefined
+        const rightNode = rightModuleKey ? data4Craftjs[rightModuleKey] : undefined
+        refer4Formily[key] = _.clone(fieldProps)
+        if (_.isNil(refer4Formily[key].properties)) {
+            refer4Formily[key].properties = {}
+        }
+        if (leftNode || rightNode) {
+            const middleKey = `${key}_middle`
+            const middleProperties = {
+                [middleKey]: {
+                    type: 'void',
+                    'x-component': 'FormGrid',
+                    properties: {
+                        [leftModuleKey]: {
+                            type: 'void',
+                            'x-component': 'FormGrid.GridColumn',
+                            properties: {},
+                            'x-index': 0
+                        },
+                        [rightModuleKey]: {
+                            type: 'void',
+                            'x-component': 'FormGrid.GridColumn',
+                            properties: {},
+                            'x-index': 1
+                        }
+                    }
+                }
+            }
+            let leftRefer4Formily, rightRefer4Formily
+            if (isArrayLike) {
+                const componentName = refer4Formily[key]['x-component']
+                refer4Formily[key].properties[`${key}_addition`] = {
+                    type: 'void',
+                    title: 'Addition',
+                    'x-component': `${componentName}.Addition`, // 类比 'ArrayCards.Addition',
+                    'x-index': 0
+                }
+                refer4Formily[key].items = {
+                    type: 'object',
+                    properties: {}
+                }
+                _.merge(refer4Formily[key].items.properties, middleProperties)
+                leftRefer4Formily = refer4Formily[key].items.properties[middleKey].properties[leftModuleKey].properties
+                rightRefer4Formily =
+                    refer4Formily[key].items.properties[middleKey].properties[rightModuleKey].properties
+            } else {
+                _.merge(refer4Formily[key].properties, middleProperties)
+                leftRefer4Formily = refer4Formily[key].properties[middleKey].properties[leftModuleKey].properties
+                rightRefer4Formily = refer4Formily[key].properties[middleKey].properties[rightModuleKey].properties
+            }
+            for (const key of leftNode.nodes) {
+                buildCraftjs(key, leftRefer4Formily)
+            }
+            for (const key of rightNode.nodes) {
+                buildCraftjs(key, rightRefer4Formily)
+            }
+        } else if (!_.isEmpty(node)) {
+            const nextRefer4Formily = refer4Formily[key].properties
+            for (const key of node.nodes) {
+                buildCraftjs(key, nextRefer4Formily)
+            }
+        }
+    }
+    for (const key of root.nodes || []) {
+        buildCraftjs(key, pointer4Formily)
+    }
+    return data4Formily
+}
 // craft.js -> formily End
 
 export const getBasicInfo = () => {

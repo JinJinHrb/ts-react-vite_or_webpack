@@ -78,7 +78,9 @@ export default {
             }
         },
         displayName: 'Module',
-        custom: {},
+        custom: {
+            isArrayLike: true
+        },
         parent: 'ROOT',
         hidden: false,
         nodes: [],

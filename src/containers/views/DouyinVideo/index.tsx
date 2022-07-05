@@ -9,9 +9,9 @@ import _ from 'lodash'
 import { DataResponse, IEspEntity, IParams } from './types.d'
 // import { doBatch, doAction } from './reactive'
 import { parseData, recurFieldId } from './schema'
-import { convNewToOld, convOldToNew, getBasicInfo } from './converts'
+import { convertCraftjs2Formily, convNewToOld, convOldToNew, getBasicInfo } from './converts'
 // import { /* demoData, */ rawCrmMenu, /* demoAuthList */ authCodes, getAuthMenu } from './menuTree/menuTree'
-// import demoData4Craftjs from './mock/mock4craftjs'
+import demoData4Craftjs from './mock/mock4craftjs'
 // import demoData4Formily from './mock/mock4formily'
 import bTree from './mock/mock4tree'
 import { inorderTraversal, levelOrder, postorderTraversal, preorderTraversal } from './traverseTree'
@@ -484,17 +484,19 @@ function DouyinVideo() {
         alert('OK')
     } */
 
-    /* function testConvertCraftJs2Formily() {
+    function testConvertCraftJs2Formily() {
         console.log('demoData4Craftjs:', demoData4Craftjs)
-        console.log('demoData4Formily:', demoData4Formily)
-        return []
-    } */
+        // console.log('demoData4Formily:', demoData4Formily)
+        const data4Formily = convertCraftjs2Formily(demoData4Craftjs)
+        console.log('data4Formily:', data4Formily)
+        alert('OK')
+    }
 
     function testAlgorithm() {
         // testDemoFoo()
-        testTraverseTree()
+        // testTraverseTree()
         // testDemoTree()
-        // testConvertCraftJs2Formily()
+        testConvertCraftJs2Formily()
     }
 
     return (
