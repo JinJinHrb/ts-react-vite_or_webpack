@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { /* Input, */ Button, message } from 'antd'
 import axios from 'axios'
+import wcmatch from 'wildcard-match'
 
 import styles from './index.module.scss'
 import data from 'mock/data'
@@ -8,11 +9,12 @@ import _ from 'lodash'
 // import { testDemoFoo } from './interview'
 import { DataResponse, IEspEntity, IParams } from './types.d'
 // import { doBatch, doAction } from './reactive'
-import { parseData, recurFieldId } from './schema'
+import { hideEmptyModules, parseData, parseData2, recurFieldId } from './schema'
 import { convertCraftjs2Formily, convNewToOld, convOldToNew, getBasicInfo } from './converts'
 // import { /* demoData, */ rawCrmMenu, /* demoAuthList */ authCodes, getAuthMenu } from './menuTree/menuTree'
 import demoData4Craftjs from './mock/mock4craftjs'
 // import demoData4Formily from './mock/mock4formily'
+import formilySchema from './mock/formilySchema'
 import bTree from './mock/mock4tree'
 import { inorderTraversal, levelOrder, postorderTraversal, preorderTraversal } from './traverseTree'
 
@@ -492,12 +494,116 @@ function DouyinVideo() {
         alert('OK')
     }
 
+    function factorial(n) {
+        if (isFinite(n) && n >= 0 && n === Math.round(n)) {
+            // 非负整数
+            console.log('#498 typeof factorial', typeof factorial, 'typeof n:', typeof n)
+            if (!(n in factorial)) {
+                // 如果没有缓存结果
+                factorial[n] = factorial(n - 1) * n // 计算结果并缓存
+            }
+            return factorial[n] // 返回结果
+        }
+        return NaN // 参数错误
+    }
+    factorial[0] = 1 // 初始化缓存
+
     function testAlgorithm() {
         // testDemoFoo()
         // testTraverseTree()
         // testDemoTree()
-        testConvertCraftJs2Formily()
+        // testConvertCraftJs2Formily()
+        // const fac = factorial(5)
+        // console.log('#515 fac:', fac)
+        // src/containers/views/DouyinVideo/mock/formilySchema.js
+        const trimmedSchema = hideEmptyModules(formilySchema)
+        console.log('after hideEmptyModules', '\nformilySchema:', formilySchema, '\ntrimmedSchema:', trimmedSchema)
+        alert('OK')
     }
+
+    function compose(...funcs) {
+        if (funcs.length === 0) {
+            return arg => arg
+        }
+
+        if (funcs.length === 1) {
+            return funcs[0]
+        }
+
+        return funcs.reduce((a, b) => {
+            console.log('#505', 'a:', a, '\n\t', 'b:', b, '\n')
+            return (...args) => a(b(...args))
+        })
+    }
+
+    // 测试js 方法 Start
+
+    function testCompose() {
+        const result = compose(
+            a => {
+                console.log('a', a)
+                return a + 1
+            },
+            b => {
+                console.log('b', b)
+                return b + 1
+            },
+            c => {
+                console.log('c', c)
+                return c + 1
+            }
+        )
+        console.log(result(1))
+    }
+
+    function regexIndexOf(text: string, re: RegExp, i?: number) {
+        const indexInSuffix = text.slice(i).search(re)
+        return indexInSuffix < 0 ? indexInSuffix : indexInSuffix + (i ?? 0)
+    }
+
+    function replaceByRegex(text: string, regex: RegExp, substitute: string) {
+        return text.slice(regexIndexOf(text, regex)).replace(regex, substitute)
+    }
+
+    function testRegexIndexOf() {
+        const requestUrl = 'http://dev.xtrfr.cn:3009/api/v1/trade/custom/search/setting/retrieve'
+        const trimmedUrl = replaceByRegex(requestUrl, /\/api\/v\d+/i, '')
+        console.log('requestUrl:', requestUrl, '\ntrimmedUrl:', trimmedUrl)
+    }
+
+    function isUrlMatchWildCard(url: string, patterns: string[]) {
+        let isMatch = false
+        for (const pattern of patterns) {
+            const matchFun = wcmatch(pattern)
+            if (matchFun(url)) {
+                isMatch = true
+                break
+            }
+        }
+        return isMatch
+    }
+
+    function testWildCardMatch() {
+        const requestUrl =
+            'https://example.cn/api/2/envelope/?sentry_key=6e4d89dd2ccb4dce8c789a543d219a54&sentry_version=7'
+        let matchFun = wcmatch('/example.cn/api/2/envelope')
+        console.log('isMatch #1:', matchFun(requestUrl))
+        matchFun = wcmatch('**/example.cn/api/2/envelope/*')
+        console.log('isMatch #2:', matchFun(requestUrl))
+        matchFun = wcmatch('*/example.cn/api/2/envelope/*')
+        console.log('isMatch #3:', matchFun(requestUrl))
+
+        const hijackUrls = ['*/example.cn/api/2/envelope/*']
+        const isMatch = isUrlMatchWildCard(requestUrl, hijackUrls)
+        console.log('hijackUrls isMatch:', isMatch)
+    }
+
+    function testJs() {
+        testWildCardMatch()
+        alert('OK')
+    }
+
+    // 测试js 方法 End
 
     return (
         <div className={styles.douyinVideo}>
@@ -553,9 +659,9 @@ function DouyinVideo() {
                         type="primary"
                         block
                         loading={loading}
-                        onClick={parseData}
+                        onClick={parseData2}
                     >
-                        parseData
+                        parseData2
                     </Button>
                 </div>
                 {/* <h3 style={{ textAlign: 'center', marginTop: 30 }}>测试 @formily/reactive</h3>
@@ -582,6 +688,11 @@ function DouyinVideo() {
                 <h3 style={{ textAlign: 'center', marginTop: 30 }}>测试算法</h3>
                 <Button type="primary" block loading={loading} onClick={testAlgorithm}>
                     Test
+                </Button>
+
+                <h3 style={{ textAlign: 'center', marginTop: 30 }}>测试JS</h3>
+                <Button type="primary" block loading={loading} onClick={testJs}>
+                    测试JS
                 </Button>
                 {/* <h3 style={{ textAlign: 'center', marginTop: 30 }}>
                     测试正则{' '}

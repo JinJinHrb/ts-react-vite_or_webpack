@@ -1,0 +1,42 @@
+const tableColumns = [
+		{
+			title: '',
+			dataIndex: 'leftLabel',
+			className: styles?.['header-column'],
+		},
+		{
+			title: '',
+			dataIndex: 'leftValue',
+			className: styles?.['header-column-value'],
+			render: XtTable_getInputRender({
+				fieldKey: 'featInfo',
+				labelKey: 'leftLabel',
+				valueKey: 'leftValue',
+				editList: featEditList,
+			}),
+			onCell: sharedOnCell.bind(this, featInfoTable),
+		},
+	]
+
+	if (usage !== Usage.sideDrawer) {
+		tableColumns.push(
+			{
+				title: '',
+				dataIndex: 'rightLabel',
+				className: styles?.['header-column'],
+				onCell: sharedOnCell2.bind(this, featInfoTable),
+			},
+			{
+				title: '',
+				dataIndex: 'rightValue',
+				className: styles?.['header-column-value'],
+				render: XtTable_getInputRender({
+					fieldKey: 'featInfo',
+					labelKey: 'rightLabel',
+					valueKey: 'rightValue',
+					editList: featEditList,
+				}),
+				onCell: sharedOnCell2.bind(this, featInfoTable),
+			},
+		)
+	}

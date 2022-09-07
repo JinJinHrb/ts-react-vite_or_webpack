@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom'
 import { unstable_scheduleCallback } from 'scheduler'
 import './styles.css'
 
-const { unstable_ConcurrentMode: ConcurrentMode, Component, Suspense, PureComponent } = React
-const { unstable_createRoot: createRoot, flushSync } = ReactDOM
+const { Component, Suspense, PureComponent } = React
+const { flushSync } = ReactDOM
 import _ from 'lodash'
 import Charts from './Charts'
 import Clock from './Clock'

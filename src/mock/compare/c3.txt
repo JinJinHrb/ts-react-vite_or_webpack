@@ -1,0 +1,42 @@
+const basicTableColumns = [
+		{
+			title: '',
+			dataIndex: 'leftLabel',
+			className: styles?.['header-column'],
+		},
+		{
+			title: '',
+			dataIndex: 'leftValue',
+			className: styles?.['header-column-value'],
+			render: XtTable_getInputRender({
+				fieldKey: 'basicInfo',
+				labelKey: 'leftLabel',
+				valueKey: 'leftValue',
+				editList: basicEditList,
+			}),
+			onCell: sharedOnCell.bind(this, basicInfoTable),
+		},
+	] as any[]
+
+	if (usage !== Usage.sideDrawer) {
+		basicTableColumns.push(
+			{
+				title: '',
+				dataIndex: 'rightLabel',
+				className: styles?.['header-column'],
+				onCell: sharedOnCell2.bind(this, basicInfoTable),
+			},
+			{
+				title: '',
+				dataIndex: 'rightValue',
+				className: styles?.['header-column-value'],
+				render: XtTable_getInputRender({
+					fieldKey: 'basicInfo',
+					labelKey: 'rightLabel',
+					valueKey: 'rightValue',
+					editList: basicEditList,
+				}),
+				onCell: sharedOnCell2.bind(this, basicInfoTable),
+			},
+		)
+	}

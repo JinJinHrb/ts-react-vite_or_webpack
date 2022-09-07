@@ -1,0 +1,26 @@
+const basicInfo = rawBasicInfo
+  .map(el => {
+    const name = _.trim(el.name)
+    const rtn = {
+      name,
+      title: el.fieldJson?.title,
+      component: el.fieldJson['x-component'],
+      value: detail[name],
+    } as any
+    if (_.isArray(el.fieldJson.enum)) {
+      rtn.dataSource = el.fieldJson.enum
+      if (rtn.value) {
+        const label = (rtn.dataSource || []).find((el: any) => el.value === rtn.value)?.label
+        if (label) {
+          rtn.label = label
+        }
+      }
+    }
+    if (name === 'customerGeoCode') {
+      const item = (geoOptions || []).find((i: any) => [i.geoCode, i.countryCode].includes(rtn.value))?.zhName
+      rtn.value = item || rtn.value
+      rtn.dataSource = geoOptions.map((i: any) => ({ label: i.zhName, value: i.geoCode }))
+    }
+    return rtn
+  })
+  .filter(el => !['XtCustomSelect'].includes(el.component))

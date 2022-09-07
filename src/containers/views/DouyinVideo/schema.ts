@@ -5,7 +5,65 @@ import mock from './mock/mock'
 import { TraverseSchema } from './types'
 import schemaDemo from './schemaDemo'
 import classnames from 'classnames'
+import advancedFilterSchema from './mock/advancedFilterSchema'
 const template = mock.data.template
+
+/**
+ * 判断模块是否被隐藏；若所有子模块内容都被隐藏，等同于模块被隐藏
+ */
+const isModuleHidden = (module: ISchema) => {
+    if (module?.['x-hidden'] === true) {
+        return true
+    }
+    if (!_.isObject(module)) {
+        return true
+    }
+    let isHidden = true
+    for (const key in module) {
+        const subProperty = module[key]
+        if (['ModuleLeft', 'ModuleRight'].includes(subProperty?.['x-component'])) {
+            if (!isModuleHidden(subProperty.properties)) {
+                isHidden = false
+                break
+            }
+        } else if (subProperty?.['x-component'] && subProperty?.['x-hidden'] !== true) {
+            isHidden = false
+            break
+        }
+    }
+    return isHidden
+}
+
+/** 若所有子模块都隐藏，隐藏模块 */
+export const hideEmptyModules = (schema: ISchema) => {
+    if (!_.isObject(schema)) {
+        return schema
+    }
+    const { properties } = schema
+    if (_.isEmpty(properties)) {
+        return schema
+    }
+    const moduleKeys = Object.keys(properties).filter(
+        key => _.isObject(properties[key]) && properties[key]['x-component'] === 'ModuleCard'
+    )
+    const toHideModuleKeys = []
+    for (const moduleKey of moduleKeys) {
+        const subProperties = properties[moduleKey]?.properties
+        const isHidden = isModuleHidden(subProperties)
+        console.log('hideEmptyModules', 'moduleKey:', moduleKey, 'isHidden:', isHidden, 'subProperties:', subProperties)
+        if (isHidden) {
+            toHideModuleKeys.push(moduleKey)
+        }
+    }
+    if (!_.isEmpty(toHideModuleKeys)) {
+        schema = _.clone(schema)
+        schema.properties = _.clone(schema.properties)
+        toHideModuleKeys.forEach(k => {
+            delete schema.properties[k]
+        })
+    }
+    return schema
+}
 
 export const recursiveField = (form: Form, schema: ISchema, basePath?: string, name?: SchemaKey) => {
     console.log('schema recursiveField #7', 'basePath:', basePath, 'name:', name)
@@ -354,6 +412,11 @@ const convertArrayItemsInput = ({ arrayName, title, addTitle, xValidator }) => {
             }
         }
     }
+}
+
+export const parseData2 = () => {
+    const result = traverseSchema(advancedFilterSchema)
+    console.log('parseData2 #419', 'result:', result)
 }
 
 /**

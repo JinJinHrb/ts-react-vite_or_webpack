@@ -56,9 +56,14 @@ void HeapAdjust(SqList *H, int s, int m)
   H->r[s] = rc; //最终需将rc的值添加到正确的位置
 }
 
+/**
+ * @brief 大顶堆
+ *
+ * @param H
+ */
 void HeapSort(SqList *H)
 {
-  //构建堆的过程
+  // 从倒数第二行最右节点开始构建堆的过程
   for (int i = H->length / 2; i > 0; i--)
   {
     //对于有孩子结点的根结点进行筛选

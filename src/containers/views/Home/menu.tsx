@@ -9,7 +9,8 @@ export const asynchronousComponents = {
     SocketDebugger: loadable(() => import('@views/SocketDebugger'), loadableOptions),
     Users: loadable(() => import('@views/Users'), loadableOptions),
     DouyinVideo: loadable(() => import('@views/DouyinVideo'), loadableOptions),
-    ReactLab: loadable(() => import('@views/ReactLab'), loadableOptions)
+    ReactLab: loadable(() => import('@views/ReactLab'), loadableOptions),
+    AntdLab: loadable(() => import('@views/AntdLab'), loadableOptions)
 }
 
 // all routers key
@@ -52,6 +53,14 @@ export const menu: IMenu[] = [
         title: 'React Lab',
         icon: <CodeSandboxOutlined />,
         component: 'ReactLab',
+        exact: true
+    },
+    {
+        id: 5,
+        path: '/antd-lab',
+        title: 'Antd Lab',
+        icon: <CodeSandboxOutlined />,
+        component: 'AntdLab',
         exact: true
     },
     {
