@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { /* Input, */ Button, message } from 'antd'
 import axios from 'axios'
-import wcmatch from 'wildcard-match'
 
 import styles from './index.module.scss'
 import data from 'mock/data'
@@ -11,7 +10,15 @@ import { DataResponse, IEspEntity, IParams } from './types.d'
 // import { doBatch, doAction } from './reactive'
 import { hideEmptyModules, parseData, parseData2, recurFieldId } from './schema'
 import { convertCraftjs2Formily, convNewToOld, convOldToNew, getBasicInfo } from './converts'
-// import { /* demoData, */ rawCrmMenu, /* demoAuthList */ authCodes, getAuthMenu } from './menuTree/menuTree'
+import {
+    rawCrmMenu,
+    // demoAuthList,
+    authCodes,
+    getAuthMenu,
+    getIdMapping,
+    getTree,
+    tailorTree
+} from './menuTree/menuTree'
 import demoData4Craftjs from './mock/mock4craftjs'
 // import demoData4Formily from './mock/mock4formily'
 import formilySchema from './mock/formilySchema'
@@ -469,22 +476,29 @@ function DouyinVideo() {
 
     // 树形结构遍历 End
 
-    /* function testDemoTree() {
-        // console.log('demoData:', demoData)
-        // console.log('demoAuthList:', demoAuthList)
+    function testDemoTree() {
+        const demoAuthList = [63, 87]
+        const demoData = [
+            { id: 56, parentId: 62 },
+            { id: 81, parentId: 80 },
+            { id: 74, parentId: null },
+            { id: 76, parentId: 80 },
+            { id: 63, parentId: 62 },
+            { id: 80, parentId: 86 },
+            { id: 87, parentId: 86 },
+            { id: 62, parentId: 74 },
+            { id: 86, parentId: 74 }
+        ]
         const idMapping = getIdMapping(demoData)
-        // console.log('idMapping:', idMapping)
         const [tree, data] = getTree(demoData, idMapping)
-        // console.log('tree:', tree)
         tailorTree(tree, data, demoAuthList)
-        alert('OK')
-    } */
+        console.log(tree)
+    }
 
-    /* function testDemoTree() {
+    function testDemoTree2() {
         const tailoredTree = getAuthMenu(rawCrmMenu, authCodes)
         console.log('testDemoTree #469 tailoredTree:', tailoredTree)
-        alert('OK')
-    } */
+    }
 
     function testConvertCraftJs2Formily() {
         console.log('demoData4Craftjs:', demoData4Craftjs)
@@ -511,13 +525,14 @@ function DouyinVideo() {
     function testAlgorithm() {
         // testDemoFoo()
         // testTraverseTree()
-        // testDemoTree()
+        testDemoTree()
+        testDemoTree2()
         // testConvertCraftJs2Formily()
         // const fac = factorial(5)
         // console.log('#515 fac:', fac)
         // src/containers/views/DouyinVideo/mock/formilySchema.js
-        const trimmedSchema = hideEmptyModules(formilySchema)
-        console.log('after hideEmptyModules', '\nformilySchema:', formilySchema, '\ntrimmedSchema:', trimmedSchema)
+        // const trimmedSchema = hideEmptyModules(formilySchema)
+        // console.log('after hideEmptyModules', '\nformilySchema:', formilySchema, '\ntrimmedSchema:', trimmedSchema)
         alert('OK')
     }
 
@@ -571,35 +586,14 @@ function DouyinVideo() {
         console.log('requestUrl:', requestUrl, '\ntrimmedUrl:', trimmedUrl)
     }
 
-    function isUrlMatchWildCard(url: string, patterns: string[]) {
-        let isMatch = false
-        for (const pattern of patterns) {
-            const matchFun = wcmatch(pattern)
-            if (matchFun(url)) {
-                isMatch = true
-                break
-            }
-        }
-        return isMatch
-    }
-
-    function testWildCardMatch() {
-        const requestUrl =
-            'https://example.cn/api/2/envelope/?sentry_key=6e4d89dd2ccb4dce8c789a543d219a54&sentry_version=7'
-        let matchFun = wcmatch('/example.cn/api/2/envelope')
-        console.log('isMatch #1:', matchFun(requestUrl))
-        matchFun = wcmatch('**/example.cn/api/2/envelope/*')
-        console.log('isMatch #2:', matchFun(requestUrl))
-        matchFun = wcmatch('*/example.cn/api/2/envelope/*')
-        console.log('isMatch #3:', matchFun(requestUrl))
-
-        const hijackUrls = ['*/example.cn/api/2/envelope/*']
-        const isMatch = isUrlMatchWildCard(requestUrl, hijackUrls)
-        console.log('hijackUrls isMatch:', isMatch)
+    enum ATT_TYPE {
+        TradeOrderAttachment = 'TradeOrderAttachment',
+        TradeQuotationAttachment = 'TradeQuotationAttachment'
     }
 
     function testJs() {
-        testWildCardMatch()
+        console.log('ATT_TYPE.TradeOrderAttachment:', ATT_TYPE.TradeOrderAttachment)
+        console.log('ATT_TYPE.TradeQuotationAttachment:', JSON.stringify(ATT_TYPE.TradeQuotationAttachment))
         alert('OK')
     }
 
