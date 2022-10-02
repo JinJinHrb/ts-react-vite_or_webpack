@@ -94,7 +94,7 @@ export const ST2 = (function () {
 class CreateST3 {
     static instance
 
-    static getIsntace(name) {
+    static getInstance(name) {
         if (!CreateST3.instance) {
             CreateST3.instance = new CreateST3(name)
         }

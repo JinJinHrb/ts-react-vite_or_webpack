@@ -8,7 +8,7 @@ import _ from 'lodash'
 // import { testDemoFoo } from './interview'
 import { DataResponse, IEspEntity, IParams } from './types.d'
 // import { doBatch, doAction } from './reactive'
-import { hideEmptyModules, parseData, parseData2, recurFieldId } from './schema'
+import { /* hideEmptyModules, parseData, */ parseData2, recurFieldId } from './schema'
 import { convertCraftjs2Formily, convNewToOld, convOldToNew, getBasicInfo } from './converts'
 import {
     rawCrmMenu,
@@ -21,9 +21,10 @@ import {
 } from './menuTree/menuTree'
 import demoData4Craftjs from './mock/mock4craftjs'
 // import demoData4Formily from './mock/mock4formily'
-import formilySchema from './mock/formilySchema'
+// import formilySchema from './mock/formilySchema'
 import bTree from './mock/mock4tree'
 import { inorderTraversal, levelOrder, postorderTraversal, preorderTraversal } from './traverseTree'
+import { testDp } from './algo/dp'
 
 // mock data start
 const imapParams = {
@@ -525,15 +526,16 @@ function DouyinVideo() {
     function testAlgorithm() {
         // testDemoFoo()
         // testTraverseTree()
-        testDemoTree()
-        testDemoTree2()
+        // testDemoTree()
+        // testDemoTree2()
         // testConvertCraftJs2Formily()
         // const fac = factorial(5)
         // console.log('#515 fac:', fac)
         // src/containers/views/DouyinVideo/mock/formilySchema.js
         // const trimmedSchema = hideEmptyModules(formilySchema)
         // console.log('after hideEmptyModules', '\nformilySchema:', formilySchema, '\ntrimmedSchema:', trimmedSchema)
-        alert('OK')
+        // alert('OK')
+        testDp()
     }
 
     function compose(...funcs) {
