@@ -1,36 +1,100 @@
-import _, { min } from 'lodash'
+import _ from 'lodash'
 
-export const testDp = () => {
-    // 1. 走楼梯
-    // const result = climbStairs(10)
+// 8. 分发饼干
+export const findContentChildren = (g: number[], s: number[]) => {
+    if (!g.length || !s.length) return 0
 
-    // 2. 买卖股票
-    // [7, 1, 5, 3, 6, 4], [7, 1, 5, 3, 6, 4, 3, 8, 9, 12, 13, 8, 7]
-    /* const result = [
-        buyStocks1([7, 1, 5, 3, 6, 4, 3, 8, 9, 12, 13, 8, 7]),
-        buyStocks2([7, 1, 5, 3, 6, 4, 3, 8, 9, 12, 13, 8, 7])
-    ] */
+    g.sort((a, b) => a - b)
+    s.sort((a, b) => a - b)
 
-    // 3. 最大子序和
-    // const result = maxSubArray2([-2, 1, -3, 4, -1, 2, 1, -5, 4])
+    let gi = 0,
+        si = 0
+    while (gi < g.length && si < s.length) {
+        if (g[gi] <= s[si++]) gi++
+    }
+    return gi
+}
 
-    // 4. 回文子串计数
-    // const result = countSubstrings('aaa')
-    // const result = countSubstrings('xlslskdksoijwoi')
+// 7. 获取最大利润
 
-    // 5. 最长回文子串
-    const result = getLongestSubstring('xlslskdksoijwoi')
+// 贪心算法
+export const getMaxProfit2 = (prices: number[]) => {
+    let isBought = false,
+        buyInPrice = -1,
+        profit = 0
+    for (let i = 0; i < prices.length; i++) {
+        if (isBought && prices[i + 1] < prices[i]) {
+            profit += prices[i] - buyInPrice
+            isBought = false
+        } else if (!isBought && i < prices.length - 1 && prices[i + 1] > prices[i]) {
+            buyInPrice = prices[i]
+            isBought = true
+        }
+    }
+    return profit
+}
 
-    alert(_.isObjectLike(result) ? JSON.stringify(result) : result)
+export const getMaxProfit1 = (prices: number[]) => {
+    const dp: number[][] = new Array(prices.length)
+    for (let i = 0; i < dp.length; i++) {
+        dp[i] = new Array(prices.length).fill(0)
+    }
+    let profit = 0,
+        buyIn = -1,
+        sellOut = -1
+    for (let j = 1; j < prices.length; j++) {
+        for (let i = 0; i < j; i++) {
+            const diff = prices[j] - prices[i]
+            dp[i][j] = Math.max(diff, dp[i][j - 1])
+            if (dp[i][j] > profit) {
+                profit = dp[i][j]
+                buyIn = i
+                sellOut = j
+            }
+        }
+    }
+    return profit
+}
+
+// 6. 最小路径和
+
+export const getShortestPath = (matrix: number[][]) => {
+    const m = matrix.length
+    const n = matrix[0].length
+    const dp = new Array(m)
+    for (let i = 0; i < m; i++) {
+        dp[i] = new Array(n).fill(0)
+    }
+    for (let i = 0; i < m; i++) {
+        for (let j = 0; j < n; j++) {
+            if (i > 0 && j > 0) {
+                if (dp[i][j - 1] < dp[i - 1][j]) {
+                    console.log(`from: [${i},${j - 1}] to: [${i},${j}]`)
+                } else {
+                    console.log(`from: [${i - 1},${j}] to: [${i},${j}]`)
+                }
+                dp[i][j] = matrix[i][j] + Math.min(dp[i][j - 1], dp[i - 1][j])
+            } else if (i > 0) {
+                console.log(`from: [${i - 1},${j}] to: [${i},${j}]`)
+                dp[i][j] = matrix[i][j] + dp[i - 1][j]
+            } else if (j > 0) {
+                console.log(`from: [${i},${j - 1}] to: [${i},${j}]`)
+                dp[i][j] = matrix[i][j] + dp[i][j - 1]
+            } else {
+                console.log(`start from: [${i},${j}]`)
+                dp[i][j] = matrix[i][j]
+            }
+        }
+    }
+    return dp[m - 1][n - 1]
 }
 
 // 5. 最长回文子串
 export const getLongestSubstring = (str: string) => {
     let maxDiff = -1,
         low = 0,
-        high = 0
-    // count = 0
-    // const dp: boolean[][] = new Array(str.length).fill(new Array(str.length).fill(false))
+        high = 0,
+        count = 0
     const dp = new Array(str.length)
     for (let i = 0; i < str.length; i++) {
         dp[i] = new Array(str.length).fill(false)
@@ -39,7 +103,7 @@ export const getLongestSubstring = (str: string) => {
         for (let i = 0; i <= j; i++) {
             if (str[i] === str[j] && (j - i <= 1 || dp[i + 1][j - 1])) {
                 dp[i][j] = true
-                // count++
+                count++
                 if (j - i > maxDiff) {
                     maxDiff = j - i
                     low = i
@@ -49,7 +113,7 @@ export const getLongestSubstring = (str: string) => {
         }
     }
     const result = str.slice(low, high + 1)
-    console.log({ low, high, maxLength: maxDiff + 1, result })
+    console.log({ low, high, maxLength: maxDiff + 1, result, count })
     return result
 }
 

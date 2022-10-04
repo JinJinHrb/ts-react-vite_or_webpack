@@ -24,7 +24,7 @@ import demoData4Craftjs from './mock/mock4craftjs'
 // import formilySchema from './mock/formilySchema'
 import bTree from './mock/mock4tree'
 import { inorderTraversal, levelOrder, postorderTraversal, preorderTraversal } from './traverseTree'
-import { testDp } from './algo/dp'
+import { testDp } from './algo'
 
 // mock data start
 const imapParams = {
