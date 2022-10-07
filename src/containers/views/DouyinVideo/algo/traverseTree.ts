@@ -4,6 +4,12 @@
 // 深度优先：前序、中序、后序遍历
 // 广度优先：层序遍历
 
+interface ITreeNode {
+    val: unknown
+    left?: ITreeNode
+    right?: ITreeNode
+}
+
 /**
  * 前序遍历
  * @param {TreeNode} root
@@ -82,11 +88,28 @@ export const postorderTraversal = function (root) {
     return res
 }
 
+export const levelOrder = (root: ITreeNode) => {
+    const stack: ITreeNode[] = []
+    const arr: unknown[] = []
+    stack.push(root)
+    while (stack.length > 0) {
+        const node = stack.shift()
+        arr.push(node.val)
+        if (node.left) {
+            stack.push(node.left)
+        }
+        if (node.right) {
+            stack.push(node.right)
+        }
+    }
+    return arr
+}
+
 /**
  * @param {TreeNode} root
  * @return {number[][]}
  */
-export const levelOrder = function (root) {
+export const levelOrder2 = function (root: ITreeNode) {
     const res = []
 
     function traversal(root, depth) {

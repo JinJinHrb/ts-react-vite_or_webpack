@@ -1,5 +1,49 @@
 import _ from 'lodash'
 
+// 9. 背包问题
+// 01背包问题（01 knapsack problem）：
+// 一共有N件物品，第i（i从1开始）件物品的重量为w[i]，价值为v[i]。在总重量不超过背包承载上限W的情况下，能够装入背包的最大价值是多少？
+
+// 空间优化
+export const packStrategy2 = (values: number[], weights: number[], weightLimit: number) => {
+    // 状态转移方程 dp[i][j]表示将前i件物品装进限重为j的背包可以获得的最大价值, 0<=i<=N, 0<=j<=W
+    // dp[i][j] = Math.max(dp[i-1][j], dp[i-1][j-weight[i]] + values[i])
+    // const n = values.length - 1
+    const dp: number[] = new Array(weightLimit + 1).fill(0)
+    for (let i = 0; i < values.length; i++) {
+        for (let j = weightLimit; j >= weights[i]; j--) {
+            if (i === 0) {
+                dp[j] = values[i]
+            } else {
+                dp[j] = Math.max(dp[j], dp[j - weights[i]] + values[i])
+            }
+        }
+    }
+    // console.log('packStrategy:', dp)
+    return dp[weightLimit]
+}
+
+export const packStrategy = (values: number[], weights: number[], weightLimit: number) => {
+    // 状态转移方程 dp[i][j]表示将前i件物品装进限重为j的背包可以获得的最大价值, 0<=i<=N, 0<=j<=W
+    // dp[i][j] = Math.max(dp[i-1][j], dp[i-1][j-weight[i]] + values[i])
+    // const n = values.length - 1
+    const dp: number[][] = []
+    for (let i = 0; i < values.length; i++) {
+        dp.push(new Array(weightLimit + 1).fill(0))
+    }
+    for (let i = 0; i < values.length; i++) {
+        for (let j = weights[i]; j <= weightLimit; j++) {
+            if (i === 0) {
+                dp[i][j] = values[i]
+            } else {
+                dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - weights[i]] + values[i])
+            }
+        }
+    }
+    // console.log('packStrategy:', dp)
+    return dp[values.length - 1][weightLimit]
+}
+
 // 8. 分发饼干
 export const findContentChildren = (g: number[], s: number[]) => {
     if (!g.length || !s.length) return 0

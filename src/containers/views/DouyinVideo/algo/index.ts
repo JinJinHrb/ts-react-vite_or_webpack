@@ -1,5 +1,6 @@
 import _ from 'lodash'
-import { getMinSubArrSum } from './backTrack'
+import { packStrategy } from './backTrack'
+import { packStrategy as packStrategyDp, packStrategy2 as packStrategyDp2 } from './dp'
 
 export const testDp = () => {
     // 1. 走楼梯
@@ -40,9 +41,13 @@ export const testDp = () => {
 
     // const result = permutate(['a', 'b', 'c', 'd'])
 
-    const result = getMinSubArrSum([7, 2, 5, 10, 8], 2)
+    // const result = getMinSubArrSum([7, 2, 5, 10, 8], 2)
     // const result = getMinSubArrSum([1, 2, 3, 4, 5], 2)
     // const result = getMinSubArrSum([1, 4, 4], 3)
+
+    // const result = packStrategy([50, 80, 30, 20, 70, 40, 35], [7, 9, 13, 15, 8, 3, 5], 40)
+    // const result = packStrategyDp([50, 80, 30, 20, 70, 40, 35], [7, 9, 13, 15, 8, 3, 5], 40)
+    const result = packStrategyDp2([50, 80, 30, 20, 70, 40, 35], [7, 9, 13, 15, 8, 3, 5], 40)
 
     alert(_.isObjectLike(result) ? JSON.stringify(result) : result)
 }

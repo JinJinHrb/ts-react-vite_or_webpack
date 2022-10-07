@@ -22,8 +22,8 @@ import {
 import demoData4Craftjs from './mock/mock4craftjs'
 // import demoData4Formily from './mock/mock4formily'
 // import formilySchema from './mock/formilySchema'
-import bTree from './mock/mock4tree'
-import { inorderTraversal, levelOrder, postorderTraversal, preorderTraversal } from './traverseTree'
+import bTree from './mock/mock4tree2'
+import { inorderTraversal, levelOrder, postorderTraversal, preorderTraversal } from './algo/traverseTree'
 import { testDp } from './algo'
 
 // mock data start
@@ -525,7 +525,7 @@ function DouyinVideo() {
 
     function testAlgorithm() {
         // testDemoFoo()
-        // testTraverseTree()
+        testTraverseTree()
         // testDemoTree()
         // testDemoTree2()
         // testConvertCraftJs2Formily()
@@ -535,7 +535,7 @@ function DouyinVideo() {
         // const trimmedSchema = hideEmptyModules(formilySchema)
         // console.log('after hideEmptyModules', '\nformilySchema:', formilySchema, '\ntrimmedSchema:', trimmedSchema)
         // alert('OK')
-        testDp()
+        // testDp()
     }
 
     function compose(...funcs) {

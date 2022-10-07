@@ -1,10 +1,58 @@
-// 9. 给定一个非负整数数组 nums 和一个整数 m ，你需要将这个数组分成 m 个非空的连续子数组。
+import _ from 'lodash'
+
+// 4. 背包问题
+// 01背包问题（01 knapsack problem）：
+// 一共有N件物品，第i（i从1开始）件物品的重量为w[i]，价值为v[i]。在总重量不超过背包承载上限W的情况下，能够装入背包的最大价值是多少？
+export const packStrategy = (values: number[], weights: number[], weightLimit: number) => {
+    // weightLimit, maxValue, maxSum
+    const weightLimitAndChampion: [number, number, number] = [weightLimit, 0, 0]
+    const noDup: { [key: string]: boolean } = {} // prevent duplicate calculation
+    const records: number[][] = []
+    packDfs(weights, values, 0, 0, weightLimitAndChampion, noDup, records)
+    return weightLimitAndChampion[1]
+}
+
+const packDfs = (
+    weights: number[],
+    values: number[],
+    sumWeight: number,
+    sumValue: number,
+    weightLimitAndChampion: [number, number, number],
+    noDup: { [key: string]: boolean },
+    records: number[][]
+) => {
+    const wiehgtLimit = weightLimitAndChampion[0]
+    for (let i = 0; i < weights.length; i++) {
+        const w = weights[i]
+        const v = values[i]
+        const sumW = sumWeight + w
+        const sumV = sumValue + v
+        if (sumW > wiehgtLimit) {
+            continue
+        }
+        if (noDup[`${sumW},${sumV}`]) {
+            continue
+        }
+        noDup[`${sumW},${sumV}`] = true
+        const copyWeights = _.clone(weights)
+        const copyValues = _.clone(values)
+        const copyRecords = _.clone(records)
+        copyRecords.push([w, v])
+        copyWeights.splice(i, 1)
+        copyValues.splice(i, 1)
+        if (sumV > weightLimitAndChampion[1]) {
+            weightLimitAndChampion[1] = sumV
+            weightLimitAndChampion[2] = sumW
+            console.log('max value:', weightLimitAndChampion[1], copyRecords)
+        }
+        packDfs(copyWeights, copyValues, sumW, sumV, weightLimitAndChampion, noDup, copyRecords)
+    }
+}
+
+// 3. 给定一个非负整数数组 nums 和一个整数 m ，你需要将这个数组分成 m 个非空的连续子数组。
 // 设计一个算法使得这 m 个子数组各自和的最大值最小。
 // 输入：nums = [7,2,5,10,8], m = 2
 // 输出：18
-
-import _ from 'lodash'
-
 export const getMinSubArrSum = (nums: number[], m: number) => {
     const record: [number, number[][]] = [Infinity, []] // 和, 二维数组
     const numsArr: number[][] = []
