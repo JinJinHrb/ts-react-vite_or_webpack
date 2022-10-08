@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import { packStrategy } from './backTrack'
 import { packStrategy as packStrategyDp, packStrategy2 as packStrategyDp2 } from './dp'
+import { nSquareMatrx } from './matrx'
 
 export const testDp = () => {
     // 1. 走楼梯
@@ -47,7 +48,9 @@ export const testDp = () => {
 
     // const result = packStrategy([50, 80, 30, 20, 70, 40, 35], [7, 9, 13, 15, 8, 3, 5], 40)
     // const result = packStrategyDp([50, 80, 30, 20, 70, 40, 35], [7, 9, 13, 15, 8, 3, 5], 40)
-    const result = packStrategyDp2([50, 80, 30, 20, 70, 40, 35], [7, 9, 13, 15, 8, 3, 5], 40)
+    // const result = packStrategyDp2([50, 80, 30, 20, 70, 40, 35], [7, 9, 13, 15, 8, 3, 5], 40)
 
+    const result = nSquareMatrx(4)
+    console.log(result)
     alert(_.isObjectLike(result) ? JSON.stringify(result) : result)
 }

@@ -525,7 +525,7 @@ function DouyinVideo() {
 
     function testAlgorithm() {
         // testDemoFoo()
-        testTraverseTree()
+        // testTraverseTree()
         // testDemoTree()
         // testDemoTree2()
         // testConvertCraftJs2Formily()
@@ -535,7 +535,7 @@ function DouyinVideo() {
         // const trimmedSchema = hideEmptyModules(formilySchema)
         // console.log('after hideEmptyModules', '\nformilySchema:', formilySchema, '\ntrimmedSchema:', trimmedSchema)
         // alert('OK')
-        // testDp()
+        testDp()
     }
 
     function compose(...funcs) {
