@@ -1,4 +1,11 @@
-//  1-n^2 顺时针顺序排列
+/*  1-n^2 顺时针顺序排列
+e.g. 
+[
+  [1, 2, 3],
+  [8, 9, 4],
+  [7, 6, 5],
+]
+*/
 export const nSquareMatrx = (n: number) => {
     let lowX = 0,
         heighX = n - 1,
