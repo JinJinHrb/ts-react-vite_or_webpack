@@ -25,6 +25,7 @@ import demoData4Craftjs from './mock/mock4craftjs'
 import bTree from './mock/mock4tree2'
 import { inorderTraversal, levelOrder, postorderTraversal, preorderTraversal } from './algo/traverseTree'
 import { testDp } from './algo'
+import { testConcat, testMergeAll, testPipeAndTap } from './rxjs'
 
 // mock data start
 const imapParams = {
@@ -594,9 +595,12 @@ function DouyinVideo() {
     }
 
     function testJs() {
-        console.log('ATT_TYPE.TradeOrderAttachment:', ATT_TYPE.TradeOrderAttachment)
-        console.log('ATT_TYPE.TradeQuotationAttachment:', JSON.stringify(ATT_TYPE.TradeQuotationAttachment))
-        alert('OK')
+        /* console.log('ATT_TYPE.TradeOrderAttachment:', ATT_TYPE.TradeOrderAttachment)
+        console.log('ATT_TYPE.TradeQuotationAttachment:', JSON.stringify(ATT_TYPE.TradeQuotationAttachment)) */
+        // testConcat()
+        // testPipeAndTap()
+        testMergeAll()
+        // alert('OK')
     }
 
     // 测试js 方法 End

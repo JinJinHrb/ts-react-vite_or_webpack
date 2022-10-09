@@ -1,5 +1,36 @@
 import _ from 'lodash'
 
+// 10. 跳跃游戏
+// 给定一个非负整数数组 nums ，你最初位于数组的 第一个下标 。
+// 数组中的每个元素代表你在该位置可以跳跃的最大长度。
+// 判断你是否能够到达最后一个下标。
+
+// 示例 1：
+// 输入：nums = [2,3,1,0,4]
+// 输出：true
+// 解释：可以先跳 1 步，从下标 0 到达下标 1, 然后再从下标 1 跳 3 步到达最后一个下标。
+
+// 示例 2：
+// 输入：nums = [3,2,1,0,4]
+// 输出：false
+// 解释：无论怎样，总会到达下标为 3 的位置。但该下标的最大跳跃长度是 0 ， 所以永远不可能到达最后一个下标。
+
+export const jumpGame = (nums: number[]) => {
+    if (nums.length < 2) {
+        if (nums.length < 1) {
+            return false
+        }
+        return true
+    }
+    const dp: number[] = []
+    dp[0] = nums[0]
+    for (let i = 1; i < nums.length; i++) {
+        dp[i] = Math.max(dp[i - 1] - 1, nums[i])
+    }
+    console.log(dp)
+    return dp[nums.length - 2] > 0
+}
+
 // 9. 背包问题
 // 01背包问题（01 knapsack problem）：
 // 一共有N件物品，第i（i从1开始）件物品的重量为w[i]，价值为v[i]。在总重量不超过背包承载上限W的情况下，能够装入背包的最大价值是多少？
