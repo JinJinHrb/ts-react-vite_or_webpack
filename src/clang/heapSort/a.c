@@ -51,9 +51,21 @@ void HeapAdjust(SqList *H, int s, int m)
     }
     //如果当前结点的值比孩子结点中最大的值小，则将最大的值移至该结点，由于 rc 记录着该结点的值，所以该结点的值不会丢失
     H->r[s] = H->r[j];
+    printf("%d to %d: \n", j, s);
+    for (int i = 1; i <= H->length; i++)
+    {
+      printf("%d ", H->r[i].key);
+    }
+    printf("\n");
     s = j; // s相当于指针的作用，指向其孩子结点，继续进行筛选
   }
   H->r[s] = rc; //最终需将rc的值添加到正确的位置
+  printf("H->r[s]=rc\n");
+  for (int i = 1; i <= H->length; i++)
+  {
+    printf("%d ", H->r[i].key);
+  }
+  printf("\n\n");
 }
 
 /**
@@ -69,6 +81,7 @@ void HeapSort(SqList *H)
     //对于有孩子结点的根结点进行筛选
     HeapAdjust(H, i, H->length);
   }
+  printf("==========\n\n");
   //通过不断地筛选出最大值，同时不断地进行筛选剩余元素
   for (int i = H->length; i > 1; i--)
   {
