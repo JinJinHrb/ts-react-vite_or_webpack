@@ -33,6 +33,11 @@ void swap(SqNote *a, SqNote *b)
 }
 
 //将以 r[s]为根结点的子树构成堆，堆中每个根结点的值都比其孩子结点的值大
+/**
+ * @param H 二叉树引用
+ * @param s 子树的根节点对应下标
+ * @param m 子树的节点数
+ */
 void HeapAdjust(SqList *H, int s, int m)
 {
   SqNote rc = H->r[s]; //先对操作位置上的结点数据进行保存，放置后序移动元素丢失。

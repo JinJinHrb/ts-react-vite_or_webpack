@@ -62,8 +62,63 @@ export const inorderTraversal = function (root) {
     return res
 }
 
+export const inorderTraversal2 = function (root: ITreeNode): unknown[] {
+    const res: unknown[] = []
+    const stack = []
+    let tmp = root,
+        pre = null
+    while (tmp || stack.length > 0) {
+        while (tmp) {
+            stack.push(tmp)
+            tmp = tmp.left
+        }
+        if (stack.length > 0) {
+            tmp = stack.pop()
+            res.push(tmp.val)
+            if (!tmp.right || (pre && tmp.right === pre)) {
+                pre = tmp
+                tmp = null
+            } else {
+                tmp = tmp.right
+            }
+        }
+    }
+    return res
+}
+
 /**
- * 后续遍历
+ * 后序遍历
+ */
+export const postorderTraversal2 = function (root: ITreeNode): string[] {
+    const res = []
+    if (!root) {
+        return res
+    }
+    const stack = [] // stack: only push & pop allowed
+    let tmp = root,
+        pre = null
+    while (tmp || stack.length > 0) {
+        while (tmp) {
+            stack.push(tmp)
+            tmp = tmp.left
+        }
+        if (stack.length > 0) {
+            tmp = stack.pop()
+            if (!tmp.right || (pre && tmp.right === pre)) {
+                res.push(tmp.val)
+                pre = tmp
+                tmp = undefined
+            } else {
+                stack.push(tmp)
+                tmp = tmp.right
+            }
+        }
+    }
+    return res
+}
+
+/**
+ * 后序遍历
  * @param {TreeNode} root
  * @return {number[]}
  */

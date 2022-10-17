@@ -23,7 +23,14 @@ import demoData4Craftjs from './mock/mock4craftjs'
 // import demoData4Formily from './mock/mock4formily'
 // import formilySchema from './mock/formilySchema'
 import bTree from './mock/mock4tree2'
-import { inorderTraversal, levelOrder, postorderTraversal, preorderTraversal } from './algo/traverseTree'
+import {
+    inorderTraversal,
+    inorderTraversal2,
+    levelOrder,
+    postorderTraversal,
+    postorderTraversal2,
+    preorderTraversal
+} from './algo/traverseTree'
 import { testDp } from './algo'
 import { testConcat, testMergeAll, testPipeAndTap } from './rxjs'
 
@@ -467,8 +474,14 @@ function DouyinVideo() {
         const inOrderArr = inorderTraversal(bTree)
         console.log('中序遍历', inOrderArr)
 
+        const inOrderArr2 = inorderTraversal2(bTree)
+        console.log('中序遍历2', inOrderArr2)
+
         const postOrderArr = postorderTraversal(bTree)
         console.log('后序遍历', postOrderArr)
+
+        const postOrderArr2 = postorderTraversal2(_.cloneDeep(bTree))
+        console.log('后序遍历2', postOrderArr2)
 
         const levels = levelOrder(bTree)
         console.log('层序遍历', levels)
@@ -526,7 +539,7 @@ function DouyinVideo() {
 
     function testAlgorithm() {
         // testDemoFoo()
-        // testTraverseTree()
+        testTraverseTree()
         // testDemoTree()
         // testDemoTree2()
         // testConvertCraftJs2Formily()
@@ -536,7 +549,7 @@ function DouyinVideo() {
         // const trimmedSchema = hideEmptyModules(formilySchema)
         // console.log('after hideEmptyModules', '\nformilySchema:', formilySchema, '\ntrimmedSchema:', trimmedSchema)
         // alert('OK')
-        testDp()
+        // testDp()
     }
 
     function compose(...funcs) {
