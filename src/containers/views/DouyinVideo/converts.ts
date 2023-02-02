@@ -2,6 +2,10 @@ import _ from 'lodash'
 import { traverseSchema } from './schema'
 import schema2 from './mock/mock2'
 
+export const convertCustomer4AreaCodeIn = () => {
+    //
+}
+
 // craft.js -> formily Start
 export const convertCraftjs2Formily = (data4Craftjs: any) => {
     const root = data4Craftjs.ROOT

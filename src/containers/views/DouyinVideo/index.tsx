@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
-import { /* Input, */ Button, message } from 'antd'
+import React, { ReactElement, useRef, useState } from 'react'
+import { Input, Button, message } from 'antd'
+const { TextArea } = Input
 import axios from 'axios'
 
 import styles from './index.module.scss'
-import data from 'mock/data'
+import data from 'mock/mail/data'
 import _ from 'lodash'
 // import { testDemoFoo } from './interview'
 import { DataResponse, IEspEntity, IParams } from './types.d'
 // import { doBatch, doAction } from './reactive'
-import { /* hideEmptyModules, parseData, */ parseData2, recurFieldId } from './schema'
+import { /* hideEmptyModules, parseData, */ parseData2, recurFieldId, submitFormily } from './schema'
 import { convertCraftjs2Formily, convNewToOld, convOldToNew, getBasicInfo } from './converts'
 import {
     rawCrmMenu,
@@ -31,8 +32,14 @@ import {
     postorderTraversal2,
     preorderTraversal
 } from './algo/traverseTree'
+import mock4recur from './mock/mock4recur'
 import { testDp } from './algo'
 import { testConcat, testMergeAll, testPipeAndTap } from './rxjs'
+import { testKmp } from './algo/kmp'
+import { doesObjectHaveNestedPair, findNestedKey } from './algo/recur'
+import schema4customer from './mock/createCustomer3.js'
+import { testEscapeAndUnescape } from './npms/xss'
+import { TextAreaProps, TextAreaRef } from 'antd/lib/input/TextArea'
 
 // mock data start
 const imapParams = {
@@ -125,6 +132,8 @@ function DouyinVideo() {
     const [loading, setLoading] = React.useState(false)
     const [url, setUrl] = React.useState('')
     const [targetUrl, setTargetUrl] = React.useState('')
+    const textAreaRef = useRef<TextAreaRef>()
+    const [textAreaVal, setTextAreaVal] = useState('')
 
     async function submit() {
         setLoading(true)
@@ -537,9 +546,15 @@ function DouyinVideo() {
     }
     factorial[0] = 1 // 初始化缓存
 
+    function testRecur(data) {
+        const result = doesObjectHaveNestedPair(data, 'bindStatus', 'BIND')
+        // const result = doesObjectHaveNestedPair(data, 'bindStatus', 'BOUND')
+        alert(result)
+    }
+
     function testAlgorithm() {
         // testDemoFoo()
-        testTraverseTree()
+        // testTraverseTree()
         // testDemoTree()
         // testDemoTree2()
         // testConvertCraftJs2Formily()
@@ -549,7 +564,9 @@ function DouyinVideo() {
         // const trimmedSchema = hideEmptyModules(formilySchema)
         // console.log('after hideEmptyModules', '\nformilySchema:', formilySchema, '\ntrimmedSchema:', trimmedSchema)
         // alert('OK')
-        // testDp()
+        testDp()
+        // testKmp('ABABAC')
+        // testRecur(mock4recur)
     }
 
     function compose(...funcs) {
@@ -607,13 +624,149 @@ function DouyinVideo() {
         TradeQuotationAttachment = 'TradeQuotationAttachment'
     }
 
+    /* 转换 王栋的创建客户 schema */
+    const test_convertCustomerCreator = () => {
+        const arrayItems = {
+            // items:
+            type: 'void',
+            'x-decorator': 'ArrayItems.Item',
+            properties: {
+                socialMediaModels: {
+                    'x-decorator': 'FormItem',
+                    'x-decorator-props': {
+                        style: {
+                            marginBottom: 10,
+                            flexGrow: 1
+                        }
+                    },
+                    'x-component': 'XtSelectInput',
+                    'x-component-props': {
+                        selectStyle: {
+                            width: 150
+                        },
+                        inputStyle: {
+                            width: '100%'
+                        },
+                        selectKey: 'socialMediaType',
+                        inputKey: 'accountNumber',
+                        defaultSelect: 'FACEBOOK'
+                    },
+                    enum: [
+                        {
+                            label: 'FaceBook',
+                            value: 'FACEBOOK'
+                        },
+                        {
+                            label: 'Twitter',
+                            value: 'TWITTER'
+                        },
+                        {
+                            label: 'QQ',
+                            value: 'QQ'
+                        },
+                        {
+                            label: 'Wechat',
+                            value: 'WECHAT'
+                        },
+                        {
+                            label: 'Linkedin',
+                            value: 'LINKEDIN'
+                        },
+                        {
+                            label: 'Skype',
+                            value: 'SKYPE'
+                        },
+                        {
+                            label: 'WhatsApp',
+                            value: 'WHATSAPP'
+                        }
+                    ],
+                    'x-validator': [],
+                    'x-index': 1
+                },
+                remove: {
+                    type: 'void',
+                    'x-decorator': 'FormItem',
+                    'x-component': 'ArrayItems.Remove',
+                    'x-component-props': {
+                        style: {
+                            marginLeft: 10
+                        },
+                        className: 'xt$at-contactModels-0-socialMediaModels-0'
+                    }
+                }
+            },
+            'x-component-props': {
+                className: 'xt$at-contactModels-0-socialMediaModels-0'
+            }
+        }
+
+        // const result = findNestedKey(schema4customer, 'socialMediaModels')
+
+        // if ((result.current as any).items) {
+        //     ;(result.current as any).items = arrayItems
+        // }
+
+        // console.log('findNestedKey:', result)
+        // console.log('altered schema4customer:', schema4customer)
+
+        const result = findNestedKey(arrayItems, 'defaultSelect')
+        console.log('#709 defaultSelect:', result)
+        return result
+    }
+
+    const test_getFirstPositiveNumber = () => {
+        // const arr = [-1, 6, 4]
+        // const arr = [-1, -1, 4]
+        const arr = [-1, -1, -1]
+        const result = _.find(arr, a => a > -1) ?? -1
+        console.log(result)
+        alert('OK')
+    }
+
+    const test_mapToLabeledValue = () => {
+        enum BusinessOppStage {
+            INQUIRY = 'INQUIRY',
+            OFFER = 'OFFER',
+            ORDER = 'ORDER',
+            WIN_ORDER = 'WIN_ORDER',
+            FAIL_ORDER = 'FAIL_ORDER'
+        }
+
+        const BUSINESS_STAGE_MAP = {
+            [BusinessOppStage.INQUIRY]: '询盘',
+            [BusinessOppStage.OFFER]: '报价',
+            [BusinessOppStage.ORDER]: '订单',
+            [BusinessOppStage.WIN_ORDER]: '赢单',
+            [BusinessOppStage.FAIL_ORDER]: '输单'
+        }
+
+        const arr = _.chain(BUSINESS_STAGE_MAP)
+            .toPairs()
+            .map(function (o: string[]) {
+                return { label: o[1], value: o[0] }
+            })
+            .value()
+
+        // const arr = _.toPairs(BUSINESS_STAGE_MAP)
+        console.log(arr)
+    }
+
     function testJs() {
         /* console.log('ATT_TYPE.TradeOrderAttachment:', ATT_TYPE.TradeOrderAttachment)
         console.log('ATT_TYPE.TradeQuotationAttachment:', JSON.stringify(ATT_TYPE.TradeQuotationAttachment)) */
         // testConcat()
         // testPipeAndTap()
-        testMergeAll()
-        // alert('OK')
+        // testMergeAll()
+        // test_convertCustomerCreator()
+        // test_getFirstPositiveNumber()
+        test_mapToLabeledValue()
+    }
+
+    function testXss() {
+        const arr = testEscapeAndUnescape()
+        const str = arr.join('\n')
+        setTextAreaVal(str)
     }
 
     // 测试js 方法 End
@@ -676,6 +829,15 @@ function DouyinVideo() {
                     >
                         parseData2
                     </Button>
+                    <Button
+                        style={{ width: 120, textAlign: 'center', textOverflow: 'ellipsis' }}
+                        type="primary"
+                        block
+                        loading={loading}
+                        onClick={submitFormily}
+                    >
+                        submitFormily
+                    </Button>
                 </div>
                 {/* <h3 style={{ textAlign: 'center', marginTop: 30 }}>测试 @formily/reactive</h3>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -704,9 +866,23 @@ function DouyinVideo() {
                 </Button>
 
                 <h3 style={{ textAlign: 'center', marginTop: 30 }}>测试JS</h3>
-                <Button type="primary" block loading={loading} onClick={testJs}>
-                    测试JS
-                </Button>
+
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Button style={{ width: 120 }} type="primary" block loading={loading} onClick={testJs}>
+                        测试 JS
+                    </Button>
+                    <Button style={{ width: 120 }} type="primary" block loading={loading} onClick={testXss}>
+                        测试 xss
+                    </Button>
+                </div>
+                <div style={{ textAlign: 'center', marginTop: 30 }}>
+                    <TextArea
+                        ref={textAreaRef}
+                        value={textAreaVal}
+                        autoSize={{ minRows: 1, maxRows: 10 }}
+                        onChange={e => setTextAreaVal(e.target.value)}
+                    />
+                </div>
                 {/* <h3 style={{ textAlign: 'center', marginTop: 30 }}>
                     测试正则{' '}
                     <input

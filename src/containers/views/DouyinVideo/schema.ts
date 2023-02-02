@@ -6,6 +6,11 @@ import { TraverseSchema } from './types'
 import schemaDemo from './schemaDemo'
 import classnames from 'classnames'
 import advancedFilterSchema from './mock/advancedFilterSchema'
+import schema20221124 from '@mock/trade/customer/customerDetail/schema'
+import data20221124 from '@mock/trade/customer/customerDetail/data'
+
+// import demoSchema from '@mock/official/schema'
+// import demoData from '@mock/official/data'
 const template = mock.data.template
 
 /**
@@ -417,6 +422,20 @@ const convertArrayItemsInput = ({ arrayName, title, addTitle, xValidator }) => {
 export const parseData2 = () => {
     const result = traverseSchema(advancedFilterSchema)
     console.log('parseData2 #419', 'result:', result)
+}
+
+export const submitFormily = async () => {
+    const form = createForm({
+        values: data20221124 // demoData
+    })
+    recursiveField(form, schema20221124)
+    let errors: any[]
+    try {
+        await form.validate()
+    } catch (e) {
+        errors = e
+    }
+    console.log('submitFormily #423 errors', errors, 'form.values:', form.values, 'form.fields:', form.fields)
 }
 
 /**

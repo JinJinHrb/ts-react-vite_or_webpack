@@ -18,7 +18,8 @@
             "@locales/*": ["locales/*"],
             "@components/*": ["components/*"],
             "@views/*": ["containers/views/*"],
-            "@shared/*": ["containers/shared/*"]
+            "@shared/*": ["containers/shared/*"],
+            "@mock/*": ["mock/*"]
         },
         "jsx": "react",
         "alwaysStrict": true,

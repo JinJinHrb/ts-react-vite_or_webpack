@@ -1,3 +1,8 @@
+/*
+ * 示例
+ * https://codesandbox.io/s/koyz664q35
+ */
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { unstable_scheduleCallback } from 'scheduler'

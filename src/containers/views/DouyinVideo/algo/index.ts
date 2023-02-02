@@ -50,13 +50,13 @@ export const testDp = () => {
     // const result = packStrategyDp([50, 80, 30, 20, 70, 40, 35], [7, 9, 13, 15, 8, 3, 5], 40)
     // const result = packStrategyDp2([50, 80, 30, 20, 70, 40, 35], [7, 9, 13, 15, 8, 3, 5], 40)
 
-    // const result = nSquareMatrx(4)
-    // console.log(result)
+    const result = nSquareMatrx(4)
+    console.log(result)
 
     // const result = jumpGame([2, 3, 1, 1, 4])
     // const result = jumpGame([2, 3, 1, 0, 4])
     // const result = jumpGame([3, 2, 1, 0, 4])
-    const result = jumpGame([3, 2, 0, 2, 0, 4])
+    // const result = jumpGame([3, 2, 0, 2, 0, 4])
 
     alert(_.isObjectLike(result) ? JSON.stringify(result) : result)
 }
