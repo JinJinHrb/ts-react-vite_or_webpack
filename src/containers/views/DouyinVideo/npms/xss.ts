@@ -1,6 +1,8 @@
+import _ from 'lodash'
 import xss from 'xss'
+// import
 
-export const testEscapeAndUnescape = () => {
+export const testEscapeAndUnescape = (data: unknown) => {
     const arr = []
     const str = '1 < 2'
     arr.push('原字符串：', str)
@@ -15,7 +17,23 @@ export const testEscapeAndUnescape = () => {
     // const str3 = '<img onerror="function(){alert("I am a villain")})" />'
     // arr.push(xss(str3))
     // arr.push(testUnescape(xss(str3)))
+    iterateObject4SafeUnescape(data)
     return arr
+}
+
+/** 原地修改 */
+export const iterateObject4SafeUnescape = function (obj: unknown) {
+    if (!_.isObject(obj)) {
+        return
+    }
+    Object.keys(obj).forEach(function (key) {
+        const elem = obj[key]
+        if (_.isString(elem)) {
+            obj[key] = safeUnescape(elem)
+        } else {
+            iterateObject4SafeUnescape(elem)
+        }
+    })
 }
 
 export const safeUnescape = (str: string) => {

@@ -40,6 +40,9 @@ import { doesObjectHaveNestedPair, findNestedKey } from './algo/recur'
 import schema4customer from './mock/createCustomer3.js'
 import { testEscapeAndUnescape } from './npms/xss'
 import { TextAreaProps, TextAreaRef } from 'antd/lib/input/TextArea'
+import customerData from '@mock/trade/customer/customerDetail/customerData'
+import boardData from '@mock/trade/business/board'
+import { deepCloneThousandthFormat } from './npms/formatThousandth'
 
 // mock data start
 const imapParams = {
@@ -752,6 +755,28 @@ function DouyinVideo() {
         console.log(arr)
     }
 
+    const test_iterateObject4ThousandthFormat = () => {
+        const copyObject = deepCloneThousandthFormat(['amount'], 'display', boardData)
+        console.log('copyObject:', copyObject)
+    }
+
+    function testIsEmpty() {
+        alert(
+            '"":' +
+                _.isEmpty('') +
+                '\n[]:' +
+                _.isEmpty([]) +
+                '\n{}:' +
+                _.isEmpty({}) +
+                '\n"A":' +
+                _.isEmpty('A') +
+                '\nundefined:' +
+                _.isEmpty(undefined) +
+                '\nnull:' +
+                _.isEmpty(null)
+        )
+    }
+
     function testJs() {
         /* console.log('ATT_TYPE.TradeOrderAttachment:', ATT_TYPE.TradeOrderAttachment)
         console.log('ATT_TYPE.TradeQuotationAttachment:', JSON.stringify(ATT_TYPE.TradeQuotationAttachment)) */
@@ -760,11 +785,12 @@ function DouyinVideo() {
         // testMergeAll()
         // test_convertCustomerCreator()
         // test_getFirstPositiveNumber()
-        test_mapToLabeledValue()
+        // test_mapToLabeledValue()
+        test_iterateObject4ThousandthFormat()
     }
 
     function testXss() {
-        const arr = testEscapeAndUnescape()
+        const arr = testEscapeAndUnescape(customerData)
         const str = arr.join('\n')
         setTextAreaVal(str)
     }
