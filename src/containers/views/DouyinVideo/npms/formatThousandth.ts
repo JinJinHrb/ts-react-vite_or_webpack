@@ -12,19 +12,29 @@ export const thousandthFormat = (
     currency?: string | null | undefined,
     precision?: number
 ): string => {
-    if (amount === undefined) return '-'
+    if (_.isNil(amount)) return '-'
 
     amount = String(amount)
     if (amount.includes(',')) {
         amount = amount.replace(/,/g, '')
     }
+    amount = amount.replace(/\.$/, '')
+    while (amount.indexOf('.') !== amount.lastIndexOf('.')) {
+        amount = amount.replace('.', '')
+    }
 
     const oddParams: Array<string> = ['', 'undefined', 'null']
 
-    if (currency === undefined) {
+    if (_.isNil(currency)) {
         // 只传入currency的情况
         if (oddParams.includes(amount)) {
             return '-'
+        }
+        const splitAmount = amount.split('.')
+        let fraction = splitAmount[1]
+        if (!_.isEmpty(fraction)) {
+            fraction = fraction.replace(/0+$/g, '')
+            return formatNumber(splitAmount[0]) + (_.isEmpty(fraction) ? '' : '.' + fraction)
         }
         return formatNumber(amount)
     }
@@ -53,13 +63,13 @@ export const thousandthFormat = (
     return `${showValue}`
 }
 
-const formatNumber = (amount: string): string => {
-    if (amount.includes('.')) {
-        const parsedArr = amount.split('.')
+const formatNumber = (currency: string): string => {
+    if (currency.includes('.')) {
+        const parsedArr = currency.split('.')
         parsedArr[0] = parsedArr[0].replace(/\B(?=(\d{3})+\b)/g, ',')
         return parsedArr.join('.')
     } else {
-        return amount.replace(/\B(?=(\d{3})+\b)/g, ',')
+        return currency.replace(/\B(?=(\d{3})+\b)/g, ',')
     }
 }
 
@@ -87,7 +97,7 @@ const _iterator = (includeKeys: string[], prefix: string, elem: unknown) => {
     return copyElem
 }
 
-/** 原地修改（key 值全转小写匹配） */
-export const deepCloneThousandthFormat = function (includeKeys: string[], prefix: string, obj: unknown) {
+/** 深拷贝增加千分位（key 值全转小写匹配） */
+export const deepCloneDecimalSeparator = function (includeKeys: string[], prefix: string, obj: unknown) {
     return _iterator(includeKeys, prefix, obj)
 }

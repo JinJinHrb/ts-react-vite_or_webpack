@@ -42,7 +42,7 @@ import { testEscapeAndUnescape } from './npms/xss'
 import { TextAreaProps, TextAreaRef } from 'antd/lib/input/TextArea'
 import customerData from '@mock/trade/customer/customerDetail/customerData'
 import boardData from '@mock/trade/business/board'
-import { deepCloneThousandthFormat } from './npms/formatThousandth'
+import { deepCloneDecimalSeparator, thousandthFormat } from './npms/formatThousandth'
 
 // mock data start
 const imapParams = {
@@ -756,14 +756,33 @@ function DouyinVideo() {
     }
 
     const test_iterateObject4ThousandthFormat = () => {
-        const copyObject = deepCloneThousandthFormat(['amount'], 'display', boardData)
+        const copyObject = deepCloneDecimalSeparator(['amount'], 'display', boardData)
         console.log('copyObject:', copyObject)
+
+        const amount =
+            thousandthFormat('1137') +
+            ', ' +
+            thousandthFormat('1137.000') +
+            ', ' +
+            thousandthFormat('1137.13500') +
+            ', ' +
+            thousandthFormat('1137.')
+        const amount1 =
+            thousandthFormat('1137', 'CNY', 2) +
+            ', ' +
+            thousandthFormat('1137.', 'CNY', 2) +
+            ', ' +
+            thousandthFormat('1137.0', 'CNY', 2)
+        const amount2 = thousandthFormat('1137.132', 'CNY', 2) + ', ' + thousandthFormat('1137.132', 'JPY')
+        console.log('amount:', amount, 'amount1:', amount1, 'amount2:', amount2)
     }
 
     function testIsEmpty() {
         alert(
             '"":' +
                 _.isEmpty('') +
+                '\n" ":' +
+                _.isEmpty(' ') +
                 '\n[]:' +
                 _.isEmpty([]) +
                 '\n{}:' +
@@ -786,6 +805,7 @@ function DouyinVideo() {
         // test_convertCustomerCreator()
         // test_getFirstPositiveNumber()
         // test_mapToLabeledValue()
+        // testIsEmpty()
         test_iterateObject4ThousandthFormat()
     }
 
