@@ -42,7 +42,7 @@ import { testEscapeAndUnescape } from './npms/xss'
 import { TextAreaProps, TextAreaRef } from 'antd/lib/input/TextArea'
 import customerData from '@mock/trade/customer/customerDetail/customerData'
 import boardData from '@mock/trade/business/board'
-import { deepCloneDecimalSeparator, thousandthFormat } from './npms/formatThousandth'
+import { deepCloneDecimalSeparator, formatNumber, thousandthFormat } from './npms/formatThousandth'
 
 // mock data start
 const imapParams = {
@@ -759,22 +759,47 @@ function DouyinVideo() {
         const copyObject = deepCloneDecimalSeparator(['amount'], 'display', boardData)
         console.log('copyObject:', copyObject)
 
-        const amount =
-            thousandthFormat('1137') +
-            ', ' +
-            thousandthFormat('1137.000') +
-            ', ' +
-            thousandthFormat('1137.13500') +
-            ', ' +
-            thousandthFormat('1137.')
-        const amount1 =
-            thousandthFormat('1137', 'CNY', 2) +
-            ', ' +
-            thousandthFormat('1137.', 'CNY', 2) +
-            ', ' +
-            thousandthFormat('1137.0', 'CNY', 2)
-        const amount2 = thousandthFormat('1137.132', 'CNY', 2) + ', ' + thousandthFormat('1137.132', 'JPY')
-        console.log('amount:', amount, 'amount1:', amount1, 'amount2:', amount2)
+        const group1 =
+            '(1) ' +
+            thousandthFormat({ amount: '1137' }) +
+            '\n(2) ' +
+            thousandthFormat({ amount: '1137.000' }) +
+            '\n(3) ' +
+            thousandthFormat({ amount: '1137.13500' }) +
+            '\n(4) ' +
+            thousandthFormat({ amount: '1137.' }) +
+            '\n(5) ' +
+            thousandthFormat({ amount: '0.03817688193' })
+
+        const group2 =
+            '(1) ' +
+            thousandthFormat({ amount: '1137.132', currency: 'CNY' }) +
+            '\n(2) ' +
+            thousandthFormat({ amount: '1137.132', currency: 'JPY' }) +
+            '\n(3) ' +
+            thousandthFormat({ amount: '1137.132', currency: 'CNY', precision: 2 }) +
+            '\n(4) ' +
+            thousandthFormat({ amount: '1137.132', currency: 'JPY', precision: 2 }) +
+            '\n(5) ' +
+            thousandthFormat({ amount: '1137', currency: 'CNY' }) +
+            '\n(6) ' +
+            thousandthFormat({ amount: '1137.', currency: 'CNY' }) +
+            '\n(7) ' +
+            thousandthFormat({ amount: '1137.0', currency: 'CNY' }) +
+            '\n(8) ' +
+            thousandthFormat({ amount: '1137.132', currency: '' })
+
+        const group3 =
+            '(1) ' +
+            thousandthFormat({ amount: 1137.0002, precision: 6 }) +
+            '\n(2) ' +
+            thousandthFormat({ amount: 1137.0002, precision: 6 }) +
+            '\n(3) ' +
+            thousandthFormat({ amount: 1137.0002, precision: 2 })
+        console.log('group1:', group1, '\ngroup2:', group2, '\ngroup3:', group3)
+
+        const str = formatNumber(77439741.37567)
+        console.log('number:', str)
     }
 
     function testIsEmpty() {
