@@ -40,11 +40,11 @@ export const thousandthFormat = (props: {
         return ''
     }
 
-    let generalDecimalPlaces: number
+    let generalDecimalPlaces: number | undefined
 
-    if (ZERO_DECIMAL_CURRENCY.includes(currency)) {
+    if (ZERO_DECIMAL_CURRENCY.includes(currency as string)) {
         generalDecimalPlaces = 0
-    } else if (THREE_DECIMAL_CURRENCY.includes(currency)) {
+    } else if (THREE_DECIMAL_CURRENCY.includes(currency as string)) {
         generalDecimalPlaces = 3
     } else if (currency?.length === 3) {
         generalDecimalPlaces = 2
@@ -69,7 +69,11 @@ export const thousandthFormat = (props: {
         if (_.isNumber(generalDecimalPlaces)) {
             fraction = fraction.slice(0, generalDecimalPlaces)
         }
-        if ((currency?.length === 3 || _.isNumber(precision)) && fraction.length < generalDecimalPlaces) {
+        if (
+            (currency?.length === 3 || _.isNumber(precision)) &&
+            _.isNumber(generalDecimalPlaces) &&
+            fraction.length < generalDecimalPlaces
+        ) {
             fraction += _.repeat('0', generalDecimalPlaces - fraction.length)
         }
         return splitDecimal(splitAmount[0]) + (_.isEmpty(fraction) ? '' : '.' + fraction)
