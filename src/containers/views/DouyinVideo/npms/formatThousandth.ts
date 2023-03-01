@@ -10,16 +10,20 @@ export const THREE_DECIMAL_CURRENCY = ['KWD']
 /**
  *
  * @param amount 金额/数值
- * @param currency 货币单位的英文缩写，如果有了货币精度以货币对应精度为准，precision 不起作用
- * @param precision 处理货币小数点的精度位数,不需要处理货币小数点的，则不需要传
+ * @param currency 货币单位的英文缩写，如果有了货币精度以货币对应精度为准，precision 不起作用；小数位不足会自动补零
+ * @param precision 固定小数位；小数位不足会自动补零
+ * @param decimalPlaces 最大小数位，超出简单截断，小数位不足不补零，仅当 currency 及 precision 不存在时有效
+ * @param roundUp true 四舍五入，否则截断多余小数位
  * @returns
  */
 export const thousandthFormat = (props: {
     amount: string | number | null | undefined
     currency?: string | null | undefined
     precision?: number
+    decimalPlaces?: number
+    roundUp?: boolean
 }): string => {
-    const { amount: inputAmount, currency, precision } = props
+    const { amount: inputAmount, currency, precision, decimalPlaces, roundUp } = props
     if (_.isNil(inputAmount)) return ''
 
     let amount = String(inputAmount)
@@ -32,50 +36,50 @@ export const thousandthFormat = (props: {
     }
 
     const oddParams: Array<string> = ['', 'undefined', 'null']
-
-    if (_.isNil(currency) && !_.isNumber(precision)) {
-        // 只传入currency的情况
-        if (oddParams.includes(amount)) {
-            return ''
-        }
-        const splitAmount = amount.split('.')
-        let fraction = splitAmount[1]
-        if (!_.isEmpty(fraction)) {
-            fraction = fraction.replace(/0+$/g, '')
-            return splitDecimal(splitAmount[0]) + (_.isEmpty(fraction) ? '' : '.' + fraction)
-        }
-        return splitDecimal(amount)
-    }
-
-    // 传入currencyType 的情况, 即按货币方式处理
-    let formatCurrency = '',
-        showValue = ''
-    if (!_.isNil(currency) || _.isNumber(precision)) {
-        // 判断币种类型，日元和韩元不展示小数点后位数，其他货币需要展示
-        if (_.isString(currency)) {
-            const type = currency.toUpperCase() ?? ''
-            if (ZERO_DECIMAL_CURRENCY.includes(type)) {
-                formatCurrency = Number(amount).toFixed()
-            } else if (THREE_DECIMAL_CURRENCY.includes(type)) {
-                formatCurrency = Number(amount).toFixed(3)
-            } else if (currency) {
-                formatCurrency = Number(amount).toFixed(2)
-            } else {
-                formatCurrency = amount
-            }
-        } else if (precision || precision === 0) {
-            formatCurrency = Number(amount).toFixed(precision)
-        } else {
-            formatCurrency = amount
-        }
-    }
-    // 处理金额的展示
     if (oddParams.includes(amount)) {
-        showValue = ''
-    } else {
-        showValue = splitDecimal(formatCurrency)
+        return ''
     }
-    return `${showValue}`
+
+    let generalDecimalPlaces: number
+
+    if (ZERO_DECIMAL_CURRENCY.includes(currency)) {
+        generalDecimalPlaces = 0
+    } else if (THREE_DECIMAL_CURRENCY.includes(currency)) {
+        generalDecimalPlaces = 3
+    } else if (currency?.length === 3) {
+        generalDecimalPlaces = 2
+    } else if (_.isNumber(precision)) {
+        generalDecimalPlaces = precision
+    } else if (_.isNumber(decimalPlaces)) {
+        generalDecimalPlaces = decimalPlaces
+    }
+
+    // 只传入currency的情况
+    let splitAmount = []
+    if (_.isNumber(generalDecimalPlaces) && roundUp) {
+        // 如果选择四舍五入，在截取前预先计算新的 amount
+        const roundUpAmount = Number(amount).toFixed(generalDecimalPlaces)
+        splitAmount = roundUpAmount.split('.')
+    } else {
+        splitAmount = amount.split('.')
+    }
+    let fraction = splitAmount[1]
+    if (!_.isEmpty(fraction)) {
+        fraction = fraction.replace(/0+$/g, '')
+        if (_.isNumber(generalDecimalPlaces)) {
+            fraction = fraction.slice(0, generalDecimalPlaces)
+        }
+        if ((currency?.length === 3 || _.isNumber(precision)) && fraction.length < generalDecimalPlaces) {
+            fraction += _.repeat('0', generalDecimalPlaces - fraction.length)
+        }
+        return splitDecimal(splitAmount[0]) + (_.isEmpty(fraction) ? '' : '.' + fraction)
+    } else if (currency?.length === 3 || _.isNumber(precision)) {
+        if (generalDecimalPlaces === 0) {
+            return splitDecimal(splitAmount[0])
+        }
+        amount += '.' + _.repeat('0', generalDecimalPlaces)
+    }
+    return splitDecimal(amount)
 }
 
 /**

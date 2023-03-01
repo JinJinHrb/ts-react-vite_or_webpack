@@ -2,6 +2,7 @@ import React, { ReactElement, useRef, useState } from 'react'
 import { Input, Button, message } from 'antd'
 const { TextArea } = Input
 import axios from 'axios'
+import numeral from 'numeral'
 
 import styles from './index.module.scss'
 import data from 'mock/mail/data'
@@ -773,20 +774,24 @@ function DouyinVideo() {
 
         const group2 =
             '(1) ' +
-            thousandthFormat({ amount: '1137.132', currency: 'CNY' }) +
+            thousandthFormat({ amount: '19999.999', currency: 'CNY' }) +
             '\n(2) ' +
-            thousandthFormat({ amount: '1137.132', currency: 'JPY' }) +
+            thousandthFormat({ amount: '19999.999', currency: 'JPY' }) +
             '\n(3) ' +
-            thousandthFormat({ amount: '1137.132', currency: 'CNY', precision: 2 }) +
+            thousandthFormat({ amount: '19999.999', currency: 'CNY', roundUp: true }) +
             '\n(4) ' +
-            thousandthFormat({ amount: '1137.132', currency: 'JPY', precision: 2 }) +
+            thousandthFormat({ amount: '19999.999', currency: 'JPY', roundUp: true }) +
             '\n(5) ' +
-            thousandthFormat({ amount: '1137', currency: 'CNY' }) +
+            thousandthFormat({ amount: '1137.132', currency: 'CNY', precision: 2 }) +
             '\n(6) ' +
-            thousandthFormat({ amount: '1137.', currency: 'CNY' }) +
+            thousandthFormat({ amount: '1137.132', currency: 'JPY', precision: 2 }) +
             '\n(7) ' +
-            thousandthFormat({ amount: '1137.0', currency: 'CNY' }) +
+            thousandthFormat({ amount: '1137', currency: 'CNY' }) +
             '\n(8) ' +
+            thousandthFormat({ amount: '1137.', currency: 'CNY' }) +
+            '\n(9) ' +
+            thousandthFormat({ amount: '1137.0', currency: 'CNY' }) +
+            '\n(10) ' +
             thousandthFormat({ amount: '1137.132', currency: '' })
 
         const group3 =
@@ -796,10 +801,22 @@ function DouyinVideo() {
             thousandthFormat({ amount: 1137.0002, precision: 6 }) +
             '\n(3) ' +
             thousandthFormat({ amount: 1137.0002, precision: 2 })
-        console.log('group1:', group1, '\ngroup2:', group2, '\ngroup3:', group3)
+
+        const group4 =
+            '(1) ' +
+            thousandthFormat({ amount: 1137.1372, decimalPlaces: 2 }) +
+            '\n(2) ' +
+            thousandthFormat({ amount: 1137.1372, decimalPlaces: 2, roundUp: true }) +
+            '\n(3) ' +
+            thousandthFormat({ amount: 1137.1, decimalPlaces: 2 }) +
+            '\n(4) ' +
+            thousandthFormat({ amount: 1137, decimalPlaces: 2 })
+        console.log('group1:', group1, '\ngroup2:', group2, '\ngroup3:', group3, '\ngroup4:', group4)
 
         const str = formatNumber(77439741.37567)
         console.log('number:', str)
+
+        console.log('numeralResult:', [numeral('1.327').value(), numeral(3321.327).value()])
     }
 
     function testIsEmpty() {
