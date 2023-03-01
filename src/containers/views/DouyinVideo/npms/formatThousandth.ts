@@ -78,6 +78,8 @@ export const thousandthFormat = (props: {
             return splitDecimal(splitAmount[0])
         }
         amount += '.' + _.repeat('0', generalDecimalPlaces)
+    } else if (generalDecimalPlaces === 0) {
+        return splitDecimal(splitAmount[0])
     }
     return splitDecimal(amount)
 }

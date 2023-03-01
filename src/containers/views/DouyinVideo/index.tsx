@@ -810,7 +810,13 @@ function DouyinVideo() {
             '\n(3) ' +
             thousandthFormat({ amount: 1137.1, decimalPlaces: 2 }) +
             '\n(4) ' +
-            thousandthFormat({ amount: 1137, decimalPlaces: 2 })
+            thousandthFormat({ amount: 1137, decimalPlaces: 2 }) +
+            '\n(5) ' +
+            thousandthFormat({ amount: '1999.999', decimalPlaces: 0 }) +
+            '\n(6) ' +
+            thousandthFormat({ amount: '1999.999', decimalPlaces: 0, roundUp: true }) +
+            '\n(7) ' +
+            thousandthFormat({ amount: '1999.999', decimalPlaces: 1, roundUp: true })
         console.log('group1:', group1, '\ngroup2:', group2, '\ngroup3:', group3, '\ngroup4:', group4)
 
         const str = formatNumber(77439741.37567)
