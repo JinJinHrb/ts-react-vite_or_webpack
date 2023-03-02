@@ -149,3 +149,46 @@ export const formatNumber = (num: number, format?: string) => {
         return numeral(num).format(format || defaultFormat)
     }
 }
+
+export const thousandthParser = (inputValue: string | number) => {
+    if (_.isNumber(inputValue)) {
+        return inputValue
+    }
+    const values = inputValue.split('\n')
+    const outputValues: string[] = []
+    for (const value of values) {
+        if (value.indexOf('.') === 0) {
+            outputValues.push(value)
+            continue
+        }
+        if (value.indexOf('.') === value.length - 1) {
+            outputValues.push(value)
+            continue
+        }
+        // return value.replace(/(\s|,)/g, '').replace(/(?<=\.[^.]*)\./g, '') // Safari 回顾零宽断言不兼容
+        let newValue = value.replace(/(\s|,)/g, '')
+        while (newValue.indexOf('.') !== newValue.lastIndexOf('.')) {
+            newValue = newValue.replace('.', '')
+        }
+        if (/\.$/.test(newValue)) {
+            newValue = newValue.slice(0, newValue.length - 1)
+        }
+        outputValues.push(newValue)
+    }
+    return outputValues.join('\n')
+}
+
+/** 原地修改 */
+export const iterateObject4DecimalParse = function (obj: unknown) {
+    if (!_.isObject(obj)) {
+        return
+    }
+    Object.keys(obj).forEach(function (key) {
+        const elem = obj[key]
+        if (_.isString(elem) && /\d,\d/.test(elem)) {
+            obj[key] = thousandthParser(elem)
+        } else {
+            iterateObject4DecimalParse(elem)
+        }
+    })
+}

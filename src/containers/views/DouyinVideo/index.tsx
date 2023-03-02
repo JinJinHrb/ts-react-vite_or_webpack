@@ -43,7 +43,14 @@ import { testEscapeAndUnescape } from './npms/xss'
 import { TextAreaProps, TextAreaRef } from 'antd/lib/input/TextArea'
 import customerData from '@mock/trade/customer/customerDetail/customerData'
 import boardData from '@mock/trade/business/board'
-import { deepCloneDecimalSeparator, formatNumber, thousandthFormat } from './npms/formatThousandth'
+import submitOrder from '@mock/trade/order/submitOrder'
+import {
+    deepCloneDecimalSeparator,
+    formatNumber,
+    iterateObject4DecimalParse,
+    thousandthFormat,
+    thousandthParser
+} from './npms/formatThousandth'
 
 // mock data start
 const imapParams = {
@@ -792,7 +799,15 @@ function DouyinVideo() {
             '\n(9) ' +
             thousandthFormat({ amount: '1137.0', currency: 'CNY' }) +
             '\n(10) ' +
-            thousandthFormat({ amount: '1137.132', currency: '' })
+            thousandthFormat({ amount: '1137.132', currency: '' }) +
+            '\n(11) ' +
+            thousandthFormat({ amount: '1137.132', currency: undefined }) +
+            '\n(12) ' +
+            thousandthFormat({ amount: '1137.132', currency: null }) +
+            '\n(13) ' +
+            thousandthFormat({ amount: '1137.132', currency: 'undefined' }) +
+            '\n(14) ' +
+            thousandthFormat({ amount: '1137.132', currency: 'null' })
 
         const group3 =
             '(1) ' +
@@ -823,6 +838,17 @@ function DouyinVideo() {
         console.log('number:', str)
 
         console.log('numeralResult:', [numeral('1.327').value(), numeral(3321.327).value()])
+
+        iterateObject4DecimalParse(submitOrder)
+        console.log('submitOrder:', submitOrder)
+
+        const multipleLinesInput = '张三是个12345\n是吗？\n呵呵'
+        const multipleLines = thousandthParser(multipleLinesInput)
+        console.log('thousandthParser #846: \n' + multipleLinesInput + '\n->\n' + multipleLines)
+
+        const multipleLinesInput2 = '1,234,684.4422'
+        const multipleLines2 = thousandthParser(multipleLinesInput2)
+        console.log('thousandthParser #851: \n' + multipleLinesInput2 + '\n->\n' + multipleLines2)
     }
 
     function testIsEmpty() {
