@@ -81,7 +81,7 @@ export const thousandthFormat = (props: {
         if (generalDecimalPlaces === 0) {
             return splitDecimal(splitAmount[0])
         }
-        amount += '.' + _.repeat('0', generalDecimalPlaces)
+        return splitDecimal(amount) + '.' + _.repeat('0', generalDecimalPlaces)
     } else if (generalDecimalPlaces === 0) {
         return splitDecimal(splitAmount[0])
     }
@@ -91,43 +91,15 @@ export const thousandthFormat = (props: {
 /**
  * 为整数分割千分位
  * */
-const splitDecimal = (currency: string): string => {
-    if (currency.includes('.')) {
-        const parsedArr = currency.split('.')
+const splitDecimal = (amount: string): string => {
+    if (amount.includes('.')) {
+        const parsedArr = amount.split('.')
         parsedArr[0] = parsedArr[0].replace(/\B(?=(\d{3})+\b)/g, ',')
-        return parsedArr.join('.')
+        parsedArr[1] = parsedArr[1].replace(/0+$/g, '')
+        return parsedArr.join('.').replace(/\.$/, '')
     } else {
-        return currency.replace(/\B(?=(\d{3})+\b)/g, ',')
+        return amount.replace(/\B(?=(\d{3})+\b)/g, ',')
     }
-}
-
-const _iterator = (includeKeys: string[], prefix: string, elem: unknown) => {
-    if (!_.isObject(elem)) {
-        return elem
-    }
-    const copyElem = _.isArray(elem) ? [] : {}
-    Object.keys(elem).forEach(k => {
-        let isIncluded = false
-        if (_.isString(elem[k]) || _.isNumber(elem[k])) {
-            const lowerK = _.lowerCase(k)
-            for (const iKey of includeKeys) {
-                if (lowerK.includes(_.lowerCase(iKey))) {
-                    isIncluded = true
-                    break
-                }
-            }
-        }
-        if (isIncluded) {
-            copyElem[_.camelCase(`${prefix} ${k}`)] = thousandthFormat({ amount: elem[k] as string | number })
-        }
-        copyElem[k] = _iterator(includeKeys, prefix, elem[k])
-    })
-    return copyElem
-}
-
-/** 深拷贝增加千分位（key 值全转小写匹配） */
-export const deepCloneDecimalSeparator = function (includeKeys: string[], prefix: string, obj: unknown) {
-    return _iterator(includeKeys, prefix, obj)
 }
 
 /**
@@ -178,17 +150,56 @@ export const thousandthParser = (inputValue: string | number) => {
     return outputValues.join('\n')
 }
 
+const _iterator = (includeKeys: string[], prefix: string, elem: unknown) => {
+    if (!_.isObject(elem)) {
+        return elem
+    }
+    const copyElem = _.isArray(elem) ? [] : {}
+    Object.keys(elem).forEach(k => {
+        let isIncluded = false
+        if (_.isString(elem[k]) || _.isNumber(elem[k])) {
+            const lowerK = _.lowerCase(k)
+            for (const iKey of includeKeys) {
+                if (lowerK.includes(_.lowerCase(iKey))) {
+                    isIncluded = true
+                    break
+                }
+            }
+        }
+        if (isIncluded) {
+            copyElem[_.camelCase(`${prefix} ${k}`)] = thousandthFormat({ amount: elem[k] as string | number })
+        }
+        copyElem[k] = _iterator(includeKeys, prefix, elem[k])
+    })
+    return copyElem
+}
+
+/** 深拷贝增加千分位（key 值全转小写匹配） */
+export const deepCloneDecimalSeparator = function (includeKeys: string[], prefix: string, obj: unknown) {
+    return _iterator(includeKeys, prefix, obj)
+}
+
 /** 原地修改 */
-export const iterateObject4DecimalParse = function (obj: unknown) {
+export const __iterateObject4DecimalParse = function (obj: unknown, currency?: string) {
     if (!_.isObject(obj)) {
         return
     }
     Object.keys(obj).forEach(function (key) {
         const elem = obj[key]
-        if (_.isString(elem) && /\d,\d/.test(elem)) {
-            obj[key] = thousandthParser(elem)
+        if ((_.isString(elem) || _.isNumber(elem)) && /\d/.test(String(elem))) {
+            obj[key] = thousandthParser(String(elem))
+            if (ZERO_DECIMAL_CURRENCY.includes(currency as string)) {
+                obj[key] = obj[key].split('.')[0]
+            }
         } else {
-            iterateObject4DecimalParse(elem)
+            __iterateObject4DecimalParse(elem, currency)
         }
     })
+}
+
+/** 原地修改 */
+export const iterateObject4DecimalParse = function (obj: unknown) {
+    const currency = (obj as { currency?: string })?.currency
+    __iterateObject4DecimalParse(obj, currency)
+    return obj
 }

@@ -815,7 +815,9 @@ function DouyinVideo() {
             '\n(2) ' +
             thousandthFormat({ amount: 1137.0002, precision: 6 }) +
             '\n(3) ' +
-            thousandthFormat({ amount: 1137.0002, precision: 2 })
+            thousandthFormat({ amount: 1137.0002, precision: 2 }) +
+            '\n(4) ' +
+            thousandthFormat({ amount: 1137, precision: 2 })
 
         const group4 =
             '(1) ' +
@@ -842,7 +844,7 @@ function DouyinVideo() {
         iterateObject4DecimalParse(submitOrder)
         console.log('submitOrder:', submitOrder)
 
-        const multipleLinesInput = '张三是个12345\n是吗？\n呵呵'
+        const multipleLinesInput = '张三 是 个12345\n是吗？\n呵呵'
         const multipleLines = thousandthParser(multipleLinesInput)
         console.log('thousandthParser #846: \n' + multipleLinesInput + '\n->\n' + multipleLines)
 
