@@ -49,6 +49,7 @@ import {
     formatNumber,
     iterateObject4DecimalParse,
     thousandthFormat,
+    ThousandthFormatTypes,
     thousandthParser
 } from './npms/formatThousandth'
 
@@ -835,6 +836,55 @@ function DouyinVideo() {
             '\n(7) ' +
             thousandthFormat({ amount: '1999.999', decimalPlaces: 1, roundUp: true })
         console.log('group1:', group1, '\ngroup2:', group2, '\ngroup3:', group3, '\ngroup4:', group4)
+
+        const group5 =
+            '(1) 单价：' +
+            thousandthFormat({ amount: 1137.13726, formatType: ThousandthFormatTypes.unitPrice }) +
+            '\n(2) 单价（CNY）：' +
+            thousandthFormat({ amount: 1137.13726, formatType: ThousandthFormatTypes.unitPrice, currency: 'CNY' }) +
+            '\n(3) 单价（JPY）：' +
+            thousandthFormat({ amount: 1137.13, formatType: ThousandthFormatTypes.unitPrice, currency: 'JPY' }) +
+            '\n(4) 结算金额（CNY）：' +
+            thousandthFormat({
+                amount: 1137.13726,
+                formatType: ThousandthFormatTypes.settlementAmount,
+                currency: 'CNY'
+            }) +
+            '\n(4-2) 结算金额（CNY）：' +
+            thousandthFormat({
+                amount: 1137,
+                formatType: ThousandthFormatTypes.settlementAmount,
+                currency: 'CNY'
+            }) +
+            '\n(5) 结算金额（JPY）：' +
+            thousandthFormat({
+                amount: 1137.13726,
+                formatType: ThousandthFormatTypes.settlementAmount,
+                currency: 'JPY'
+            }) +
+            '\n(6) 质量：' +
+            thousandthFormat({ amount: '1999.999', formatType: ThousandthFormatTypes.quantity }) +
+            '\n(7) 重量：' +
+            thousandthFormat({ amount: '1999.999888777666', formatType: ThousandthFormatTypes.weight }) +
+            '\n(8) 尺寸：' +
+            thousandthFormat({ amount: '1999.999888777666', formatType: ThousandthFormatTypes.size }) +
+            '\n(9) 体积：' +
+            thousandthFormat({ amount: '1999.999888777666', formatType: ThousandthFormatTypes.volume }) +
+            '\n(10) 汇率：' +
+            thousandthFormat({ amount: '1.4923842477', formatType: ThousandthFormatTypes.exchangeRate })
+
+        console.log(
+            'group1:',
+            group1,
+            '\ngroup2:',
+            group2,
+            '\ngroup3:',
+            group3,
+            '\ngroup4:',
+            group4,
+            '\ngroup5:',
+            group5
+        )
 
         const str = formatNumber(77439741.37567)
         console.log('number:', str)
