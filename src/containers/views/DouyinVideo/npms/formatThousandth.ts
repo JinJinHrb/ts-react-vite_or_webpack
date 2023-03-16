@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { override } from 'mobx'
 import numeral from 'numeral'
 
 /** 不带小数位的货币代码 */
@@ -7,6 +8,92 @@ export const ZERO_DECIMAL_CURRENCY = ['KWA', 'JPY', 'KRW']
 /** 保留三位小数的货币代码 */
 export const THREE_DECIMAL_CURRENCY = ['KWD']
 
+/*
+ * 单价: unitPrice
+ * 总价: settlementAmount
+ * 数量: quantity
+ * 重量: weight
+ * 尺寸: size
+ * 体积: volume
+ * 汇率: exchangeRate
+ */
+export enum ThousandthFormatTypes {
+    unitPrice = 'unitPrice', // 默认：整数最大12位，小数最多4位；无小数位货币：整数最大16位
+    settlementAmount = 'settlementAmount',
+    quantity = 'quantity',
+    weight = 'weight',
+    size = 'size',
+    volume = 'volume',
+    exchangeRate = 'exchangeRate'
+}
+
+// 12位整数+4位小数的最大值
+const Nine12_Nine4 = numeral(_.repeat('9', 12) + '.' + _.repeat('9', 4)).value()
+
+// 16位整数的最大值
+const Nine16 = numeral(_.repeat('9', 16)).value()
+
+// 10位整数+6位小数的最大值
+const Nine10_Nine6 = numeral(_.repeat('9', 10) + '.' + _.repeat('9', 6)).value()
+
+const Nine7_Nine9 = numeral(_.repeat('9', 7) + '.' + _.repeat('9', 9)).value()
+
+const Nine8_Nine8 = numeral(_.repeat('9', 8) + '.' + _.repeat('9', 8)).value()
+
+const getParamByThousandthFormatType = ({
+    formatType,
+    currency
+}: {
+    formatType: ThousandthFormatTypes
+    currency?: string
+}) => {
+    const params = {
+        [ThousandthFormatTypes.unitPrice]: {
+            // - 默认：整数最大12位，小数最多4位；- 无小数位货币：整数最大16位
+            decimalPlaces: ZERO_DECIMAL_CURRENCY.includes(currency) ? 0 : 4,
+            max: ZERO_DECIMAL_CURRENCY.includes(currency) ? Nine16 : Nine12_Nine4,
+            min: 0
+        },
+        [ThousandthFormatTypes.settlementAmount]: {
+            // - 默认：整数最大16位，小数最大2位 - 无小数位货币：整数最大16位
+            precision: ZERO_DECIMAL_CURRENCY.includes(currency) ? 0 : THREE_DECIMAL_CURRENCY.includes(currency) ? 3 : 2,
+            max: Nine16,
+            min: 0
+        },
+        [ThousandthFormatTypes.quantity]: {
+            // - 整数最大16位
+            decimalPlaces: 0,
+            max: Nine16,
+            min: 0
+        },
+        [ThousandthFormatTypes.weight]: {
+            // - 整数最大10位，小数最大6位，
+            decimalPlaces: 6,
+            max: Nine10_Nine6,
+            min: 0
+        },
+        [ThousandthFormatTypes.size]: {
+            // - 整数最大10位，小数最大6位，
+            decimalPlaces: 6,
+            max: Nine10_Nine6,
+            min: 0
+        },
+        [ThousandthFormatTypes.volume]: {
+            // - 整数最大7位，小数最大9位
+            decimalPlaces: 9,
+            max: Nine7_Nine9,
+            min: 0
+        },
+        [ThousandthFormatTypes.exchangeRate]: {
+            // 整数最大8位，小数最大8位  (同收款的要求)
+            decimalPlaces: 8,
+            max: Nine8_Nine8,
+            min: 0
+        }
+    }
+    return params[formatType]
+}
+
 /**
  *
  * @param amount 金额/数值
@@ -14,6 +101,7 @@ export const THREE_DECIMAL_CURRENCY = ['KWD']
  * @param precision 固定小数位；小数位不足会自动补零
  * @param decimalPlaces 最大小数位，超出简单截断，小数位不足不补零，仅当 currency 及 precision 不存在时有效
  * @param roundUp true 四舍五入，否则截断多余小数位
+ * @param formatType 如果提供枚举类型之内的参数，会覆盖 precision, decimalPlaces；在 formily-xtd 数字相关栏位还会覆盖 max 或 min
  * @returns
  */
 export const thousandthFormat = (props: {
@@ -22,8 +110,10 @@ export const thousandthFormat = (props: {
     precision?: number
     decimalPlaces?: number
     roundUp?: boolean
+    formatType?: ThousandthFormatTypes
 }): string => {
-    const { amount: inputAmount, currency, precision, decimalPlaces, roundUp } = props
+    const { amount: inputAmount, roundUp, formatType } = props
+    let { currency, precision, decimalPlaces } = props
     if (_.isNil(inputAmount)) return ''
 
     let amount = String(inputAmount)
@@ -38,6 +128,25 @@ export const thousandthFormat = (props: {
     const oddParams: Array<string> = ['', 'undefined', 'null']
     if (oddParams.includes(amount)) {
         return ''
+    }
+    const overrideParam =
+        formatType in ThousandthFormatTypes ? getParamByThousandthFormatType({ formatType, currency }) : undefined
+    if (!_.isEmpty(overrideParam)) {
+        precision = (
+            overrideParam as {
+                precision: number
+                max: any
+                min: number
+            }
+        ).precision
+        decimalPlaces = (
+            overrideParam as {
+                decimalPlaces: number
+                max: any
+                min: number
+            }
+        ).decimalPlaces
+        currency = undefined
     }
 
     let generalDecimalPlaces: number | undefined
