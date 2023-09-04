@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import { override } from 'mobx'
 import numeral from 'numeral'
 
 /** 不带小数位的货币代码 */
@@ -236,32 +235,28 @@ export const formatNumber = (num: number, format?: string) => {
     }
 }
 
-export const thousandthParser = (inputValue: string | number) => {
-    if (_.isNumber(inputValue)) {
-        return inputValue
+export const thousandthParser = (value: string | number) => {
+    if (_.isNumber(value)) {
+        return value
     }
-    const values = inputValue.split('\n')
-    const outputValues: string[] = []
-    for (const value of values) {
-        if (value.indexOf('.') === 0) {
-            outputValues.push(value)
-            continue
-        }
-        if (value.indexOf('.') === value.length - 1) {
-            outputValues.push(value)
-            continue
-        }
-        // return value.replace(/(\s|,)/g, '').replace(/(?<=\.[^.]*)\./g, '') // Safari 回顾零宽断言不兼容
-        let newValue = value.replace(/(\s|,)/g, '')
-        while (newValue.indexOf('.') !== newValue.lastIndexOf('.')) {
-            newValue = newValue.replace('.', '')
-        }
-        if (/\.$/.test(newValue)) {
-            newValue = newValue.slice(0, newValue.length - 1)
-        }
-        outputValues.push(newValue)
+    if (!/^-?\d[,0-9.]+(\d|.)$/.test(_.trim(value))) {
+        return value
     }
-    return outputValues.join('\n')
+    if ((value as string).indexOf('.') === 0) {
+        return value
+    }
+    // if ((value as string).indexOf('.') === (value as string).length - 1) {
+    //     return value
+    // }
+    // return value.replace(/(\s|,)/g, '').replace(/(?<=\.[^.]*)\./g, '') // Safari 回顾零宽断言不兼容
+    let newValue: string = (value as string).replace(/(\s|,)/g, '')
+    while (newValue.indexOf('.') !== newValue.lastIndexOf('.')) {
+        newValue = newValue.replace('.', '')
+    }
+    if (/\.$/.test(newValue)) {
+        newValue = newValue.slice(0, newValue.length - 1)
+    }
+    return newValue
 }
 
 const _iterator = (includeKeys: string[], prefix: string, elem: unknown) => {

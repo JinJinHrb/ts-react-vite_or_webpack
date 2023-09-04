@@ -52,6 +52,11 @@ import {
     ThousandthFormatTypes,
     thousandthParser
 } from './npms/formatThousandth'
+import { Map } from 'immutable'
+import BigNumber from 'bignumber.js'
+import { pLimit } from './queue'
+import { testSingleton } from './designPattern'
+import { FirstParam, PascalCase, PascalCasedProps, Underscore2CamelCase, Underscore2CamelCaseProps } from './myType'
 
 // mock data start
 const imapParams = {
@@ -140,7 +145,7 @@ const emailDomain = {
 
 // mock data end
 
-function DouyinVideo() {
+function Playground() {
     const [loading, setLoading] = React.useState(false)
     const [url, setUrl] = React.useState('')
     const [targetUrl, setTargetUrl] = React.useState('')
@@ -572,7 +577,7 @@ function DouyinVideo() {
         // testConvertCraftJs2Formily()
         // const fac = factorial(5)
         // console.log('#515 fac:', fac)
-        // src/containers/views/DouyinVideo/mock/formilySchema.js
+        // src/containers/views/Playground/mock/formilySchema.js
         // const trimmedSchema = hideEmptyModules(formilySchema)
         // console.log('after hideEmptyModules', '\nformilySchema:', formilySchema, '\ntrimmedSchema:', trimmedSchema)
         // alert('OK')
@@ -901,6 +906,14 @@ function DouyinVideo() {
         const multipleLinesInput2 = '1,234,684.4422'
         const multipleLines2 = thousandthParser(multipleLinesInput2)
         console.log('thousandthParser #851: \n' + multipleLinesInput2 + '\n->\n' + multipleLines2)
+
+        const multipleLinesInput3 = '1,234,684.4422.'
+        const multipleLines3 = thousandthParser(multipleLinesInput3)
+        console.log('thousandthParser #909: \n' + multipleLinesInput3 + '\n->\n' + multipleLines3)
+
+        const multipleLinesInput4 = '123.'
+        const multipleLines4 = thousandthParser(multipleLinesInput4)
+        console.log('thousandthParser #913: \n' + multipleLinesInput4 + '\n->\n' + multipleLines4)
     }
 
     function testIsEmpty() {
@@ -922,6 +935,81 @@ function DouyinVideo() {
         )
     }
 
+    function testImmutableJs() {
+        const map1 = Map({ a: 1, b: 2, c: 3, d: { d1: 11, d2: 21 } })
+        const map2 = map1.set('b', 50)
+        console.log('map1.b: ' + map1.get('b') + ' vs. ' + 'map2.b: ' + map2.get('b')) // 2 vs. 50
+        console.log('map1.d === map2.d: ' + Boolean(map1.get('d') === map2.get('d')))
+    }
+
+    function testBigNumber() {
+        const x = new BigNumber(123.4567)
+        const y = BigNumber('123456.7e-3')
+        const z = new BigNumber(x)
+        console.log('testBigNumber #938 x === y === z', x.isEqualTo(y) && y.isEqualTo(z) && x.isEqualTo(z))
+
+        const α = new BigNumber('1111222233334444555566.22370').multipliedBy('245').dividedBy(2)
+        console.log(
+            α.toString() + // "1.111222233334444555566e+21"
+                ',' +
+                α.toFixed() // "1111222233334444555566"
+        )
+
+        const β = new BigNumber('12,456,789.33')
+        const γ = new BigNumber('12,456a,789.33')
+        const ζ = new BigNumber(Infinity)
+        console.log('testBigNumber #949 α isNaN isFinite isValid:', α.isNaN(), α.isFinite(), !α.isNaN() && α.isFinite())
+        console.log('testBigNumber #950 β isNaN isFinite isValid:', β.isNaN(), β.isFinite(), !β.isNaN() && β.isFinite())
+        console.log('testBigNumber #951 γ isNaN isFinite isValid:', γ.isNaN(), γ.isFinite(), !γ.isNaN() && γ.isFinite())
+        console.log('testBigNumber #951 ζ isNaN isFinite isValid:', ζ.isNaN(), ζ.isFinite(), !ζ.isNaN() && ζ.isFinite())
+    }
+
+    function testDesignPattern() {
+        testSingleton()
+    }
+
+    function testTs() {
+        type CheckMe = PascalCase<'helloWorld'>
+        type CheckMe2 = PascalCase<'HelloWorld'>
+        type CheckMe3 = Underscore2CamelCaseProps<{ http_req: { header_name: string } }>
+        type CheckMe4 = Underscore2CamelCaseProps<{ http_req_name: string; http_req_size: number }[]>
+        let str: CheckMe | undefined
+        let str2: CheckMe2 | undefined
+        if (27 / 3 > 1) {
+            str = 'HelloWorld'
+        } else {
+            str2 = 'HelloWorld'
+        }
+
+        const request: CheckMe3 = {
+            httpReq: {
+                headerName: '456'
+            }
+        }
+
+        const requests: CheckMe4 = [
+            { httpReqName: 'req1', httpReqSize: 31 },
+            { httpReqName: 'req2', httpReqSize: 32 }
+        ]
+
+        console.log('request:', request, 'requests:', requests)
+
+        // eslint-disable-next-line @typescript-eslint/ban-types
+        type CheckFirstParam = FirstParam<(a: number) => {}>
+        // type CheckMe = number;
+        let zeta: CheckFirstParam | undefined
+        if (151 / 5 > 10) {
+            zeta = 15
+        }
+
+        // type CamelFromUnderscore = Underscore2CamelCase<'abc_def_ghi'>
+        type CamelFromUnderscore = Underscore2CamelCase<'get_HTTP_request'>
+        // const cfu: CamelFromUnderscore = 'abcDefGhi'
+        const cfu: CamelFromUnderscore = 'getHTTPRequest'
+
+        alert(`${str ?? str2}, ${cfu}`)
+    }
+
     function testJs() {
         /* console.log('ATT_TYPE.TradeOrderAttachment:', ATT_TYPE.TradeOrderAttachment)
         console.log('ATT_TYPE.TradeQuotationAttachment:', JSON.stringify(ATT_TYPE.TradeQuotationAttachment)) */
@@ -932,8 +1020,61 @@ function DouyinVideo() {
         // test_getFirstPositiveNumber()
         // test_mapToLabeledValue()
         // testIsEmpty()
-        test_iterateObject4ThousandthFormat()
+        // test_iterateObject4ThousandthFormat()
+        // testImmutableJs()
+        // testBigNumber()
+        testQueue()
     }
+
+    function testQueue() {
+        function asyncFun(value, delay) {
+            return new Promise(resolve => {
+                console.log(' handle: ' + value)
+                setTimeout(() => resolve(value), delay)
+            })
+        }
+        // 模拟一个任务进队列的情况：
+        pLimit.enqueue(asyncFun, 'a', 1000).then(() => {
+            console.log('a finished')
+        })
+        pLimit.enqueue(asyncFun, 'b', 2000).then(() => {
+            console.log('b finished')
+        })
+        pLimit.enqueue(asyncFun, 'c', 1000).then(() => {
+            console.log('c finished')
+        })
+        pLimit.enqueue(asyncFun, 'd', 3000).then(() => {
+            console.log('d finished')
+        })
+        pLimit.enqueue(asyncFun, 'e', 1000).then(() => {
+            console.log('e finished')
+        })
+        setTimeout(() => {
+            pLimit.enqueue(asyncFun, 'f', 1000).then(() => {
+                console.log('f finished')
+            })
+        }, 500)
+        setTimeout(() => {
+            pLimit.enqueue(asyncFun, 'g', 1000).then(() => {
+                console.log('g finished')
+            })
+        }, 1500)
+    }
+
+    // function testQueue() {
+    //     function asyncFun(value, delay) {
+    //         return new Promise(resolve => {
+    //             console.log(' handle: ' + value)
+    //             setTimeout(() => resolve(value), delay)
+    //         })
+    //     }
+    //     // 模拟一个任务进队列的情况：
+    //     pLimit.enqueue(asyncFun, 'a', 1000)
+    //     pLimit.enqueue(asyncFun, 'b', 2000)
+    //     pLimit.enqueue(asyncFun, 'c', 1000)
+    //     pLimit.enqueue(asyncFun, 'd', 3000)
+    //     pLimit.enqueue(asyncFun, 'e', 1000)
+    // }
 
     function testXss() {
         const arr = testEscapeAndUnescape(customerData)
@@ -944,7 +1085,7 @@ function DouyinVideo() {
     // 测试js 方法 End
 
     return (
-        <div className={styles.douyinVideo}>
+        <div className={styles.playground}>
             <div className={styles.container}>
                 <a className={styles.link} href={targetUrl} rel="noreferrer" target="_blank">
                     {targetUrl}
@@ -1040,6 +1181,12 @@ function DouyinVideo() {
                 <h3 style={{ textAlign: 'center', marginTop: 30 }}>测试JS</h3>
 
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Button style={{ width: 120 }} type="primary" block loading={loading} onClick={testDesignPattern}>
+                        测试设计模式
+                    </Button>
+                    <Button style={{ width: 120 }} type="primary" block loading={loading} onClick={testTs}>
+                        测试 TS
+                    </Button>
                     <Button style={{ width: 120 }} type="primary" block loading={loading} onClick={testJs}>
                         测试 JS
                     </Button>
@@ -1102,4 +1249,4 @@ function DouyinVideo() {
     )
 }
 
-export default DouyinVideo
+export default Playground

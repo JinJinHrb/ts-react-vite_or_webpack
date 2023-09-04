@@ -7,8 +7,9 @@ import PageLoading from '@components/PageLoading'
 const loadableOptions = { fallback: <PageLoading /> }
 export const asynchronousComponents = {
     SocketDebugger: loadable(() => import('@views/SocketDebugger'), loadableOptions),
+    Performance: loadable(() => import('@views/Performance'), loadableOptions),
     Users: loadable(() => import('@views/Users'), loadableOptions),
-    DouyinVideo: loadable(() => import('@views/DouyinVideo'), loadableOptions),
+    Playground: loadable(() => import('@views/Playground'), loadableOptions),
     ReactLab: loadable(() => import('@views/ReactLab'), loadableOptions),
     AntdLab: loadable(() => import('@views/AntdLab'), loadableOptions)
 }
@@ -40,11 +41,19 @@ export const menu: IMenu[] = [
         exact: true
     },
     {
-        id: 3,
-        path: '/dy-v',
-        title: 'dy',
+        id: 6,
+        path: '/performance',
+        title: 'Performance',
         icon: <VideoCameraOutlined />,
-        component: 'DouyinVideo',
+        component: 'Performance',
+        exact: true
+    },
+    {
+        id: 3,
+        path: '/playground',
+        title: 'playground',
+        icon: <VideoCameraOutlined />,
+        component: 'Playground',
         exact: true
     },
     {
