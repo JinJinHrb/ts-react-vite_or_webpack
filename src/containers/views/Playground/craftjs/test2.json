@@ -1,0 +1,443 @@
+{
+    "RQPo4CrX7e": {
+        "parent": "7pktwpbt1oe",
+        "linkedNodes": {},
+        "nodes": ["oSi3oJVpUB", "VI9zBZw_v3"],
+        "hidden": false,
+        "isCanvas": true,
+        "displayName": "QuickModuleItemLeft",
+        "custom": {},
+        "type": "div",
+        "props": {
+            "field": { "x-component": "ModuleLeft", "type": "void" },
+            "name": "ModuleLeft",
+            "style": { "minHeight": 200 }
+        }
+    },
+    "ROOT": {
+        "linkedNodes": {},
+        "nodes": ["td1ghnn5gtt"],
+        "hidden": false,
+        "isCanvas": false,
+        "displayName": "div",
+        "custom": {},
+        "type": "div",
+        "props": { "className": "frameWrap_39Gff" }
+    },
+    "HYrtwh5t1te": {
+        "parent": "td1ghnn5gtt",
+        "linkedNodes": {},
+        "nodes": ["7pktwpbt1oe"],
+        "hidden": false,
+        "isCanvas": true,
+        "displayName": "div",
+        "custom": {},
+        "type": "div",
+        "props": { "field": { "x-component": "ModuleRight", "type": "void" }, "name": "ModuleRight" }
+    },
+    "HWsrHAflDh": {
+        "parent": "jg1ging5grt",
+        "linkedNodes": {},
+        "nodes": ["NwcfuwAmuM", "YESWbtlnwQ", "GrBKDneOqP"],
+        "hidden": false,
+        "isCanvas": true,
+        "displayName": "QuickModuleItemLeft",
+        "custom": {},
+        "type": "div",
+        "props": {
+            "field": { "x-component": "ModuleLeft", "type": "void" },
+            "name": "ModuleLeft",
+            "style": { "minHeight": 200 }
+        }
+    },
+    "hudxz1dtorr": {
+        "parent": "AG1tirgw5ru",
+        "linkedNodes": { "module_left": "eAjONKvzlV" },
+        "nodes": [],
+        "hidden": false,
+        "isCanvas": false,
+        "displayName": "QuickModuleItem",
+        "custom": {},
+        "type": { "resolvedName": "QuickModuleItem" },
+        "props": { "field": { "x-component": "ModuleCard", "module": true, "type": "void", "title": "附件" } }
+    },
+    "eAjONKvzlV": {
+        "parent": "hudxz1dtorr",
+        "linkedNodes": {},
+        "nodes": [],
+        "hidden": false,
+        "isCanvas": true,
+        "displayName": "QuickModuleItemLeft",
+        "custom": {},
+        "type": "div",
+        "props": {
+            "field": { "x-component": "ModuleLeft", "type": "void" },
+            "name": "ModuleLeft",
+            "style": { "minHeight": 200 }
+        }
+    },
+    "jg1ging5grt": {
+        "parent": "AG1tirgw5ru",
+        "linkedNodes": { "module_left": "HWsrHAflDh" },
+        "nodes": [],
+        "hidden": false,
+        "isCanvas": false,
+        "displayName": "QuickModuleItem",
+        "custom": {},
+        "type": { "resolvedName": "QuickModuleItem" },
+        "props": { "field": { "x-component": "ModuleCard", "module": true, "type": "void", "title": "基本信息" } }
+    },
+    "0chqj6titjf": {
+        "parent": "AG1tirgw5ru",
+        "linkedNodes": { "module_left": "9j86GWnU_Q" },
+        "nodes": [],
+        "hidden": false,
+        "isCanvas": false,
+        "displayName": "QuickModuleItem",
+        "custom": {},
+        "type": { "resolvedName": "QuickModuleItem" },
+        "props": { "field": { "x-component": "ModuleCard", "module": true, "type": "void", "title": "特征信息" } }
+    },
+    "td1ghnn5gtt": {
+        "parent": "ROOT",
+        "linkedNodes": { "module_right": "HYrtwh5t1te", "module_left": "AG1tirgw5ru" },
+        "nodes": [],
+        "hidden": false,
+        "isCanvas": false,
+        "displayName": "QuickModule",
+        "custom": {},
+        "type": { "resolvedName": "QuickModule" },
+        "props": { "field": { "x-component": "QuickModule", "module": true, "type": "void" } }
+    },
+    "AG1tirgw5ru": {
+        "parent": "td1ghnn5gtt",
+        "linkedNodes": {},
+        "nodes": ["jg1ging5grt", "0chqj6titjf", "hudxz1dtorr"],
+        "hidden": false,
+        "isCanvas": true,
+        "displayName": "div",
+        "custom": {},
+        "type": "div",
+        "props": { "field": { "x-component": "ModuleLeft", "type": "void" }, "name": "ModuleLeft" }
+    },
+    "7pktwpbt1oe": {
+        "parent": "HYrtwh5t1te",
+        "linkedNodes": { "module_left": "RQPo4CrX7e" },
+        "nodes": [],
+        "hidden": false,
+        "isCanvas": false,
+        "displayName": "QuickModuleItem",
+        "custom": {},
+        "type": { "resolvedName": "QuickModuleItem" },
+        "props": {
+            "field": {
+                "x-component": "ModuleCard",
+                "module": true,
+                "type": "void",
+                "title": "联系人",
+                "properties": {
+                    "contactModels": {
+                        "default": [{}],
+                        "x-component": "InfiniteArrayItems",
+                        "name": "contactModels",
+                        "x-component-props": { "twoColumn": true, "id": "contactModels" },
+                        "x-validator": [],
+                        "type": "array",
+                        "x-index": 0,
+                        "items": {
+                            "x-decorator": "InfiniteArrayItems.Item",
+                            "x-validator": [],
+                            "type": "object",
+                            "properties": {
+                                "tgfnpbqvlgv": {
+                                    "x-component": "FormLayout",
+                                    "x-component-props": { "layout": "two-columns" },
+                                    "type": "void",
+                                    "x-index": 1,
+                                    "properties": {
+                                        "RQPo4CrX7e": {
+                                            "x-component": "ModuleLeft",
+                                            "type": "void",
+                                            "x-index": 0,
+                                            "properties": {
+                                                "contactEmail": {
+                                                    "x-component-type": "单行文本框",
+                                                    "x-list": true,
+                                                    "x-component": "Input",
+                                                    "x-decorator-props": {
+                                                        "layout": "vertical",
+                                                        "labelAlign": "left",
+                                                        "colon": false
+                                                    },
+                                                    "x-validator": [
+                                                        { "triggerType": "onBlur", "required": true },
+                                                        { "disallowEmoticon": true, "triggerType": "onBlur" },
+                                                        { "checkDuplicate": true, "triggerType": "onBlur" },
+                                                        { "asyncCheckEmailDuplicate": true, "triggerType": "onBlur" }
+                                                    ],
+                                                    "x-component-props": { "size": "large", "id": "contactEmail" },
+                                                    "type": "string",
+                                                    "title": "邮箱",
+                                                    "x-index": 1,
+                                                    "required": true,
+                                                    "disableHide": true,
+                                                    "disableEdit": true,
+                                                    "x-decorator": "FormItem",
+                                                    "name": "contactEmail",
+                                                    "maxLength": 100
+                                                },
+                                                "contactName": {
+                                                    "x-component-type": "单行文本框",
+                                                    "x-list": true,
+                                                    "x-component": "Input",
+                                                    "x-decorator-props": {
+                                                        "layout": "vertical",
+                                                        "labelAlign": "left",
+                                                        "colon": false
+                                                    },
+                                                    "x-component-props": { "size": "large", "id": "contactName" },
+                                                    "x-validator": [{ "disallowEmoticon": true }],
+                                                    "type": "string",
+                                                    "title": "姓名",
+                                                    "x-index": 0,
+                                                    "required": true,
+                                                    "disableHide": true,
+                                                    "x-decorator": "FormItem",
+                                                    "name": "contactName",
+                                                    "maxLength": 100
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "tgfnpbqvlgu": {
+                                    "x-component": "Space",
+                                    "x-reactions": {
+                                        "fulfill": {
+                                            "schema": {
+                                                "x-hidden": "{{$deps.contactModels && $deps.contactModels.length <= 1 ? true : false }}"
+                                            }
+                                        },
+                                        "dependencies": [
+                                            {
+                                                "property": "value",
+                                                "name": "contactModels",
+                                                "source": "td1ghnn5gtt.HYrtwh5t1te.7pktwpbt1oe.contactModels",
+                                                "type": "any"
+                                            }
+                                        ]
+                                    },
+                                    "x-component-props": {
+                                        "style": {
+                                            "padding": "4px",
+                                            "background": "#00000005",
+                                            "display": "flex",
+                                            "marginBottom": "20px",
+                                            "justifyContent": "space-between"
+                                        }
+                                    },
+                                    "type": "void",
+                                    "x-index": 0,
+                                    "properties": {
+                                        "tgfnpbqvlgm": {
+                                            "x-component": "ArrayItems.Index",
+                                            "x-component-props": { "title": "联系人" },
+                                            "type": "void",
+                                            "x-index": 0
+                                        },
+                                        "tgfnpbqvlgl": {
+                                            "x-component": "ArrayItems.Remove",
+                                            "type": "void",
+                                            "x-index": 1
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "maxLength": 100,
+                        "properties": {
+                            "cpscgs1n1yf": {
+                                "x-component": "ArrayItems.Addition",
+                                "x-component-props": {},
+                                "type": "void",
+                                "title": "添加联系人",
+                                "x-index": 0
+                            }
+                        }
+                    }
+                },
+                "x-items-slot-path": "properties.contactModels.items.properties.tgfnpbqvlgv"
+            },
+            "ArrayModule": true
+        }
+    },
+    "9j86GWnU_Q": {
+        "parent": "0chqj6titjf",
+        "linkedNodes": {},
+        "nodes": [],
+        "hidden": false,
+        "isCanvas": true,
+        "displayName": "QuickModuleItemLeft",
+        "custom": {},
+        "type": "div",
+        "props": {
+            "field": { "x-component": "ModuleLeft", "type": "void" },
+            "name": "ModuleLeft",
+            "style": { "minHeight": 200 }
+        }
+    },
+    "NwcfuwAmuM": {
+        "parent": "HWsrHAflDh",
+        "linkedNodes": {},
+        "nodes": [],
+        "hidden": false,
+        "isCanvas": false,
+        "displayName": "CustomerNoInput",
+        "custom": {},
+        "type": { "resolvedName": "CustomerNoInput" },
+        "props": {
+            "field": {
+                "x-component-type": "单行文本框",
+                "x-list": true,
+                "x-component": "CustomerNoInput",
+                "x-decorator-props": { "layout": "vertical", "labelAlign": "left", "colon": false },
+                "x-component-props": { "id": "customerNo" },
+                "x-validator": [{ "checkCustomerNoDuplicate": true, "triggerType": "onBlur" }],
+                "type": "string",
+                "title": "客户编号",
+                "disableHide": true,
+                "disableEdit": true,
+                "x-decorator": "FormItem",
+                "name": "customerNo",
+                "maxLength": 32,
+                "fieldType": "TD_CUSTOMER"
+            },
+            "source": "jg1ging5grt"
+        }
+    },
+    "VI9zBZw_v3": {
+        "parent": "RQPo4CrX7e",
+        "linkedNodes": {},
+        "nodes": [],
+        "hidden": false,
+        "isCanvas": false,
+        "displayName": "Input",
+        "custom": {},
+        "type": { "resolvedName": "Input" },
+        "props": {
+            "field": {
+                "x-component-type": "单行文本框",
+                "x-list": true,
+                "x-component": "Input",
+                "x-decorator": "FormItem",
+                "x-decorator-props": { "layout": "vertical", "labelAlign": "left", "colon": false },
+                "name": "contactEmail",
+                "x-validator": [
+                    { "triggerType": "onBlur", "required": true },
+                    { "disallowEmoticon": true, "triggerType": "onBlur" },
+                    { "checkDuplicate": true, "triggerType": "onBlur" }
+                ],
+                "x-component-props": { "size": "large", "id": "contactEmail" },
+                "type": "string",
+                "title": "邮箱",
+                "required": true,
+                "maxLength": 100,
+                "fieldType": "TD_CONTACT"
+            },
+            "source": "7pktwpbt1oe"
+        }
+    },
+    "YESWbtlnwQ": {
+        "parent": "HWsrHAflDh",
+        "linkedNodes": {},
+        "nodes": [],
+        "hidden": false,
+        "isCanvas": false,
+        "displayName": "GeoSelect",
+        "custom": {},
+        "type": { "resolvedName": "GeoSelect" },
+        "props": {
+            "field": {
+                "x-component-type": "单选列表",
+                "x-component": "GeoSelect",
+                "x-filter": true,
+                "x-decorator": "FormItem",
+                "x-decorator-props": { "layout": "vertical", "labelAlign": "left", "colon": false },
+                "name": "customerGeoCode",
+                "x-component-props": { "optionFilterProp": "label", "showSearch": true, "id": "customerGeoCode" },
+                "x-validator": [],
+                "type": "string",
+                "title": "国家/地区",
+                "required": true,
+                "disableHide": true,
+                "fieldType": "TD_CUSTOMER"
+            },
+            "source": "jg1ging5grt"
+        }
+    },
+    "oSi3oJVpUB": {
+        "parent": "RQPo4CrX7e",
+        "linkedNodes": {},
+        "nodes": [],
+        "hidden": false,
+        "isCanvas": false,
+        "displayName": "Input",
+        "custom": {},
+        "type": { "resolvedName": "Input" },
+        "props": {
+            "field": {
+                "x-component-type": "单行文本框",
+                "x-list": true,
+                "x-component": "CRMName",
+                "x-decorator-props": { "layout": "vertical", "labelAlign": "left", "colon": false },
+                "x-component-props": {
+                    "size": "large",
+                    "lastId": "lastContactName",
+                    "placeholder": "请输入",
+                    "maxLength": 50,
+                    "firstId": "firstContactName"
+                },
+                "x-validator": [{ "checkCRMName": true, "triggerType": "onBlur" }],
+                "type": "string",
+                "title": "姓名",
+                "required": true,
+                "disableHide": true,
+                "x-decorator": "FormItem",
+                "name": "contactName",
+                "maxLength": 100,
+                "fieldType": "TD_CONTACT"
+            },
+            "source": "7pktwpbt1oe"
+        }
+    },
+    "GrBKDneOqP": {
+        "parent": "HWsrHAflDh",
+        "linkedNodes": {},
+        "nodes": [],
+        "hidden": false,
+        "isCanvas": false,
+        "displayName": "Input",
+        "custom": {},
+        "type": { "resolvedName": "Input" },
+        "props": {
+            "field": {
+                "x-component-type": "单行文本框",
+                "x-list": true,
+                "x-component": "Input",
+                "x-list-fixed": true,
+                "x-decorator-props": { "layout": "vertical", "labelAlign": "left", "colon": false },
+                "x-component-props": { "size": "large", "id": "customerName" },
+                "x-validator": [{ "disallowEmoticon": true }],
+                "type": "string",
+                "title": "客户名称",
+                "required": true,
+                "disableHide": true,
+                "x-decorator": "FormItem",
+                "name": "customerName",
+                "maxLength": 256,
+                "fieldType": "TD_CUSTOMER"
+            },
+            "source": "jg1ging5grt"
+        }
+    }
+}

@@ -57,6 +57,8 @@ import BigNumber from 'bignumber.js'
 import { pLimit } from './queue'
 import { testSingleton } from './designPattern'
 import { FirstParam, PascalCase, PascalCasedProps, Underscore2CamelCase, Underscore2CamelCaseProps } from './myType'
+import { testImmer } from './immerDemo'
+import { extractFromCraftJsTemplate, sortNodes } from './craftjs'
 
 // mock data start
 const imapParams = {
@@ -574,14 +576,14 @@ function Playground() {
         // testTraverseTree()
         // testDemoTree()
         // testDemoTree2()
-        // testConvertCraftJs2Formily()
+        testConvertCraftJs2Formily()
         // const fac = factorial(5)
         // console.log('#515 fac:', fac)
         // src/containers/views/Playground/mock/formilySchema.js
         // const trimmedSchema = hideEmptyModules(formilySchema)
         // console.log('after hideEmptyModules', '\nformilySchema:', formilySchema, '\ntrimmedSchema:', trimmedSchema)
         // alert('OK')
-        testDp()
+        // testDp()
         // testKmp('ABABAC')
         // testRecur(mock4recur)
     }
@@ -1023,7 +1025,10 @@ function Playground() {
         // test_iterateObject4ThousandthFormat()
         // testImmutableJs()
         // testBigNumber()
-        testQueue()
+        // testQueue()
+        // testImmer()
+        // sortNodes()
+        extractFromCraftJsTemplate()
     }
 
     function testQueue() {

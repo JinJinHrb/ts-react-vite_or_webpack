@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { Layout, Space } from 'antd'
 import styles from './index.module.scss'
-import MySelect from './components/MySelect'
+// import MySelect from './components/MySelect'
 import MyInput from './components/MyInput'
 import Charts from './components/Charts'
 // import { createStore, useStore } from 'zustand'
@@ -42,7 +42,42 @@ export const Performance = () => {
                     <Charts optionType={'lineChart'} />
                     <Charts optionType={'branch'} />
                 </Content>
-                <Footer className={styles.footerStyle}>Footer</Footer>
+                <Footer className={styles.footerStyle}>
+                    Footer
+                    <div style={{ border: '1px solid #000', overflow: 'hidden' }}>
+                        <div style={{ width: '100px', height: '100px', background: '#eee', float: 'left' }}>
+                            阿尔法狗
+                        </div>
+                        <div style={{ width: '100px', height: '100px', background: '#aee', float: 'left' }}>
+                            贝塔射线
+                        </div>
+                        <div
+                            style={{
+                                content: '',
+                                display: 'block',
+                                height: 0,
+                                clear: 'both',
+                                visibility: 'hidden'
+                            }}
+                        ></div>
+                        <div
+                            style={{
+                                width: '100px',
+                                height: '100px',
+                                background: '#efa',
+                                color: 'blue'
+                            }}
+                        >
+                            xTransfer.cn
+                        </div>
+                        <div style={{ width: '100px', height: '100px', background: '#eee', float: 'left' }}>
+                            阿尔法狗
+                        </div>
+                        <div style={{ width: '100px', height: '100px', background: '#aee', float: 'left' }}>
+                            贝塔射线
+                        </div>
+                    </div>
+                </Footer>
             </Layout>
         </Space>
     )

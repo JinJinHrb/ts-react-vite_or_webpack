@@ -8,6 +8,7 @@ import classnames from 'classnames'
 import advancedFilterSchema from './mock/advancedFilterSchema'
 import schema20221124 from '@mock/trade/customer/customerDetail/schema'
 import data20221124 from '@mock/trade/customer/customerDetail/data'
+import { classifyShallowKey } from './classify'
 
 // import demoSchema from '@mock/official/schema'
 // import demoData from '@mock/official/data'
@@ -420,8 +421,12 @@ const convertArrayItemsInput = ({ arrayName, title, addTitle, xValidator }) => {
 }
 
 export const parseData2 = () => {
-    const result = traverseSchema(advancedFilterSchema)
-    console.log('parseData2 #419', 'result:', result)
+    // const result = traverseSchema(advancedFilterSchema)
+    // console.log('parseData2 #419', 'result:', result)
+
+    const result = classifyShallowKey()
+    console.log('parseData2 #428', 'result:', result)
+    alert('OK')
 }
 
 export const submitFormily = async () => {
