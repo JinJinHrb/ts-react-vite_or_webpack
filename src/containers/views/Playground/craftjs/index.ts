@@ -1,30 +1,29 @@
 import { deepClone } from '@utils/iterationUtil'
 import nodes1 from './deserialize/deserializeNodes1'
 import nodes2 from './keep/deserializeNodes1-2'
-import template from './serialize/serializedData'
 import _ from 'lodash'
 
 // 用户自定义属性对应的 key
 // system
 export const USER_PROPERTY_KEYS = {
-    /* needAdd: 是否叠加 */
+    /* add | needAdd: 是否叠加 */
     add: 'needAdd',
-    allowNumberAndCode: 'allowNumberAndCode',
     /* default: 默认值 */
     default: 'default',
+    enum: 'enum',
+    /* limit | allowNumberAndCode: 仅可输入英文字母和数字 */
+    limit: 'allowNumberAndCode',
+    min: 'min',
     max: 'max',
     maxCount: 'maxCount',
     /* maxLength: 最大长度 */
     maxLength: 'maxLength',
-    min: 'min',
+    needCount: 'needCount',
+    precision: 'precision',
     /* required: 是否必填 */
     required: 'required',
     /* showColor: 是否显示颜色 */
-    showColor: 'showColor',
-    /* limit: 仅可输入英文字母和数字 */
-    limit: 'limit',
-    needCount: 'needCount',
-    precision: 'precision'
+    showColor: 'showColor'
 }
 
 export const sortNode = (obj: any) => deepClone(obj, { sortHandler: {} })
@@ -37,6 +36,16 @@ export const sortNodes = () => {
     alert('OK')
 }
 
+export type ModuleNode = {
+    moduleKey: string
+    moduleIndex: number
+    needAdd: boolean
+    needCount: boolean
+    title: any
+    component: string
+    children?: any[]
+}
+
 export const dealWithResolver = (
     resolverElements: any[],
     divElements: any,
@@ -47,6 +56,34 @@ export const dealWithResolver = (
     const moduleKeyPriorities = rootElement[1].nodes
     // const resolverKeys = resolverElements.map(a => a[0])
     const moduleKeys = moduleElements.map(a => a[0])
+    const moduleNodes: ModuleNode[] = moduleElements
+        // .filter(a => a[1].props?.field?.properties?.contactModels['x-component'] === 'InfiniteArrayItems')
+        .map(a => {
+            const moduleKey = a[0]
+            const moduleIndex = moduleKeyPriorities.indexOf(moduleKey)
+            const module = a[1]
+            const options = {
+                moduleKey,
+                moduleIndex,
+                needAdd: false,
+                needCount: false,
+                title: module.props.field.title,
+                component: 'ModuleCard'
+            }
+            if (module.props?.field?.properties?.contactModels['x-component'] === 'InfiniteArrayItems') {
+                options.needAdd = true
+                options.needCount = true
+            }
+            // 将用户设置的属性往后端数据模型里送
+            Object.keys(USER_PROPERTY_KEYS).forEach(k => {
+                const keyInModel = USER_PROPERTY_KEYS[k]
+                if (!_.isNil(module.props?.field?.properties?.contactModels[k])) {
+                    options[keyInModel] = module.props.field.properties.contactModels[k]
+                }
+            })
+            return options
+        })
+    moduleNodes.sort((a, b) => a.moduleIndex - b.moduleIndex)
     // const modulesWithProperties = moduleElements.filter(a => !_.isEmpty(a.props.field.properties))
     const divKeys = divElements.map(a => a[0])
     const resolversReferences = resolverElements
@@ -153,6 +190,7 @@ export const dealWithResolver = (
         }
 
         return {
+            moduleKey, // 不往后端传
             moduleName,
             // ENModuleName
             modelIndex,
@@ -175,6 +213,7 @@ export const dealWithResolver = (
             index
         }
     })
+
     models.sort((a, b) => {
         const aModelIndex = a.modelIndex
         const bModelIndex = b.modelIndex
@@ -188,14 +227,29 @@ export const dealWithResolver = (
             (aPlacement < bPlacement ? -1 : aPlacement === bPlacement ? 0 : 1)
         )
     })
-    console.log('#73 models:', models, '\nwarnings:', warnings)
+
+    models.forEach(el => {
+        const moduleKey = el.moduleKey
+        for (const md of moduleNodes) {
+            if (md.moduleKey === moduleKey) {
+                if (!md.children) {
+                    md.children = []
+                }
+                md.children.push(el)
+                break
+            }
+        }
+    })
+    console.log('#238 moduleNodes:', moduleNodes)
+
     return warnings
 }
 
-export const extractFromCraftJsTemplate = () => {
+export const extractFromCraftJsTemplate = (template: any) => {
     const resolverJudgement = (k: string) =>
         template[k]?.type?.resolvedName && template[k].type.resolvedName !== 'Module'
-    const moduleJudgement = (k: string) => template[k]?.type?.resolvedName && template[k].type.resolvedName === 'Module'
+    const moduleJudgement = (k: string) =>
+        template[k]?.type?.resolvedName && template[k].type.resolvedName === 'Module' && !template[k].type.hidden
     const divJudgement = (k: string) => !template[k]?.type?.resolvedName
     const resolverElements = Object.keys(template)
         .filter(resolverJudgement)

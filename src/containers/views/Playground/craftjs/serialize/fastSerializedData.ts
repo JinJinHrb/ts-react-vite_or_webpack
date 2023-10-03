@@ -172,7 +172,7 @@ export default {
         isCanvas: false,
         props: {
             field: {
-                'x-component-type': '叠加文本框',
+                'x-component-type': '单行文本框',
                 'x-list': true,
                 'x-component': 'ArrayItems',
                 'x-filter': true,
@@ -187,7 +187,7 @@ export default {
                     id: 'UuUc7N5Uhs'
                 },
                 type: 'array',
-                title: 'tui',
+                title: 'heuue',
                 'x-index': 5,
                 default: [''],
                 'x-decorator': 'FormItem',
@@ -213,19 +213,9 @@ export default {
                                 size: 'large',
                                 id: 'input_single'
                             },
-                            'x-validator': [
-                                {
-                                    disallowEmoticon: true
-                                },
-                                {
-                                    allowNumberAndCode: true
-                                }
-                            ],
+                            'x-validator': [],
                             type: 'string',
-                            maxLength: 100,
-                            required: true,
-                            add: true,
-                            limit: false
+                            maxLength: 100
                         },
                         remove: {
                             'x-decorator': 'FormItem',
@@ -249,7 +239,7 @@ export default {
                 properties: {
                     add: {
                         'x-component': 'ArrayItems.Addition',
-                        'x-visible': true,
+                        'x-visible': false,
                         'x-component-props': {
                             noIcon: true,
                             block: false,
@@ -261,9 +251,7 @@ export default {
                         type: 'void',
                         title: '添加'
                     }
-                },
-                'x-hidden': false,
-                required: true
+                }
             },
             tabsKey: 'new',
             remain: 34,

@@ -59,6 +59,8 @@ import { testSingleton } from './designPattern'
 import { FirstParam, PascalCase, PascalCasedProps, Underscore2CamelCase, Underscore2CamelCaseProps } from './myType'
 import { testImmer } from './immerDemo'
 import { extractFromCraftJsTemplate, sortNodes } from './craftjs'
+import template from 'containers/views/Playground/craftjs/serialize/serializedData'
+import fastTemplate from 'containers/views/Playground/craftjs/serialize/fastSerializedData'
 
 // mock data start
 const imapParams = {
@@ -1028,7 +1030,11 @@ function Playground() {
         // testQueue()
         // testImmer()
         // sortNodes()
-        extractFromCraftJsTemplate()
+        extractFromCraftJsTemplate(template)
+    }
+
+    function testJs2() {
+        extractFromCraftJsTemplate(fastTemplate)
     }
 
     function testQueue() {
@@ -1193,7 +1199,10 @@ function Playground() {
                         测试 TS
                     </Button>
                     <Button style={{ width: 120 }} type="primary" block loading={loading} onClick={testJs}>
-                        测试 JS
+                        测试 JS1
+                    </Button>
+                    <Button style={{ width: 120 }} type="primary" block loading={loading} onClick={testJs2}>
+                        测试 JS2
                     </Button>
                     <Button style={{ width: 120 }} type="primary" block loading={loading} onClick={testXss}>
                         测试 xss
