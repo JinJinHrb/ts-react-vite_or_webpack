@@ -1,11 +1,15 @@
 import React from 'react'
 
-const { unstable_ConcurrentMode: ConcurrentMode, Component, Suspense, PureComponent } = React
+const { PureComponent } = React
 import { VictoryArea, VictoryAxis, VictoryChart, VictoryBar, VictoryTheme, VictoryScatter, VictoryStack } from 'victory'
 
 const colors = ['#fff489', '#fa57c1', '#b166cc', '#7572ff', '#69a6f9']
 
-export default class Charts extends PureComponent<any, any> {
+type Props = {
+    data: any
+}
+
+export default class Charts extends PureComponent<Props> {
     render() {
         const streamData = this.props.data
         return (

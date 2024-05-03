@@ -1,19 +1,27 @@
-import React from 'react'
+import React, { RefObject } from 'react'
+import styles from './index.module.scss'
 
-const { unstable_ConcurrentMode: ConcurrentMode, Component, Suspense, PureComponent, createRef } = React
+const { PureComponent } = React
 
 const SPEED = 0.003 / Math.PI
 const FRAMES = 10
 
-export default class Clock extends PureComponent<any, any> {
-    faceRef = createRef<any>()
-    arcGroupRef = createRef<any>()
-    clockHandRef = createRef<any>()
+export default class Clock extends PureComponent {
     frame = null
     hitCounter = 0
     rotation = 0
     t0 = Date.now()
     arcs = []
+    faceRef: RefObject<SVGCircleElement>
+    arcGroupRef: RefObject<SVGGElement>
+    clockHandRef: RefObject<SVGPathElement>
+
+    constructor(props) {
+        super(props)
+        this.faceRef = React.createRef()
+        this.arcGroupRef = React.createRef()
+        this.clockHandRef = React.createRef()
+    }
 
     animate = () => {
         const now = Date.now()
@@ -80,15 +88,16 @@ export default class Clock extends PureComponent<any, any> {
     }
 
     render() {
-        const paths = new Array(FRAMES)
+        /* const paths = new Array(FRAMES)
         for (let i = 0; i < FRAMES; i++) {
             paths.push(<path className="arcHand" key={i} />)
-        }
+        } */
+        const paths = Array.from({ length: FRAMES }, (_, i) => <path className={styles.arcHand} key={i} />)
         return (
-            <div className="stutterer">
+            <div className={styles.stutterer}>
                 <svg height="310" width="310">
                     <circle
-                        className="clockFace"
+                        className={styles.clockFace}
                         onClick={this.handleClick}
                         cx={155}
                         cy={155}
@@ -96,7 +105,7 @@ export default class Clock extends PureComponent<any, any> {
                         ref={this.faceRef}
                     />
                     <g ref={this.arcGroupRef}>{paths}</g>
-                    <path className="clockHand" ref={this.clockHandRef} />
+                    <path className={styles.clockHand} ref={this.clockHandRef} />
                 </svg>
             </div>
         )

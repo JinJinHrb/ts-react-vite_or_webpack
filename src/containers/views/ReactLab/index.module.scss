@@ -1,4 +1,4 @@
-html,
+/* html,
 body {
     background: rgb(34, 34, 34);
     color: white;
@@ -6,19 +6,29 @@ body {
     margin: 0px;
     padding: 0px;
     user-select: none;
-}
+} */
 
-.VictoryContainer {
-    opacity: 0.8;
-}
-
-* {
+.reactLab {
+    background: rgb(34, 34, 34);
     box-sizing: border-box;
+    color: white;
+    font-family: Karla, Helvetica Neue, Helvetica, sans-serif;
+    margin: 0px;
+    padding: 0px;
+    user-select: none;
 }
+
+/* .VictoryContainer {
+    opacity: 0.8;
+} */
+
+/* * {
+    box-sizing: border-box;
+} */
 
 .container {
     margin: auto;
-    max-width: 960px;
+    /* max-width: 960px; */
     padding: 10px;
     width: 100%;
 }
@@ -31,22 +41,22 @@ body {
 label {
     font-size: 20px;
     margin-right: 40px;
-}
 
-label.selected {
-    font-weight: bold;
-}
+    &.selected {
+        font-weight: bold;
 
-label:nth-child(1).selected {
-    color: rgb(253, 25, 153);
-}
+        &:nth-child(1) {
+            color: rgb(253, 25, 153);
+        }
 
-label:nth-child(2).selected {
-    color: rgb(255, 240, 1);
-}
+        &:nth-child(2) {
+            color: rgb(255, 240, 1);
+        }
 
-label:nth-child(3).selected {
-    color: #61dafb;
+        &:nth-child(3) {
+            color: #61dafb;
+        }
+    }
 }
 
 .chart {
@@ -55,28 +65,33 @@ label:nth-child(3).selected {
 }
 
 .input {
+    color: black;
     display: block;
-    font-size: 30px;
-    padding: 16px;
+    font-size: 15px;
+    margin: 16px 50px 0 0;
+    max-height: 200px;
     width: 100%;
-}
-.input.sync {
-    outline-color: rgba(253, 25, 153, 0.1);
-}
-.input.debounced {
-    outline-color: rgba(255, 240, 1, 0.1);
-}
-.input.async {
-    outline-color: rgba(97, 218, 251, 0.1);
+
+    &.sync {
+        outline-color: rgba(253, 25, 153, 0.1);
+    }
+
+    &.debounced {
+        outline-color: rgba(255, 240, 1, 0.1);
+    }
+
+    &.async {
+        outline-color: rgba(97, 218, 251, 0.1);
+    }
 }
 
 label {
     font-size: 20px;
-}
 
-label label {
-    display: 'inline-block';
-    margin-left: 20px;
+    & + label {
+        display: inline-block;
+        margin-left: 20px;
+    }
 }
 
 .row {
@@ -120,8 +135,8 @@ label label {
     stroke-width: 10px;
 }
 
-.arcHand {
-}
+/* .arcHand {
+} */
 
 .innerLine {
     background-color: red;

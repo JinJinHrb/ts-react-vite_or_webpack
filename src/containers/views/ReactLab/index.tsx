@@ -1,32 +1,38 @@
-/*
- * 示例
- * https://codesandbox.io/s/koyz664q35
- */
-
 import React from 'react'
 import ReactDOM from 'react-dom'
+// import { createRoot } from 'react-dom/client'
+// import './styles.css'
+import styles from './index.module.scss'
+import classnames from 'classnames'
 import { unstable_scheduleCallback } from 'scheduler'
-import './styles.css'
 
-const { Component, Suspense, PureComponent } = React
-const { flushSync } = ReactDOM
+const { PureComponent } = React
+const { /* unstable_createRoot: createRoot, */ flushSync } = ReactDOM
+
 import _ from 'lodash'
 import Charts from './Charts'
 import Clock from './Clock'
 
 const cachedData = new Map()
 
-class ReactLab extends PureComponent<any, any> {
+interface State {
+    value: string
+    strategy: string
+    showDemo: boolean
+    showClock: boolean
+}
+
+class ReactLab extends PureComponent<Record<string, unknown>, State> {
+    _ignoreClick = false
     state = {
         value: '',
         strategy: 'sync',
         showDemo: true,
         showClock: false
     }
-    _ignoreClick: any
 
     // Random data for the chart
-    getStreamData(input) {
+    getStreamData(input: string | any[]) {
         if (cachedData.has(input)) {
             return cachedData.get(input)
         }
@@ -55,7 +61,7 @@ class ReactLab extends PureComponent<any, any> {
         })
     }
 
-    handleChartClick = e => {
+    handleChartClick = (e: { shiftKey: any }) => {
         if (this.state.showDemo) {
             if (e.shiftKey) {
                 this.setState({ showDemo: false })
@@ -75,7 +81,7 @@ class ReactLab extends PureComponent<any, any> {
         }
         this._ignoreClick = true
 
-        scheduleCallback(() => {
+        requestAnimationFrame(() => {
             this.setState({ showDemo: true }, () => {
                 this._ignoreClick = false
             })
@@ -85,7 +91,7 @@ class ReactLab extends PureComponent<any, any> {
     debouncedHandleChange = _.debounce(value => {
         if (this.state.strategy === 'debounced') {
             flushSync(() => {
-                this.setState({ value: value })
+                this.setState({ value })
             })
         }
     }, 1000)
@@ -93,12 +99,20 @@ class ReactLab extends PureComponent<any, any> {
     throttleHandleChange = _.throttle(value => {
         if (this.state.strategy === 'throttle') {
             flushSync(() => {
-                this.setState({ value: value })
+                this.setState({ value })
             })
         }
     }, 1000)
 
-    renderOption(strategy, label) {
+    renderOption(
+        strategy: string,
+        label:
+            | string
+            | number
+            | boolean
+            | React.ReactElement<any, string | React.JSXElementConstructor<any>>
+            | React.ReactFragment
+    ) {
         const { strategy: currentStrategy } = this.state
         return (
             <label className={strategy === currentStrategy ? 'selected' : null}>
@@ -114,7 +128,7 @@ class ReactLab extends PureComponent<any, any> {
         )
     }
 
-    handleChange = e => {
+    handleChange = (e: { target: { value: any } }) => {
         const value = e.target.value
         const { strategy } = this.state
         switch (strategy) {
@@ -133,7 +147,7 @@ class ReactLab extends PureComponent<any, any> {
                 this.debouncedHandleChange(value)
                 break
             case 'async':
-                unstable_scheduleCallback(() => {
+                unstable_scheduleCallback(0, () => {
                     this.setState({ value })
                 })
                 break
@@ -146,7 +160,7 @@ class ReactLab extends PureComponent<any, any> {
         const { showClock } = this.state
         const data = this.getStreamData(this.state.value)
         return (
-            <div className="container">
+            <div className={classnames(styles.reactLab, styles.container)}>
                 <div className="rendering">
                     {this.renderOption('sync', 'Synchronous')}
                     {this.renderOption('setTimeout', 'SetTimeout')}
@@ -155,12 +169,17 @@ class ReactLab extends PureComponent<any, any> {
                     {this.renderOption('async', 'Concurrent')}
                 </div>
                 <input
-                    className={'input ' + this.state.strategy}
+                    className={classnames(
+                        styles.input,
+                        { [styles.sync]: this.state.strategy === 'sync' },
+                        { [styles.debounced]: this.state.strategy === 'debounced' },
+                        { [styles.async]: this.state.strategy === 'async' }
+                    )}
                     placeholder="longer input → more components and DOM nodes"
                     onChange={this.handleChange}
                 />
-                <div className="demo" onClick={this.handleChartClick}>
-                    {this.state.showDemo && <Charts data={data} onClick={this.handleChartClick} />}
+                <div className={classnames(styles.demo, styles.chart)} onClick={this.handleChartClick}>
+                    {this.state.showDemo && <Charts data={data} />}
                     <div style={{ display: showClock ? 'block' : 'none' }}>
                         <Clock />
                     </div>
@@ -170,13 +189,5 @@ class ReactLab extends PureComponent<any, any> {
     }
 }
 
-/* createRoot(document.getElementById('root')).render(
-    <ConcurrentMode>
-        <App />
-    </ConcurrentMode>
-) */
-function scheduleCallback(arg0: () => void) {
-    throw new Error('Function not implemented.')
-}
-
+/* createRoot(document.getElementById('root')).render(<App />) */
 export default ReactLab
