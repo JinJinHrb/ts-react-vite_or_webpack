@@ -110,11 +110,13 @@ class Singleton {
 
 export const testSingleton2 = () => {
     // 使用 Singleton
-    // const instance1 = Singleton.getInstance()
-    // const instance2 = Singleton.getInstance()
     const instance3 = new Singleton()
     const instance4 = new Singleton()
-    // console.log('instance1 === instance2', instance1 === instance2) // 输出: true，证明是同一个实例
-    console.log('instance3 === instance4', instance3 === instance4)
+    console.log('instance3 === instance4', instance3 === instance4) // 输出: true，证明是同一个实例
+
+    const instance1 = Singleton.getInstance()
+    const instance2 = Singleton.getInstance()
+    console.log('instance1 === instance2', instance1 === instance2) // 输出: true，证明是同一个实例
+
     alert('OK')
 }
