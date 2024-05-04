@@ -19,10 +19,18 @@ const createSingleton = function (Constructor: any): (...arg: any) => void {
     return function (...arg: any) {
         if (!instance) {
             Constructor.apply(this, arg)
-            // 这个是把 this.__proto__ = Constructor.prototype,这个样子 就不会导致指向错误了
+            // 使用 apply 方法调用 Constructor（传入的构造函数），
+            // 并将 this 上下文和传入的参数应用于该构造函数。
+            // 这意味着我们可以使用此函数来创建 Constructor 的新实例。
+
             Object.setPrototypeOf(this, Constructor.prototype)
-            // 这个是把当前的 this原型赋值给他, 这个样子就可以判断,
-            // 虽然是不同的种类 但是种类的实例都是指向自己的
+            // 这里使用 Object.setPrototypeOf 方法将新创建的实例的原型设置为 Constructor 的原型。
+            // 这是为了确保新实例能够访问 Constructor 中定义的所有方法和属性。
+
+            // Object.setPrototypeOf 替代写法
+            // this.__proto__ = Object.create(Constructor.prototype)
+            // this.__proto__.constructor = Constructor
+
             instance = this
         }
         return instance
@@ -59,4 +67,54 @@ export const testSingleton = () => {
     const coffee1 = createInstance(Coffee, 'yunnan')
     console.log('animal1 === coffee1', animal1 === coffee1)
     console.log('a1 === animal1', a1 === animal1)
+
+    alert('OK')
+}
+
+class Singleton {
+    static _instance: Singleton
+    someProperty: string
+    constructor() {
+        // 私有静态实例，防止直接引用，这里使用了一个闭包
+        if (!Singleton._instance) {
+            Singleton._instance = this
+        }
+
+        // 如果实例已经存在，则再次调用构造函数时返回已有的实例
+        if (Singleton._instance !== this) {
+            return Singleton._instance
+        }
+
+        // 初始化操作，只在第一次创建实例时执行
+        this.init()
+    }
+
+    init() {
+        // 在此处添加类的初始化代码
+        this.someProperty = 'some value'
+    }
+
+    // 一个示例方法
+    doSomething() {
+        console.log('Doing something...')
+    }
+
+    // 静态方法，用于获取单例实例，而不通过 new 操作符
+    static getInstance() {
+        if (!Singleton._instance) {
+            Singleton._instance = new Singleton()
+        }
+        return Singleton._instance
+    }
+}
+
+export const testSingleton2 = () => {
+    // 使用 Singleton
+    // const instance1 = Singleton.getInstance()
+    // const instance2 = Singleton.getInstance()
+    const instance3 = new Singleton()
+    const instance4 = new Singleton()
+    // console.log('instance1 === instance2', instance1 === instance2) // 输出: true，证明是同一个实例
+    console.log('instance3 === instance4', instance3 === instance4)
+    alert('OK')
 }

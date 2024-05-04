@@ -680,68 +680,86 @@ export const testDemoFoo = () => {
             }
         }
     };*/
+}
 
+export const beSoldier = () => {
     // 继承例子 START
+    function Soldier(id, life): any {
+        this.id = id
+        this.life = life
+    }
+    Soldier.prototype = {
+        constructor: Soldier,
+        type: 'Private',
+        force: 5,
+        walk: function () {
+            console.log(this.id + ': walk')
+        },
+        run: function () {
+            console.log(this.id + ': run')
+        },
+        die: function () {
+            console.log(this.id + ': die')
+        },
+        attack: function () {
+            console.log(this.id + ': attck with force ' + this.force)
+        },
+        defend: function () {
+            console.log(this.id + ': defend')
+        }
+    }
+    class General extends (Soldier as any) {
+        constructor(id, life, subordinate) {
+            // 在这里, 它调用了父类的构造函数, 并将 lengths 提供给 Polygon 的"width"和"height"
+            super(id, life)
+            // 注意: 在派生类中, 必须先调用 super() 才能使用 "this"。
+            // 忽略这个，将会导致一个引用错误。
+            this.type = 'General'
+            this._subordinate = subordinate
+        }
+        get subordinate() {
+            return this._subordinate || []
+        }
+        set subordinate(value) {
+            // 注意：不可使用 this.subordinate = value
+            // 否则会导致循环call setter方法导致爆栈
+            this._subordinate = value
+        }
+        get force() {
+            return (this.subordinate || []).reduce(function (sum, a) {
+                if (typeof sum !== 'number') {
+                    sum = 0
+                }
+                return (sum += a.force)
+            }, 0)
+        }
+    }
+    const general1 = new (General as any)('G1', 10)
+    const soldier1 = new (Soldier as any)('P1', 10)
+    const soldier2 = new (Soldier as any)('P2', 10)
+    const soldier3 = new (Soldier as any)('P3', 10)
+    general1.subordinate = [soldier1, soldier2, soldier3]
+    general1.attack()
+    soldier1.attack()
 
-    // function Soldier(id, life) {
-    //     this.id = id;
-    //     this.life = life;
-    // }
+    console.log('======================================== General ========================================')
 
-    // Soldier.prototype = {
-    //     constructor: Soldier,
-    //     type: 'Private',
-    //     force: 5,
-    //     walk: function () { console.log(this.id + ': walk') },
-    //     run: function () { console.log(this.id + ': run') },
-    //     die: function () { console.log(this.id + ': die') },
-    //     attack: function () { console.log(this.id + ': attck with force ' + this.force) },
-    //     defend: function () { console.log(this.id + ': defend') },
-    // }
+    console.log('general1.__proto__ === General.prototype', general1.__proto__ === General.prototype)
+    console.log('general1.__proto__.prototype:', general1.__proto__.prototype) // undefined
+    console.log('general1.__proto__.__proto__:', general1.__proto__.__proto__)
+    console.log('General.prototype.prototype:', General.prototype.prototype) // undefined
+    console.log('General.prototype.__proto__:', General.prototype.__proto__)
+    console.log('General.prototype.__proto__.__proto__:', General.prototype.__proto__.__proto__)
 
-    // class General extends Soldier {
-    //     constructor(id, life, subordinate) {
-    //         // 在这里, 它调用了父类的构造函数, 并将 lengths 提供给 Polygon 的"width"和"height"
-    //         super(id, life);
-    //         // 注意: 在派生类中, 必须先调用 super() 才能使用 "this"。
-    //         // 忽略这个，将会导致一个引用错误。
-    //         this.type = 'General';
-    //         this._subordinate = subordinate;
-    //     }
-    //     get subordinate() {
-    //         return this._subordinate || [];
-    //     }
-    //     set subordinate(value) {
-    //         // 注意：不可使用 this.subordinate = value
-    //         // 否则会导致循环call setter方法导致爆栈
-    //         this._subordinate = value;
-    //     }
-    //     get force() {
-    //         return (this.subordinate || []).reduce(function (sum, a) { //
-    //             if (hdlUtil.oType(sum) !== 'number') {
-    //                 sum = 0;
-    //             }
-    //             return sum += a.force;
-    //         }, 0)
-    //     }
-    // }
+    console.log('======================================== Soldier ========================================')
 
-    // const general1 = new General('G1', 10);
+    console.log('soldier1.__proto__ === Soldier.prototype', soldier1.__proto__ === Soldier.prototype)
+    console.log('Soldier.__proto__ === Function.prototype', (Soldier as any).__proto__ === Function.prototype)
+    console.log('soldier1.constructor === Soldier', soldier1.constructor === Soldier)
+    console.log('general1.constructor === General', general1.constructor === General)
+    console.log('soldier1.type', soldier1.type)
+    console.log('general1.type', general1.type)
 
-    // const soldier1 = new Soldier('P1', 10);
-    // const soldier2 = new Soldier('P2', 10);
-    // const soldier3 = new Soldier('P3', 10);
-
-    // general1.subordinate = [soldier1, soldier2, soldier3];
-
-    // general1.attack();
-    // soldier1.attack();
-    // console.log('soldier1.__proto__ === Soldier.prototype', soldier1.__proto__ === Soldier.prototype)
-    // console.log('Soldier.__proto__ === Function.prototype', Soldier.__proto__ === Function.prototype)
-    // console.log('soldier1.constructor === Soldier', soldier1.constructor === Soldier)
-    // console.log('general1.constructor === General', general1.constructor === General)
-    // console.log('soldier1.type', soldier1.type)
-    // console.log('general1.type', general1.type)
-
+    alert('OK')
     // 继承例子 END
 }

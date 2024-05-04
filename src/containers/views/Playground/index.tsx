@@ -55,12 +55,13 @@ import {
 import { Map } from 'immutable'
 import BigNumber from 'bignumber.js'
 import { pLimit } from './queue'
-import { testSingleton } from './designPattern'
+import { testSingleton, testSingleton2 } from './designPattern'
 import { FirstParam, PascalCase, PascalCasedProps, Underscore2CamelCase, Underscore2CamelCaseProps } from './myType'
 import { testImmer } from './immerDemo'
 import { extractFromCraftJsTemplate, sortNodes } from './craftjs'
 import template from 'containers/views/Playground/craftjs/serialize/serializedData'
 import fastTemplate from 'containers/views/Playground/craftjs/serialize/fastSerializedData'
+import { beSoldier } from './interview'
 
 // mock data start
 const imapParams = {
@@ -578,7 +579,7 @@ function Playground() {
         // testTraverseTree()
         // testDemoTree()
         // testDemoTree2()
-        testConvertCraftJs2Formily()
+        // testConvertCraftJs2Formily()
         // const fac = factorial(5)
         // console.log('#515 fac:', fac)
         // src/containers/views/Playground/mock/formilySchema.js
@@ -588,6 +589,7 @@ function Playground() {
         // testDp()
         // testKmp('ABABAC')
         // testRecur(mock4recur)
+        beSoldier()
     }
 
     function compose(...funcs) {
@@ -969,7 +971,8 @@ function Playground() {
     }
 
     function testDesignPattern() {
-        testSingleton()
+        // testSingleton()
+        testSingleton2()
     }
 
     function testTs() {
