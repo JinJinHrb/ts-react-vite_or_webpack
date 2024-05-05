@@ -54,7 +54,7 @@ import {
 } from './npms/formatThousandth'
 import { Map } from 'immutable'
 import BigNumber from 'bignumber.js'
-import { pLimit } from './queue'
+// import { pLimit } from './queue'
 import { testSingleton, testSingleton2 } from './designPattern'
 import { FirstParam, PascalCase, PascalCasedProps, Underscore2CamelCase, Underscore2CamelCaseProps } from './myType'
 import { testImmer } from './immerDemo'
@@ -62,6 +62,7 @@ import { extractFromCraftJsTemplate, sortNodes } from './craftjs'
 import template from 'containers/views/Playground/craftjs/serialize/serializedData'
 import fastTemplate from 'containers/views/Playground/craftjs/serialize/fastSerializedData'
 import { beSoldier } from './interview'
+import { PLimit } from './queue'
 
 // mock data start
 const imapParams = {
@@ -1030,10 +1031,10 @@ function Playground() {
         // test_iterateObject4ThousandthFormat()
         // testImmutableJs()
         // testBigNumber()
-        // testQueue()
+        testQueue()
         // testImmer()
         // sortNodes()
-        extractFromCraftJsTemplate(template)
+        // extractFromCraftJsTemplate(template)
     }
 
     function testJs2() {
@@ -1041,37 +1042,41 @@ function Playground() {
     }
 
     function testQueue() {
+        const pLimit = new PLimit(2)
+
         function asyncFun(value, delay) {
             return new Promise(resolve => {
-                console.log(' handle: ' + value)
-                setTimeout(() => resolve(value), delay)
+                setTimeout(() => {
+                    console.log(new Date(), ' handle: ' + value)
+                    resolve(value)
+                }, delay)
             })
         }
         // 模拟一个任务进队列的情况：
-        pLimit.enqueue(asyncFun, 'a', 1000).then(() => {
+        pLimit.enqueue(asyncFun, 'a', 1000) /* .then(() => {
             console.log('a finished')
-        })
-        pLimit.enqueue(asyncFun, 'b', 2000).then(() => {
+        }) */
+        pLimit.enqueue(asyncFun, 'b', 2000) /* .then(() => {
             console.log('b finished')
-        })
-        pLimit.enqueue(asyncFun, 'c', 1000).then(() => {
+        }) */
+        pLimit.enqueue(asyncFun, 'c', 1000) /* .then(() => {
             console.log('c finished')
-        })
-        pLimit.enqueue(asyncFun, 'd', 3000).then(() => {
+        }) */
+        pLimit.enqueue(asyncFun, 'd', 3000) /* .then(() => {
             console.log('d finished')
-        })
-        pLimit.enqueue(asyncFun, 'e', 1000).then(() => {
+        }) */
+        pLimit.enqueue(asyncFun, 'e', 1000) /* .then(() => {
             console.log('e finished')
-        })
+        }) */
         setTimeout(() => {
-            pLimit.enqueue(asyncFun, 'f', 1000).then(() => {
+            pLimit.enqueue(asyncFun, 'f', 1000) /* .then(() => {
                 console.log('f finished')
-            })
+            }) */
         }, 500)
         setTimeout(() => {
-            pLimit.enqueue(asyncFun, 'g', 1000).then(() => {
+            pLimit.enqueue(asyncFun, 'g', 1000) /* .then(() => {
                 console.log('g finished')
-            })
+            }) */
         }, 1500)
     }
 

@@ -1,0 +1,37 @@
+type TY_FN = (...arg: any) => Promise<unknown>
+
+export class PLimit {
+    _max: number
+    _queue: any[] = []
+    _count = 0
+
+    constructor(max: number) {
+        this._max = max
+    }
+
+    run = async (Fn?: TY_FN) => {
+        if (!Fn) {
+            Fn = this._queue.shift()
+        }
+        if (!Fn) {
+            return
+        }
+        this._count++
+        Fn().then(() => {
+            this._count--
+            this.run()
+        })
+    }
+
+    enqueue = (fn: TY_FN, ...arg: any) => {
+        const Fn = () =>
+            new Promise((rsv, rej) => {
+                fn.apply(this, arg).then(rsv).catch(rej)
+            })
+        if (this._count < this._max) {
+            this.run(Fn)
+        } else {
+            this._queue.push(Fn)
+        }
+    }
+}
