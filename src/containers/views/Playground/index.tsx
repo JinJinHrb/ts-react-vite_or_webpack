@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { ReactElement, useRef, useState } from 'react'
 import { Input, Button, message } from 'antd'
 const { TextArea } = Input
@@ -61,8 +62,9 @@ import { testImmer } from './immerDemo'
 import { extractFromCraftJsTemplate, sortNodes } from './craftjs'
 import template from 'containers/views/Playground/craftjs/serialize/serializedData'
 import fastTemplate from 'containers/views/Playground/craftjs/serialize/fastSerializedData'
-import { beSoldier } from './interview'
+import { beSoldier, lengthOfLongestSubstring, myFlatten, testGetCookie } from './interview'
 import { PLimit } from './queue'
+import { testInterview } from './interviewHuawei'
 
 // mock data start
 const imapParams = {
@@ -590,7 +592,10 @@ function Playground() {
         // testDp()
         // testKmp('ABABAC')
         // testRecur(mock4recur)
-        beSoldier()
+        // beSoldier()
+        // testInterview()
+        console.log('max:', lengthOfLongestSubstring('abcabdabeabc'))
+        alert('OK')
     }
 
     function compose(...funcs) {
@@ -1019,8 +1024,10 @@ function Playground() {
     }
 
     function testJs() {
-        /* console.log('ATT_TYPE.TradeOrderAttachment:', ATT_TYPE.TradeOrderAttachment)
-        console.log('ATT_TYPE.TradeQuotationAttachment:', JSON.stringify(ATT_TYPE.TradeQuotationAttachment)) */
+        /*  
+        console.log('ATT_TYPE.TradeOrderAttachment:', ATT_TYPE.TradeOrderAttachment)
+        console.log('ATT_TYPE.TradeQuotationAttachment:', JSON.stringify(ATT_TYPE.TradeQuotationAttachment)) 
+      */
         // testConcat()
         // testPipeAndTap()
         // testMergeAll()
@@ -1031,14 +1038,17 @@ function Playground() {
         // test_iterateObject4ThousandthFormat()
         // testImmutableJs()
         // testBigNumber()
-        testQueue()
+        // testQueue()
         // testImmer()
         // sortNodes()
         // extractFromCraftJsTemplate(template)
     }
 
     function testJs2() {
-        extractFromCraftJsTemplate(fastTemplate)
+        // extractFromCraftJsTemplate(fastTemplate)
+        // testGetCookie()
+        console.log(myFlatten([1, 2, [3, 4], [[5, 6], 7, 8], 9]))
+        alert('OK')
     }
 
     function testQueue() {

@@ -289,22 +289,24 @@ export const deepClone = function fnDeepClone(
         }
         // for (key in obj) {
         for (key of keys) {
-            if ((obj as any)[key] && (obj as any)[key] instanceof Date) {
-                if (options.dateHandler && options.dateHandler instanceof Function) {
-                    result[key] = options.dateHandler((obj as any)[key])
-                } else {
-                    result[key] = new Date((obj as any)[key])
-                }
-            } else if ((obj as any)[key] && typeof (obj as any)[key] === 'object') {
-                result[key] = fnDeepClone((obj as any)[key], options) //如果对象的属性值为object的时候，递归调用deepClone，即再把某个值对象复制一份到新的对象的对应值中
-            } else {
-                if (key === '_id') {
-                    if (_.isFunction(oidHandler)) {
-                        result[key] = oidHandler((obj as any)[key])
-                        continue
+            if (obj.hasOwnProperty(key)) {
+                if ((obj as any)[key] && (obj as any)[key] instanceof Date) {
+                    if (options.dateHandler && options.dateHandler instanceof Function) {
+                        result[key] = options.dateHandler((obj as any)[key])
+                    } else {
+                        result[key] = new Date((obj as any)[key])
                     }
+                } else if ((obj as any)[key] && typeof (obj as any)[key] === 'object') {
+                    result[key] = fnDeepClone((obj as any)[key], options) //如果对象的属性值为object的时候，递归调用deepClone，即再把某个值对象复制一份到新的对象的对应值中
+                } else {
+                    if (key === '_id') {
+                        if (_.isFunction(oidHandler)) {
+                            result[key] = oidHandler((obj as any)[key])
+                            continue
+                        }
+                    }
+                    result[key] = (obj as any)[key] //如果对象的属性值不为object的时候，直接复制参数对象的每一个键/值到新对象对应的键/值中
                 }
-                result[key] = (obj as any)[key] //如果对象的属性值不为object的时候，直接复制参数对象的每一个键/值到新对象对应的键/值中
             }
         }
         return result

@@ -152,15 +152,17 @@ const listToTree = list => {
 
 // case3 START
 
-const lengthOfLongestSubstring = str => {
-    const obj = {}
+// 3. 无重复字符的最长子串
+// https://leetcode.cn/problems/longest-substring-without-repeating-characters/
+export const lengthOfLongestSubstring = str => {
+    const dpObj = {} // dpObj 用于存储字符及其最新的索引位置
     let max = 0
     for (let i = 0, j = 0; i < str.length; i++) {
-        if (obj[str[i]] !== undefined) {
-            j = Math.max(obj[str[i]] + 1, j)
+        if (dpObj[str[i]] !== undefined) {
+            j = Math.max(dpObj[str[i]] + 1, j)
         }
         max = Math.max(max, i - j + 1)
-        obj[str[i]] = i
+        dpObj[str[i]] = i
     }
     return max
 }
@@ -762,4 +764,29 @@ export const beSoldier = () => {
 
     alert('OK')
     // 继承例子 END
+}
+
+export const testGetCookie = () => {
+    const cookie =
+        '_tea_utm_cache_2608=undefined; __tea_cookie_tokens_2608=%257B%2522web_id%2522%253A%25227294847860548322835%2522%252C%2522user_unique_id%2522%253A%25227294847860548322835%2522%252C%2522timestamp%2522%253A1698464135041%257D; s_v_web_id=verify_lunxpcaj_WMaL0kpz_P0Zn_4pz6_ANyJ_5Ov3qVNiOyt5; msToken=ZanmcyqURMVsdUHfEkB5DGsx9DFh664CcrTgrzo8MpYmOoe8FP2T4x7nmPQ3ei2eId4mxWcJp-W6TRHrQdjpfXVuZbGjF-_bEc2k4hdMmtBYijVAZ5J4X0YUAyNXwEog'
+
+    function getCookie(name) {
+        const value = '; ' + cookie
+        const parts = value.split('; ' + name + '=')
+        if (parts.length === 2) {
+            return parts.pop().split(';').shift()
+        }
+        return null
+    }
+
+    const myCookieValue = getCookie('__tea_cookie_tokens_2608')
+    console.log('#782 myCookieValue:', myCookieValue) // 输出cookie的值，或者null（如果没有找到）
+    alert('OK')
+}
+
+export const myFlatten = (arr: any[]) => {
+    while (arr.some(el => Array.isArray(el))) {
+        arr = [].concat(...arr)
+    }
+    return arr
 }
