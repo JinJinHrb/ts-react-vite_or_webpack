@@ -1,27 +1,28 @@
 {
-    "editor.formatOnSave": true,
-    "typescript.tsdk": "node_modules/typescript/lib",
-    "scss.lint.validProperties": ["composes"],
-    "jest.autoRun": "off",
-    "editor.codeActionsOnSave": {
-      "source.fixAll.stylelint": "explicit",
-      "source.fixAll.eslint": "explicit"
-    },
-    "files.associations": {
-        "stdio.h": "c",
-        "__bit_reference": "c",
-        "__hash_table": "c",
-        "__split_buffer": "c",
-        "array": "c",
-        "hash_map": "c",
-        "initializer_list": "c",
-        "ios": "c",
-        "iterator": "c",
-        "string": "c",
-        "string_view": "c",
-        "unordered_map": "c",
-        "vector": "c",
-        "stdlib.h": "c"
-    },
-    "C_Cpp.errorSquiggles": "Disabled"
+	"editor.formatOnSave": true,
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"scss.lint.validProperties": ["composes"],
+	"jest.autoRun": "off",
+	"editor.codeActionsOnSave": {
+		"source.fixAll.stylelint": "explicit",
+		"source.fixAll.eslint": "explicit"
+	},
+	"files.associations": {
+		"stdio.h": "c",
+		"__bit_reference": "c",
+		"__hash_table": "c",
+		"__split_buffer": "c",
+		"array": "c",
+		"hash_map": "c",
+		"initializer_list": "c",
+		"ios": "c",
+		"iterator": "c",
+		"string": "c",
+		"string_view": "c",
+		"unordered_map": "c",
+		"vector": "c",
+		"stdlib.h": "c"
+	},
+	"C_Cpp.errorSquiggles": "Disabled",
+	"cSpell.words": ["echarts"]
 }
