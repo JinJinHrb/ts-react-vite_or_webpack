@@ -1,15 +1,23 @@
+const compressValue = (v: number) => 0.5 * Math.log(v) + 1
+
 // 动态计算柱形图的高度（定一个max）
 export function lineMaxHeight(customerBatteryCityData: any) {
 	const maxValue = Math.max(...customerBatteryCityData.map(item => item.value))
-	return 0.9 / maxValue
+	const rtn = 0.9 / maxValue
+	return rtn
 }
+
 // 柱状体的主干
 export function lineData({ customerBatteryCityData, geoCoordMap }: any) {
 	return customerBatteryCityData.map(item => {
+		console.log('#11', item.name, item.value, geoCoordMap[item.name])
 		return {
 			coords: [
 				geoCoordMap[item.name],
-				[geoCoordMap[item.name][0], geoCoordMap[item.name][1] + item.value * lineMaxHeight(customerBatteryCityData)],
+				[
+					geoCoordMap[item.name][0],
+					geoCoordMap[item.name][1] + compressValue(item.value) * lineMaxHeight(customerBatteryCityData),
+				],
 			],
 		}
 	})
@@ -17,7 +25,10 @@ export function lineData({ customerBatteryCityData, geoCoordMap }: any) {
 // 柱状体的顶部
 export function scatterData({ customerBatteryCityData, geoCoordMap }: any) {
 	return customerBatteryCityData.map(item => {
-		return [geoCoordMap[item.name][0], geoCoordMap[item.name][1] + item.value * lineMaxHeight(customerBatteryCityData)]
+		return [
+			geoCoordMap[item.name][0],
+			geoCoordMap[item.name][1] + compressValue(item.value) * lineMaxHeight(customerBatteryCityData),
+		]
 	})
 }
 // 柱状体的底部
@@ -51,7 +62,7 @@ export const cityDataSF = ({ customerBatteryCityData, geoCoordMap }) => {
 		},
 		geo: [
 			{
-				map: 'guangdong',
+				map: 'SF',
 				aspectScale: 0.9,
 				roam: false, // 是否允许缩放
 				zoom, // 默认显示级别
@@ -113,7 +124,7 @@ export const cityDataSF = ({ customerBatteryCityData, geoCoordMap }) => {
 				zlevel: 3,
 			},
 			{
-				map: 'guangdong',
+				map: 'SF',
 				aspectScale: 0.9,
 				roam: false, // 是否允许缩放
 				zoom, // 默认显示级别
@@ -133,7 +144,7 @@ export const cityDataSF = ({ customerBatteryCityData, geoCoordMap }) => {
 				silent: true,
 			},
 			{
-				map: 'guangdong',
+				map: 'SF',
 				aspectScale: 0.9,
 				roam: false, // 是否允许缩放
 				zoom, // 默认显示级别
@@ -184,7 +195,7 @@ export const cityDataSF = ({ customerBatteryCityData, geoCoordMap }) => {
 						color: 'red',
 					},
 				},
-				map: 'guangdong', // 使用
+				map: 'SF', // 使用
 				data: customerBatteryCityData,
 				// data: this.difficultData //热力图数据   不同区域 不同的底色
 			},

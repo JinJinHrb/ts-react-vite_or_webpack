@@ -18,7 +18,7 @@ const MapChart = ({ geoJson, customerBatteryCityData, geoCoordMap }) => {
 			return
 		}
 		// 注册地图
-		echarts.registerMap('guangdong', geoJson)
+		echarts.registerMap('SF', geoJson)
 		if (!ref.current) {
 			ref.current = cityDataSF({ customerBatteryCityData, geoCoordMap })
 		}

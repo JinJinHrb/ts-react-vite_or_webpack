@@ -62,7 +62,7 @@ import { testImmer } from './immerDemo'
 import { extractFromCraftJsTemplate, sortNodes } from './craftjs'
 import template from 'containers/views/Playground/craftjs/serialize/serializedData'
 import fastTemplate from 'containers/views/Playground/craftjs/serialize/fastSerializedData'
-import { beSoldier, lengthOfLongestSubstring, myFlatten, testGetCookie } from './interview'
+import { beSoldier, lengthOfLongestSubstring, myFlatten, testDecimalToBinary, testGetCookie } from './interview'
 import { PLimit } from './queue'
 import { digitSum, testInterview } from './interviewHuawei'
 
@@ -1031,7 +1031,8 @@ function Playground() {
 		// testImmer()
 		// sortNodes()
 		// extractFromCraftJsTemplate(template)
-		console.log(digitSum(10))
+		// console.log(digitSum(10))
+		testDecimalToBinary()
 		alert('OK')
 	}
 

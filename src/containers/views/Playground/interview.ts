@@ -852,11 +852,11 @@ export function quickSort(arr) {
 	const left = []
 	const right = []
 
-	for (let i = 0; i < arr.length; i++) {
-		if (arr[i] < pivot) {
-			left.push(arr[i])
+	for (const element of arr) {
+		if (element < pivot) {
+			left.push(element)
 		} else {
-			right.push(arr[i])
+			right.push(element)
 		}
 	}
 	return quickSort(left).concat([pivot], quickSort(right))
@@ -868,3 +868,14 @@ export function quickSort(arr) {
 // 这个例子中，我们首先选择数组中间的元素作为主元，然后将数组中小于主元的元素放入左边数组，大于或等于主元的元素放入右边数组。然后对左右两个数组递归地进行快速排序，最后将排序后的左边数组、主元和排序后的右边数组合并起来。
 
 // 注意：JavaScript 的 Array.splice() 方法会改变原数组，它会从原数组中删除指定的元素，并返回这些元素组成的新数组。在这个例子中，我们用 splice() 方法取出主元，并将其从原数组中删除。
+
+export function decimalToBinary(decimalNumber) {
+	if (decimalNumber < 0) {
+		decimalNumber = 0xffffffff + decimalNumber + 1 // 对于负数，先转换为对应的无符号整数
+	}
+	return decimalNumber.toString(2) // 使用toString方法并传入参数2来转换为二进制
+}
+
+export const testDecimalToBinary = () => {
+	console.log(decimalToBinary(10)) // 输出: 1010
+}
