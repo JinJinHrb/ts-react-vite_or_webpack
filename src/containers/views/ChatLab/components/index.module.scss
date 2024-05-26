@@ -1,0 +1,27 @@
+.chatMessage {
+	align-items: flex-start;
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 10px;
+}
+
+.chatMessageReverse {
+	align-items: flex-start;
+	display: flex;
+	flex-direction: row-reverse;
+	margin-bottom: 10px;
+}
+
+.chatAvatar {
+	border-radius: 50%;
+	height: 50px;
+	margin-right: 10px;
+	width: 50px;
+}
+
+.chatBubble {
+	background-color: #e6e6e6;
+	border-radius: 8px;
+	max-width: 300px;
+	padding: 10px;
+}

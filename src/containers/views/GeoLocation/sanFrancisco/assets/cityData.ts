@@ -1,3 +1,5 @@
+import sfGeojson from './san-francisco-ca_.geojson'
+
 export const geoCoordMap4GuangDong = {
 	广州市: [113.507649675, 23.3200491021],
 	东莞市: [113.863433991, 22.9430238154],
@@ -48,8 +50,54 @@ export const customerBatteryCityData4GuangDong = [
 	{ name: '东沙群岛', value: 0 },
 ]
 
+export const getPolygonCenter = (name: string) => {
+	const geojson = sfGeojson.features.filter(a => a.properties.name === name)[0]
+	let totalX = 0
+	let totalY = 0
+	let count = 0
+
+	geojson.geometry.coordinates[0].forEach(ring => {
+		ring.forEach(point => {
+			totalX += point[0]
+			totalY += point[1]
+			count++
+		})
+	})
+
+	// 计算平均坐标
+	const centerX = totalX / count
+	const centerY = totalY / count
+
+	return [centerX, centerY]
+}
+
+export const getPolygonCenter2 = (name: string) => {
+	const geojson = sfGeojson.features.filter(a => a.properties.name === name)[0]
+	let totalX = 0
+	let totalY = 0
+	let count = 0
+
+	// 遍历多边形的每个环（对于简单的多边形，通常只有一个环）
+	geojson.geometry.coordinates.forEach(rings => {
+		// 遍历环中的每个点
+		rings.forEach(ring => {
+			ring.forEach(point => {
+				totalX += point[0]
+				totalY += point[1]
+				count++
+			})
+		})
+	})
+
+	// 计算平均坐标
+	const centerX = totalX / count
+	const centerY = totalY / count
+
+	return [centerX, centerY]
+}
+
 export const geoCoordMap = {
-	Seacliff: [-122.504089, 37.784909999999996], // -0.01
+	Seacliff: getPolygonCenter('Seacliff'), // [-122.504089, 37.784909999999996], // -0.01
 	Marina: [0, 0], // [-122.456806, 37.802401],
 	'Pacific Heights': [0, 0], // [-122.45682500000001, 37.784251],
 	'Nob Hill': [0, 0], // [-122.42860900000001, 37.78591],
@@ -60,9 +108,9 @@ export const geoCoordMap = {
 	'Western Addition': [0, 0], // [-122.432213, 37.769905],
 	Chinatown: [0, 0], // [-122.418767, 37.787163],
 	'North Beach': [0, 0], // [-122.420635, 37.806724],
-	'Haight Ashbury': [-122.445964, 37.766038],
+	'Haight Ashbury': getPolygonCenter('Haight Ashbury'), // [-122.445964, 37.766038],
 	'Outer Mission': [0, 0], // [-122.464284, 37.705222],
-	'Crocker Amazon': [-122.43085, 37.705335],
+	'Crocker Amazon': getPolygonCenter('Crocker Amazon'), // [-122.43085, 37.705335]
 	'West of Twin Peaks': [-122.462524, 37.735167], // 0, +0.015
 	'South of Market': [-122.397425, 37.7775],
 	'Potrero Hill': [0, 0], // [-122.38996300000001, 37.749061],
@@ -77,7 +125,7 @@ export const geoCoordMap = {
 	'Twin Peaks': [0, 0], //[-122.47142000000001, 37.748562],
 	'Outer Richmond': [-122.488735, 37.777898], // 0, -0.006
 	'Visitacion Valley': [-122.404984, 37.71541], // 0, +0.01
-	'Golden Gate Park': [-122.494691, 37.768696], // -0.03, -0.001
+	'Golden Gate Park': getPolygonCenter('Golden Gate Park'), // [-122.494691, 37.768696], // -0.03, -0.001
 	Parkside: [0, 0], // [-122.479641, 37.735545],
 	'Financial District': [-122.401252, 37.792074], // +0.003, -0.005
 	'Ocean View': [0, 0], // [-122.46912300000001, 37.705218],
@@ -127,3 +175,10 @@ export const customerBatteryCityData = [
 	{ name: 'Outer Sunset', value: 1 },
 	{ name: 'Glen Park', value: 1 },
 ]
+
+// export const geoCoordMap = customerBatteryCityData.reduce((map, item) => {
+// 	const { name } = item
+// 	const centerCoord = getPolygonCenter(name)
+// 	map[name] = centerCoord
+// 	return map
+// }, {})

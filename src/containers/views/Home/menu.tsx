@@ -6,13 +6,15 @@ import PageLoading from '@components/PageLoading'
 
 const loadableOptions = { fallback: <PageLoading /> }
 export const asynchronousComponents = {
-	SocketDebugger: loadable(() => import('@views/SocketDebugger'), loadableOptions),
-	Performance: loadable(() => import('@views/Performance'), loadableOptions),
+	ChatLab: loadable(() => import('@views/ChatLab'), loadableOptions),
+	Graph: loadable(() => import('@views/Graph'), loadableOptions),
 	GeoLocation: loadable(() => import('@views/GeoLocation'), loadableOptions),
-	Users: loadable(() => import('@views/Users'), loadableOptions),
+	CssLab: loadable(() => import('@views/CssLab'), loadableOptions),
 	Playground: loadable(() => import('@views/Playground'), loadableOptions),
+	SocketDebugger: loadable(() => import('@views/SocketDebugger'), loadableOptions),
 	ReactLab: loadable(() => import('@views/ReactLab'), loadableOptions),
 	AntdLab: loadable(() => import('@views/AntdLab'), loadableOptions),
+	Users: loadable(() => import('@views/Users'), loadableOptions),
 }
 
 // all routers key
@@ -34,15 +36,6 @@ export interface IMenuInTree extends IMenu {
 
 export const menu: IMenu[] = [
 	{
-		id: 1,
-		path: '/',
-		title: 'SocketDebugger',
-		icon: <CoffeeOutlined />,
-		component: 'SocketDebugger',
-		exact: true,
-	},
-	{
-		id: 7,
 		path: '/Geolocation',
 		title: 'Geolocation',
 		icon: <VideoCameraOutlined />,
@@ -50,23 +43,27 @@ export const menu: IMenu[] = [
 		exact: true,
 	},
 	{
-		id: 6,
-		path: '/performance',
-		title: 'Performance',
+		path: '/Graph',
+		title: 'Graph',
 		icon: <VideoCameraOutlined />,
-		component: 'Performance',
+		component: 'Graph',
 		exact: true,
 	},
 	{
-		id: 3,
-		path: '/playground',
-		title: 'playground',
+		path: '/CssLab',
+		title: 'CssLab',
 		icon: <VideoCameraOutlined />,
-		component: 'Playground',
+		component: 'CssLab',
 		exact: true,
 	},
 	{
-		id: 4,
+		path: '/ChatLab',
+		title: 'ChatLab',
+		icon: <VideoCameraOutlined />,
+		component: 'ChatLab',
+		exact: true,
+	},
+	{
 		path: '/react-lab',
 		title: 'React Lab',
 		icon: <CodeSandboxOutlined />,
@@ -74,7 +71,13 @@ export const menu: IMenu[] = [
 		exact: true,
 	},
 	{
-		id: 5,
+		path: '/playground',
+		title: 'playground',
+		icon: <VideoCameraOutlined />,
+		component: 'Playground',
+		exact: true,
+	},
+	{
 		path: '/antd-lab',
 		title: 'Antd Lab',
 		icon: <CodeSandboxOutlined />,
@@ -82,13 +85,22 @@ export const menu: IMenu[] = [
 		exact: true,
 	},
 	{
-		id: 2,
+		path: '/',
+		title: 'SocketDebugger',
+		icon: <CoffeeOutlined />,
+		component: 'SocketDebugger',
+		exact: true,
+	},
+	{
 		path: '/users',
 		title: 'Users',
 		icon: <UserOutlined />,
 		component: 'Users',
 		exact: true,
 	},
-]
+].map((a, index) => {
+	;(a as IMenu).id = index + 1
+	return a
+}) as IMenu[]
 
 export default menu

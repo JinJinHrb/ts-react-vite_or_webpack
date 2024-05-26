@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { ReactElement, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Input, Button, message } from 'antd'
 const { TextArea } = Input
 import axios from 'axios'
@@ -34,14 +34,9 @@ import {
 	postorderTraversal2,
 	preorderTraversal,
 } from './algo/traverseTree'
-import mock4recur from './mock/mock4recur'
-import { testDp } from './algo'
-import { testConcat, testMergeAll, testPipeAndTap } from './rxjs'
-import { testKmp } from './algo/kmp'
 import { doesObjectHaveNestedPair, findNestedKey } from './algo/recur'
-import schema4customer from './mock/createCustomer3.js'
 import { testEscapeAndUnescape } from './npms/xss'
-import { TextAreaProps, TextAreaRef } from 'antd/lib/input/TextArea'
+import { TextAreaRef } from 'antd/lib/input/TextArea'
 import customerData from '@mock/trade/customer/customerDetail/customerData'
 import boardData from '@mock/trade/business/board'
 import submitOrder from '@mock/trade/order/submitOrder'
@@ -56,15 +51,10 @@ import {
 import { Map } from 'immutable'
 import BigNumber from 'bignumber.js'
 // import { pLimit } from './queue'
-import { testSingleton, testSingleton2 } from './designPattern'
-import { FirstParam, PascalCase, PascalCasedProps, Underscore2CamelCase, Underscore2CamelCaseProps } from './myType'
-import { testImmer } from './immerDemo'
-import { extractFromCraftJsTemplate, sortNodes } from './craftjs'
-import template from 'containers/views/Playground/craftjs/serialize/serializedData'
-import fastTemplate from 'containers/views/Playground/craftjs/serialize/fastSerializedData'
-import { beSoldier, lengthOfLongestSubstring, myFlatten, testDecimalToBinary, testGetCookie } from './interview'
+import { testSingleton2 } from './designPattern'
+import { FirstParam, PascalCase, Underscore2CamelCase, Underscore2CamelCaseProps } from './myType'
+import { lengthOfLongestSubstring, myFlatten, testDecimalToBinary } from './interview'
 import { PLimit } from './queue'
-import { digitSum, testInterview } from './interviewHuawei'
 
 // mock data start
 const imapParams = {

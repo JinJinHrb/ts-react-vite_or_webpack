@@ -1,0 +1,66 @@
+.containter {
+	width: '100%';
+}
+
+.headerStyle {
+	align-items: center;
+	background-color: #7dbcea;
+	color: #fff;
+	display: flex;
+	height: 64px;
+	line-height: 64px;
+	padding-inline: 50px;
+	text-align: center;
+}
+
+.contentStyle {
+	// background-color: #108ee9;
+	background-color: white;
+	color: #fff;
+	line-height: 120px;
+	min-height: 120px;
+	text-align: center;
+}
+
+.siderStyle {
+	background-color: #3ba0e9;
+	color: #fff;
+	line-height: 120px;
+	text-align: center;
+}
+
+.footerStyle {
+	background-color: #7dbcea;
+	color: #fff;
+	text-align: center;
+}
+
+.flexContainer {
+	display: flex;
+	flex-wrap: wrap;
+	// justify-content: space-between; /* 均匀分配空间 */
+	justify-content: space-around;
+	margin-top: 10px;
+}
+
+// .flexContainer::before,
+.flexContainer::after {
+	content: '';
+	flex: 0 0 calc(33.333% - 20px); /* 与真实元素相同的宽度 */
+	visibility: hidden; /* 使占位符不可见 */
+}
+
+.flexItem {
+	/* 其他样式，如 padding, border 等 */
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+	flex: 0 0 calc(33.333% - 20px); /* 减去间隔宽度 */
+	margin-bottom: 10px; /* 设置行与行之间的间隔 */
+	margin-right: 10px; /* 设置元素之间的间隔 */
+	padding-left: 5px;
+}
+
+/* 移除最后一个元素的右边距 */
+.flexItem:nth-child(3n) {
+	margin-right: 0;
+}
