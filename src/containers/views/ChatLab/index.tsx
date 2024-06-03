@@ -11,9 +11,9 @@ const App = () => {
 			<ChatMessage
 				reverse={true}
 				avatarUrl={avatar5556468}
-				message="I'm good, thanks for asking!\nABC DEF GHI EFG QQQ TCP"
+				message={`I'm good, thanks for asking!\nABC DEF GHI EFG QQQ TCP`}
 			/>
-			<ChatMessage avatarUrl={avatar147142} message='POI IUY YTR EWQ ASD\nLKJ HGF FDS AAA' />
+			<ChatMessage avatarUrl={avatar147142} message={`POI IUY YTR EWQ ASD\nLKJ HGF FDS AAA`} />
 			{/* 更多的ChatMessage组件 */}
 		</div>
 	)

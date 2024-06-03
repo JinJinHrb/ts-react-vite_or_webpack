@@ -8,6 +8,7 @@ import { configure } from 'mobx'
 
 import App from '@shared/App'
 import catchUnhandledRejection from './errorHandler'
+import { ClickToComponent } from 'click-to-react-component'
 
 configure({ enforceActions: 'observed' })
 catchUnhandledRejection()
@@ -18,4 +19,9 @@ catchUnhandledRejection()
 // render(App)
 
 const root = ReactDomClient.createRoot(document.getElementById('app'))
-root.render(<App />)
+root.render(
+	<>
+		<ClickToComponent />
+		<App />
+	</>,
+)

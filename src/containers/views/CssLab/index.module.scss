@@ -35,22 +35,24 @@
 	text-align: center;
 }
 
-.flexContainer {
+.flexContainerOdd {
+	border: 1px solid black;
 	display: flex;
 	flex-wrap: wrap;
 	// justify-content: space-between; /* 均匀分配空间 */
 	justify-content: space-around;
 	margin-top: 10px;
+	padding-top: 10px;
 }
 
 // .flexContainer::before,
-.flexContainer::after {
+.flexContainerOdd::after {
 	content: '';
 	flex: 0 0 calc(33.333% - 20px); /* 与真实元素相同的宽度 */
 	visibility: hidden; /* 使占位符不可见 */
 }
 
-.flexItem {
+.flexItemOdd {
 	/* 其他样式，如 padding, border 等 */
 	border: 1px solid #ccc;
 	box-sizing: border-box;
@@ -62,6 +64,40 @@
 }
 
 /* 移除最后一个元素的右边距 */
-.flexItem:nth-child(3n) {
+.flexItemOdd:nth-child(3n) {
 	margin-right: 0;
+}
+
+.flexContainerEven {
+	display: flex;
+	flex-wrap: wrap; /* 允许元素换行 */
+	justify-content: flex-start; /* 水平方向上的对齐方式 */
+	padding-top: 10px;
+}
+
+.flexItemEven {
+	border: 1px solid #ccc;
+	box-sizing: border-box; /* 包括padding和border在内的宽度计算方式 */
+	/* 其他你想要的样式，例如背景色、边框等 */
+	color: black;
+	flex: 0 0 24%; /* 不放大，不缩小，基准宽度为24%（100%/4个元素） */
+	margin: 0.5%; /* 添加一些间距，使得元素之间不会紧密相连 */
+	max-width: 24%; /* 最大宽度限制 */
+}
+
+.countDownStyle {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	// justify-content: space-between; /* 均匀分配空间 */
+	// justify-content: space-around;
+	justify-content: center;
+	// padding-top: 10px;
+	// margin-top: 10px;
+	// border: 1px solid black;
+}
+
+.countDownStyle div,
+.countDownStyle button {
+	margin: auto 5px;
 }
