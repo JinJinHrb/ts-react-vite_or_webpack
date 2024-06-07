@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { Input, Button, message } from 'antd'
 const { TextArea } = Input
 import axios from 'axios'
@@ -55,6 +55,8 @@ import { testSingleton2 } from './designPattern'
 import { FirstParam, PascalCase, Underscore2CamelCase, Underscore2CamelCaseProps } from './myType'
 import { lengthOfLongestSubstring, myFlatten, testDecimalToBinary } from './interview'
 import { PLimit } from './queue'
+import { foo } from './circularDependencies/case1/a'
+// import { foo } from './circularDependencies/case2/a'
 
 // mock data start
 const imapParams = {
@@ -1094,6 +1096,11 @@ function Playground() {
 	}
 
 	// 测试js 方法 End
+
+	useEffect(() => {
+		foo()
+		// console.log(foo)
+	}, [])
 
 	return (
 		<div className={styles.playground}>

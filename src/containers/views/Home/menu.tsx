@@ -15,6 +15,7 @@ export const asynchronousComponents = {
 	ReactLab: loadable(() => import('@views/ReactLab'), loadableOptions),
 	AntdLab: loadable(() => import('@views/AntdLab'), loadableOptions),
 	Users: loadable(() => import('@views/Users'), loadableOptions),
+	Countdown: loadable(() => import('@views/Countdown'), loadableOptions),
 }
 
 // all routers key
@@ -35,6 +36,13 @@ export interface IMenuInTree extends IMenu {
 }
 
 export const menu: IMenu[] = [
+	{
+		path: '/Countdown',
+		title: 'Countdown',
+		icon: <VideoCameraOutlined />,
+		component: 'Countdown',
+		exact: true,
+	},
 	{
 		path: '/Geolocation',
 		title: 'Geolocation',
